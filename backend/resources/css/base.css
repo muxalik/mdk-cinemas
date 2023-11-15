@@ -1,0 +1,46 @@
+img {
+    max-width: 100%;
+    display: block;
+}
+
+.custom-file-label::after {
+    content: "Выбрать";
+}
+
+.invalid-feedback {
+    display: block;
+}
+
+.nav-sidebar .nav-link p {
+    margin-left: 10px;
+    white-space: nowrap;
+}
+
+.sidebar-mini.sidebar-collapse .nav-sidebar .nav-link p {
+    width: unset;
+    margin-left: 10px !important;
+}
+
+.nav-link {
+    padding-left: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-tabs .nav-item .nav-link { 
+    padding-left: 1rem;
+}
+
+.nav-sidebar > .nav-item .nav-icon {
+    position: absolute;
+    left: 16px;
+    top: 12px;
+}
+
+.two-lines {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}

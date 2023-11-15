@@ -1,0 +1,29 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.media-upload {
+  width: 100%;
+  border-radius: $border-radius-8;
+  border: 1px dashed $gray-100;
+  background-color: $gray-25;
+  padding: 24px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+
+  .placeholder {
+    width: min-content;
+  }
+
+  .label {
+    @include text-m;
+    color: $gray-400;
+  }
+
+  .add {
+    width: min-content;
+    white-space: nowrap;
+  }
+}

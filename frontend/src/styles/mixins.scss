@@ -1,0 +1,76 @@
+// Typography
+@mixin display-m {
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: 0.12px;
+}
+
+@mixin display-s {
+  font-size: 20px;
+  line-height: 30px;
+  letter-spacing: 0.1px;
+}
+
+@mixin display-xs {
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: 0.09px;
+}
+
+@mixin text-l {
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: 0.08px;
+}
+
+@mixin text-m {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.07px;
+}
+
+@mixin text-s {
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0.06px;
+}
+
+@mixin text-tiny {
+  font-size: 10px;
+  line-height: 13.6px;
+  letter-spacing: 0.05px;
+}
+
+@mixin btn-type(
+  $color,
+  $bgColor,
+  $borderColor,
+  $hoverColor,
+  $hoverBgColor,
+  $hoverBorderColor,
+  $disabledBgColor,
+  $disabledBorderColor
+) {
+  color: $color;
+  background-color: $bgColor;
+  border-color: $borderColor;
+
+  &:not(.btn-disabled):hover {
+    color: $hoverColor;
+    background-color: $hoverBgColor;
+    border-color: $hoverBorderColor;
+  }
+
+  &.btn-disabled {
+    background-color: $disabledBgColor;
+    border-color: $disabledBorderColor;
+    opacity: 0.65;
+    cursor: default;
+  }
+}
+
+@mixin notification-type($color, $bgColor, $borderColor) {
+  color: $color;
+  background-color: $bgColor;
+  border-color: $borderColor;
+}

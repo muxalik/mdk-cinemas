@@ -1,0 +1,18 @@
+@import '../../styles/variables.scss';
+
+.main {
+  padding-top: $menu;
+  padding-left: $sidebar;
+  min-height: 100vh;
+  transition: padding-left $sidebar-anim;
+
+  .main-inner {
+    padding: 32px 24px;
+  }
+}
+
+.sidebar-collapsed {
+  .main {
+    padding-left: $sidebar-collapsed;
+  }
+}

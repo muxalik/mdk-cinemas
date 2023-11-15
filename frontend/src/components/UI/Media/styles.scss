@@ -1,0 +1,72 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.media {
+  width: 100px;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  border-radius: $border-radius-8;
+  background-color: $gray-100;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.1s ease-in-out;
+
+  .wrapper {
+    background-color: transparent;
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    transition: background-color 0.1s ease-in-out;
+  }
+
+  &--uploading {
+    .wrapper {
+      background-color: #1a1c2190;
+    }
+  }
+
+  &--error {
+    .wrapper {
+      background-color: #b4332a90;
+    }
+  }
+
+  .image {
+    border-radius: $border-radius-8;
+  }
+
+  .success {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    z-index: 10;
+    border-radius: 100px;
+    width: 24px;
+    height: 24px;
+    padding: 4px;
+    background-color: $green-100;
+    color: $green-500;
+
+    .icon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .remove {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    z-index: 15;
+  }
+
+  .reload-wrapper,
+  .progress-wrapper {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+  }
+}

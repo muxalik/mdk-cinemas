@@ -1,0 +1,89 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+
+  .box {
+    width: 21px;
+    height: 21px;
+    min-width: 20px;
+    border-radius: 6px;
+    border: 2px solid $gray-400;
+    background-color: $white;
+    color: transparent;
+    transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out,
+      border-color 0.1s ease-in-out;
+    cursor: pointer;
+
+    .inner-icon {
+      width: 17px;
+      height: 17px;
+      color: $white;
+    }
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    color: $black-500;
+    transition: color 0.1s ease-in-out;
+  }
+
+  .circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 100px;
+  }
+
+  .label {
+    color: $black-500;
+    @include text-m;
+    font-weight: $medium;
+    transition: color 0.1s ease-in-out;
+  }
+
+  &:hover {
+    .label {
+      color: $primary-300;
+    }
+
+    .box {
+      border-color: $primary-300;
+    }
+
+    .icon {
+      color: $primary-300;
+    }
+  }
+
+  .input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    pointer-events: none;
+    font-size: 0;
+    user-select: none;
+    float: left;
+
+    &:checked {
+      & ~ .box {
+        background-color: $primary-500;
+        border-color: $primary-500;
+      }
+
+      & ~ .label {
+        color: $primary-500;
+      }
+    }
+
+    &:focus ~ .box {
+      outline: 2px solid $primary-300;
+      outline-offset: 1px;
+    }
+  }
+}

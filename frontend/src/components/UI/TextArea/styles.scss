@@ -1,0 +1,53 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.text-area {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  .input {
+    height: 40px;
+    display: block;
+    border-radius: $border-radius-8;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    @include text-m;
+    color: $black-700;
+    border: 1px solid $gray-100;
+    background-color: $gray-25;
+    transition: border-color 0.1s ease-in-out, color 0.1s ease-in-out,
+      background-color 0.1s ease-in-out;
+    resize: none;
+
+    &:focus {
+      outline: 1px solid $primary-500;
+    }
+
+    &::placeholder {
+      color: $gray-400;
+    }
+  }
+
+  &-disabled {
+    .input {
+      background-color: $gray-100;
+      color: $gray-300;
+    }
+  }
+
+  &-has-error {
+    .input {
+      background-color: $red-50;
+      border-color: $red-100;
+    }
+  }
+
+  .error {
+    padding-left: 8px;
+    margin-top: 4px;
+    @include text-s;
+    color: $red-500;
+  }
+}

@@ -1,0 +1,56 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.notification {
+  padding: 16px;
+  transition: background-color 0.15s ease-in-out;
+  background-color: $yellow-50;
+
+  &.notification-read {
+    background-color: transparent;
+  }
+
+  .suptitle {
+    color: $black-500;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 6px;
+
+    .info {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      .icon {
+        width: 16px;
+        height: 16px;
+        min-width: 16px;
+      }
+
+      .text {
+        @include text-s;
+        font-weight: $medium;
+      }
+    }
+  }
+
+  .title {
+    color: $black-700;
+    @include text-l;
+    font-weight: $medium;
+    margin-bottom: 6px;
+  }
+
+  .description {
+    color: $black-500;
+    @include text-m;
+    margin-bottom: 8px;
+  }
+
+  .footer {
+    display: flex;
+    justify-content: end;
+  }
+}

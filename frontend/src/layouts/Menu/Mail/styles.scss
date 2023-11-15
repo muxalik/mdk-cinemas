@@ -1,0 +1,43 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.control.mail {
+  .popup {
+    max-width: 240px;
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 12px;
+
+      .item {
+        .link {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          color: $black-500;
+          padding: 10px 12px;
+          border-radius: $border-radius-8;
+          transition: color 0.1s ease-in-out, background-color 0.1s ease-in-out;
+
+          &:hover {
+            background-color: $primary-100;
+            color: $primary-500;
+          }
+
+          .text {
+            @include text-m;
+            font-weight: $semibold;
+          }
+
+          .icon {
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+          }
+        }
+      }
+    }
+  }
+}

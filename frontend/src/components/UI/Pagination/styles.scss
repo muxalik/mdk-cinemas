@@ -1,0 +1,64 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.pagination {
+  display: flex;
+  gap: 8px;
+
+  .button {
+    height: 32px;
+    width: 32px;
+    border-radius: $border-radius-8;
+    background-color: $primary-100;
+    color: $primary-500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: $semibold;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+      opacity 0.15s ease-in-out;
+
+    &:hover {
+      color: $white;
+      background-color: $primary-500;
+    }
+
+    &-disabled {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+  }
+
+  .chevron {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+  }
+
+  .prev {
+    .chevron {
+      transform: rotate(90deg);
+    }
+  }
+
+  .list {
+    display: flex;
+    gap: 8px;
+
+    .list-item {
+      &-current {
+        .button {
+          background-color: $primary-500;
+          color: $white;
+        }
+      }
+    }
+  }
+
+  .next {
+    .chevron {
+      transform: rotate(-90deg);
+    }
+  }
+}

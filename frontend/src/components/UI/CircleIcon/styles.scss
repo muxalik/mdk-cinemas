@@ -1,0 +1,68 @@
+@import '../../../styles/mixins.scss';
+@import '../../../styles/variables.scss';
+
+.circle-icon {
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-width: 4px;
+  border-style: solid;
+  aspect-ratio: 1 / 1;
+
+  &.icon-sm {
+    width: 44px;
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+    }
+  }
+
+  &.icon-md {
+    width: 48px;
+
+    .icon {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+    }
+  }
+
+  &.icon-primary {
+    color: $primary-500;
+    background-color: $primary-100;
+    border-color: $primary-50;
+  }
+
+  &.icon-success {
+    color: $green-500;
+    background-color: $green-100;
+    border-color: $green-50;
+  }
+
+  &.icon-danger {
+    color: $red-500;
+    background-color: $red-100;
+    border-color: $red-50;
+  }
+
+  &.icon-warning {
+    color: $yellow-500;
+    background-color: $yellow-100;
+    border-color: $yellow-50;
+  }
+
+  &.icon-info {
+    color: $blue-500;
+    background-color: $blue-100;
+    border-color: $blue-50;
+  }
+
+  &.icon-secondary {
+    color: $black-500;
+    background-color: $gray-100;
+    border-color: $gray-50;
+  }
+}

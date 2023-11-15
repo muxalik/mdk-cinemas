@@ -1,0 +1,114 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.menu-tab {
+  .link {
+    height: 40px;
+    position: relative;
+    padding-inline: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: $black-500;
+    transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+    border-radius: $border-radius-8;
+    transition: padding-inline $sidebar-anim;
+    white-space: nowrap;
+    
+    &:not(.has-tree).active {
+      background-color: $primary-500;
+      color: $white;
+    }
+    
+    &.has-tree.active {
+      background-color: $primary-100;
+      color: $primary-500;
+    }
+    
+    &:not(.active):hover {
+      background-color: $primary-100;
+      color: $primary-600;
+    }
+    
+    .icon {
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+    }
+
+    .chevron-wrapper {
+      margin-left: auto;
+      transition: opacity $sidebar-anim;
+
+      .icon-chevron {
+        width: 22px;
+        height: 22px;
+      }
+    }
+
+    .text {
+      flex: 1 1 0;
+      @include text-m;
+      font-weight: $bold;
+      transition: opacity $sidebar-anim;
+    }
+
+    .badge {
+      margin-left: auto;
+    }
+  }
+
+  .tree {
+    padding-inline: 2px;
+    overflow: hidden;
+
+    .item {
+      .link {
+        padding-left: 45px;
+      }
+    }
+  }
+}
+
+.sidebar-collapsed {
+  .menu-tab {
+    .link {
+      padding-inline: 8px;
+
+      .text {
+        opacity: 0;
+      }
+
+      .badge {
+        opacity: 0;
+        animation: menu-badge $sidebar-anim 0.2s forwards;
+      }
+
+      .chevron-wrapper {
+        opacity: 0;
+      }
+    }
+  }
+}
+
+@keyframes menu-badge {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    opacity: 1;
+    transform: scale(1.3);
+  }
+
+  100% {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    transform: scale(1);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,204 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.btn {
+  position: relative;
+  height: 40px;
+  padding-inline: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  border-radius: $border-radius-8;
+  border-width: 1px;
+  border-style: solid;
+  transition: color 0.1s ease-in-out, background-color 0.1s ease-in-out,
+    border-color 0.1s ease-in-out;
+
+  .icon {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+  }
+
+  .text {
+    @include text-m;
+    font-weight: $semibold;
+  }
+
+  .badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    z-index: 5;
+  }
+
+  &.btn-icon {
+    width: 40px;
+    padding-inline: 10px;
+  }
+
+  &.btn-variant-primary {
+    &.btn-primary {
+      @include btn-type(
+        $color: $white,
+        $bgColor: $primary-500,
+        $borderColor: $primary-500,
+        $hoverColor: $white,
+        $hoverBgColor: $primary-600,
+        $hoverBorderColor: $primary-600,
+        $disabledBgColor: $primary-500,
+        $disabledBorderColor: $primary-500
+      );
+    }
+
+    &.btn-secondary {
+      @include btn-type(
+        $color: $primary-500,
+        $bgColor: $primary-100,
+        $borderColor: $primary-100,
+        $hoverColor: $primary-600,
+        $hoverBgColor: $primary-200,
+        $hoverBorderColor: $primary-200,
+        $disabledBgColor: $primary-100,
+        $disabledBorderColor: $primary-100
+      );
+    }
+
+    &.btn-tertiary {
+      @include btn-type(
+        $color: $primary-500,
+        $bgColor: $white,
+        $borderColor: $primary-500,
+        $hoverColor: $primary-500,
+        $hoverBgColor: $primary-100,
+        $hoverBorderColor: $primary-500,
+        $disabledBgColor: $white,
+        $disabledBorderColor: $primary-500
+      );
+    }
+  }
+
+  &.btn-variant-secondary {
+    &.btn-primary {
+      @include btn-type(
+        $color: $white,
+        $bgColor: $gray-400,
+        $borderColor: $gray-400,
+        $hoverColor: $white,
+        $hoverBgColor: $black-500,
+        $hoverBorderColor: $black-500,
+        $disabledBgColor: $gray-400,
+        $disabledBorderColor: $gray-400
+      );
+    }
+
+    &.btn-secondary {
+      @include btn-type(
+        $color: $gray-400,
+        $bgColor: $gray-100,
+        $borderColor: $gray-100,
+        $hoverColor: $black-500,
+        $hoverBgColor: $gray-200,
+        $hoverBorderColor: $gray-200,
+        $disabledBgColor: $gray-100,
+        $disabledBorderColor: $gray-100
+      );
+    }
+
+    &.btn-tertiary {
+      @include btn-type(
+        $color: $gray-400,
+        $bgColor: $white,
+        $borderColor: $gray-400,
+        $hoverColor: $gray-400,
+        $hoverBgColor: $gray-50,
+        $hoverBorderColor: $gray-400,
+        $disabledBgColor: $white,
+        $disabledBorderColor: $gray-400
+      );
+    }
+  }
+
+  &.btn-variant-danger {
+    &.btn-primary {
+      @include btn-type(
+        $color: $white,
+        $bgColor: $red-500,
+        $borderColor: $red-500,
+        $hoverColor: $white,
+        $hoverBgColor: $red-600,
+        $hoverBorderColor: $red-600,
+        $disabledBgColor: $red-500,
+        $disabledBorderColor: $red-500
+      );
+    }
+
+    &.btn-secondary {
+      @include btn-type(
+        $color: $red-500,
+        $bgColor: $red-100,
+        $borderColor: $red-100,
+        $hoverColor: $red-600,
+        $hoverBgColor: $red-200,
+        $hoverBorderColor: $red-200,
+        $disabledBgColor: $red-100,
+        $disabledBorderColor: $red-100
+      );
+    }
+
+    &.btn-tertiary {
+      @include btn-type(
+        $color: $red-500,
+        $bgColor: $white,
+        $borderColor: $red-500,
+        $hoverColor: $red-500,
+        $hoverBgColor: $red-100,
+        $hoverBorderColor: $red-500,
+        $disabledBgColor: $white,
+        $disabledBorderColor: $red-500
+      );
+    }
+  }
+
+  &.btn-variant-success {
+    &.btn-primary {
+      @include btn-type(
+        $color: $white,
+        $bgColor: $green-500,
+        $borderColor: $green-500,
+        $hoverColor: $white,
+        $hoverBgColor: $green-600,
+        $hoverBorderColor: $green-600,
+        $disabledBgColor: $green-500,
+        $disabledBorderColor: $green-500
+      );
+    }
+
+    &.btn-secondary {
+      @include btn-type(
+        $color: $green-500,
+        $bgColor: $green-100,
+        $borderColor: $green-100,
+        $hoverColor: $green-600,
+        $hoverBgColor: $green-200,
+        $hoverBorderColor: $green-200,
+        $disabledBgColor: $green-100,
+        $disabledBorderColor: $green-100
+      );
+    }
+
+    &.btn-tertiary {
+      @include btn-type(
+        $color: $green-500,
+        $bgColor: $white,
+        $borderColor: $green-500,
+        $hoverColor: $green-500,
+        $hoverBgColor: $green-100,
+        $hoverBorderColor: $green-500,
+        $disabledBgColor: $white,
+        $disabledBorderColor: $green-500
+      );
+    }
+  }
+}

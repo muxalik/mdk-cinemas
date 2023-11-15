@@ -1,0 +1,53 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.custom-link {
+  display: flex;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease-in-out;
+  font-weight: $bold;
+
+  .icon {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    margin-right: 2px;
+  }
+
+  &.link-disabled {
+    opacity: 0.65;
+  }
+
+  &.link-primary {
+    color: $primary-500;
+
+    &:not(.link-disabled):hover {
+      color: $primary-600;
+    }
+  }
+
+  &.link-secondary {
+    color: $gray-400;
+
+    &:not(.link-disabled):hover {
+      color: $black-500;
+    }
+  }
+
+  &.link-danger {
+    color: $red-500;
+
+    &:not(.link-disabled):hover {
+      color: $red-600;
+    }
+  }
+
+  &.link-success {
+    color: $green-500;
+
+    &:not(.link-disabled):hover {
+      color: $green-600;
+    }
+  }
+}

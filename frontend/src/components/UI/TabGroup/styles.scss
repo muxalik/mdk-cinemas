@@ -1,0 +1,72 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.tab-group {
+  border-radius: $border-radius-8;
+  background-color: $white;
+  padding: 4px;
+  border: 1px solid $gray-100;
+
+  .list {
+    display: flex;
+    gap: 4px;
+  }
+
+  &--button {
+    .tab {
+      .button {
+        height: 32px;
+        padding-inline: 12px;
+        border-radius: 6px;
+        color: $black-500;
+        transition: color 0.1s ease-in-out, background-color 0.1s ease-in-out;
+        @include text-m;
+        font-weight: $medium;
+
+        &:hover {
+          color: $primary-500;
+        }
+
+        &--active {
+          background-color: $primary-100;
+          color: $primary-600;
+          font-weight: $semibold;
+        }
+      }
+    }
+  }
+
+  &--underline {
+    padding: 16px 16px 18px;
+    background-color: transparent;
+    padding: 0;
+    border: none;
+
+    .list {
+      gap: 16px;
+      border-bottom: 1px solid $gray-100;
+
+      .tab {
+        .button {
+          padding: 6px 0 12px;
+          color: $black-500;
+          transition: color 0.1s ease-in-out, border-color 0.1s ease-in-out;
+          font-weight: $medium;
+          @include text-m;
+          border-bottom: 2px solid transparent;
+          margin-bottom: -1px;
+
+          &:hover {
+            color: $primary-500;
+          }
+
+          &--active {
+            border-bottom-color: $primary-500;
+            color: $primary-500;
+            font-weight: $semibold;
+          }
+        }
+      }
+    }
+  }
+}

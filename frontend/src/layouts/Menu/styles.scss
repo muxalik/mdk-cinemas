@@ -1,0 +1,76 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  height: $menu;
+  padding-left: $sidebar;
+  background-color: $white;
+  border-bottom: 1px solid $gray-50;
+  box-shadow: $shadow-1;
+  transition: padding-left $sidebar-anim;
+
+  .inner {
+    display: flex;
+    padding: 0 24px;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+
+    .burger {
+      width: 24px;
+      height: 24px;
+      transition: color 0.1s ease-in-out;
+      color: $black-500;
+
+      &:hover {
+        color: $primary-500;
+      }
+    }
+
+    .content {
+      display: flex;
+      align-items: center;
+      height: 100%;
+
+      .controls {
+        display: flex;
+        height: 100%;
+        gap: 16px;
+
+        .control {
+          height: 100%;
+          display: flex;
+          align-items: center;
+          position: relative;
+
+          .popup {
+            position: absolute;
+            top: 100%;
+            right: 50%;
+            margin-top: 8px;
+            width: 100vw;
+            transform-origin: top;
+          }
+        }
+      }
+
+      .divider {
+        width: 1px;
+        height: 60%;
+        background-color: $gray-50;
+        margin: 0 16px;
+      }
+    }
+  }
+}
+
+.sidebar-collapsed {
+  .menu {
+    padding-left: $sidebar-collapsed;
+  }
+}

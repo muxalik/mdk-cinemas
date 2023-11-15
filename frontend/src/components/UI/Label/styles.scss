@@ -1,0 +1,52 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.label {
+  border-radius: 100px;
+  display: inline-flex;
+  align-items: center;
+
+  &.label-sm {
+    height: 22px;
+    padding-inline: 6px;
+    @include text-s;
+    font-weight: $semibold;
+  }
+
+  &.label-md {
+    height: 28px;
+    padding-inline: 12px;
+    @include text-m;
+    font-weight: $semibold;
+  }
+
+  &.label-primary {
+    color: $primary-500;
+    background-color: $primary-50;
+  }
+
+  &.label-secondary {
+    color: $black-500;
+    background-color: $gray-50;
+  }
+
+  &.label-warning {
+    color: $yellow-500;
+    background-color: $yellow-50;
+  }
+
+  &.label-success {
+    color: $green-500;
+    background-color: $green-50;
+  }
+
+  &.label-info {
+    color: $blue-500;
+    background-color: $blue-50;
+  }
+
+  &.label-danger {
+    color: $red-500;
+    background-color: $red-50;
+  }
+}

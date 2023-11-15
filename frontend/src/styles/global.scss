@@ -1,0 +1,39 @@
+@import '../styles/variables.scss';
+
+*,
+*::before,
+*::after {
+  font-family: 'Inter';
+}
+
+.form-control {
+  border: 1px solid $gray-100;
+  background-color: $white;
+}
+
+.card {
+  border: 1px solid $gray-100;
+  background-color: $white;
+  box-shadow: $shadow-hard;
+}
+
+.scrollbar {
+  scroll-behavior: smooth;
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background-color: $gray-50;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: $primary-500;
+}
+
+.scrollbar.scrollbar-rounded::-webkit-scrollbar-track,
+.scrollbar.scrollbar-rounded::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+}

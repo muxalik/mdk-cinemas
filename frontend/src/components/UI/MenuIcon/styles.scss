@@ -1,0 +1,26 @@
+@import '../../../styles/variables.scss';
+
+.menu-icon {
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  color: $black-500;
+  position: relative;
+  transition: color 0.1s ease-in-out, background-color 0.1s ease-in-out;
+  border-radius: $border-radius-8;
+
+  &:hover {
+    color: $primary-500;
+  }
+
+  &.button-active {
+    color: $white;
+    background-color: $primary-500;
+  }
+
+  .badge {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+  }
+}

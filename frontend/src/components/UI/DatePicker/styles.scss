@@ -1,0 +1,188 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.datapicker {
+  display: block;
+
+  &--opened {
+    input[type='text'] {
+      border-color: $primary-500 !important;
+    }
+  }
+
+  .react-datepicker-wrapper {
+    .react-datepicker__input-container {
+      input {
+        max-width: 138px;
+        position: relative;
+        z-index: 0;
+        height: 40px;
+        border-radius: $border-radius-8;
+        padding: 0 14px 0 34px;
+        border: 1px solid $gray-100;
+        outline: none;
+        @include text-m;
+        color: $black-700;
+        font-weight: $medium;
+        text-align: center;
+      }
+
+      .calendar-icon {
+        position: absolute;
+        z-index: 5;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px !important;
+        height: 20px !important;
+        min-width: 20px;
+        color: $gray-400;
+      }
+    }
+  }
+
+  .react-datepicker-popper {
+    border-radius: $border-radius-8;
+    border: 1px solid $gray-100;
+    background: $white;
+    box-shadow: $shadow-soft;
+
+    &[data-placement^='bottom'] {
+      padding: 0;
+      margin-top: 8px;
+    }
+
+    .react-datepicker {
+      border: none;
+      border-radius: $border-radius-8;
+      display: block;
+
+      .react-datepicker__header {
+        padding: 0;
+        background-color: transparent;
+        margin-bottom: 16px;
+        border-bottom: none;
+
+        .header {
+          border-bottom: 1px solid $gray-100;
+          padding-inline: 16px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 16px;
+          height: 64px;
+
+          .control-button {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            border-radius: $border-radius-8;
+            background-color: $primary-100;
+            color: $primary-500;
+            transition: color 0.15s ease-in-out,
+              background-color 0.15s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &:hover {
+              background-color: $primary-500;
+              color: $white;
+            }
+
+            .chevron {
+              width: 20px;
+              height: 20px;
+              min-width: 20px;
+
+              &.chevron-left {
+                transform: rotate(90deg);
+              }
+
+              &.chevron-right {
+                transform: rotate(-90deg);
+              }
+            }
+          }
+
+          .lists {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+
+            .list {
+              padding: 10px 30px 10px 12px;
+              display: flex;
+              gap: 8px;
+              align-items: center;
+              border: none;
+              -webkit-appearance: none;
+              -moz-appearance: none;
+              text-indent: 1px;
+              text-overflow: '';
+              outline-color: $primary-500;
+              height: 100%;
+              color: $black-700;
+              @include text-m;
+              font-weight: 500;
+            }
+          }
+        }
+
+        .react-datepicker__day-names {
+          padding: 18px 18px 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          .react-datepicker__day-name {
+            color: $gray-400;
+            @include text-m;
+            font-weight: $medium;
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            margin: 0;
+          }
+        }
+      }
+
+      .react-datepicker__month {
+        margin: 0;
+        padding: 0px 18px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        .react-datepicker__week {
+          display: flex;
+          gap: 16px;
+          justify-content: space-between;
+
+          .react-datepicker__day {
+            width: 24px;
+            height: 24px;
+            margin: 0;
+            text-align: center;
+            @include text-m;
+            font-weight: $medium;
+            color: $black-600;
+            border-radius: 100px;
+            padding-top: 2px;
+            transition: color 0.1s ease-in-out,
+              background-color 0.1s ease-in-out;
+
+            &--selected {
+              background-color: $primary-500;
+              color: $white;
+            }
+
+            &:not(.react-datepicker__day--selected):hover {
+              background-color: $primary-50;
+              color: $primary-600;
+            }
+          }
+        }
+      }
+    }
+  }
+}

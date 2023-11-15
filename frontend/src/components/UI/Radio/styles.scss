@@ -1,0 +1,67 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.radio {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+
+  .circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 100px;
+    border: 2px solid $gray-400;
+    padding: 3px;
+    transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out;
+
+    .inner-circle {
+      width: 10px;
+      height: 10px;
+      border-radius: 100px;
+      background-color: $white;
+    }
+  }
+
+  .label {
+    @include text-m;
+    font-weight: $medium;
+    color: $black-500;
+    transition: color 0.1s ease-in-out;
+  }
+
+  &:hover {
+    .circle {
+      border-color: $primary-300;
+    }
+
+    .label {
+      color: $primary-300;
+    }
+  }
+
+  .input {
+    position: absolute;
+    opacity: 0;
+    font-size: 0;
+    user-select: none;
+    pointer-events: none;
+    float: left;
+
+    &:checked {
+      & ~ .circle {
+        border-color: $primary-500;
+        background-color: $primary-500;
+      }
+
+      & ~ .label {
+        color: $primary-500;
+      }
+    }
+
+    &:focus ~ .circle {
+      outline: 2px solid $primary-300;
+      outline-offset: 1px;
+    }
+  }
+}

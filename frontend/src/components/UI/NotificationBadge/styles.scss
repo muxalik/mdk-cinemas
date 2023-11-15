@@ -1,0 +1,53 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.notification-badge {
+  height: 18px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  padding-inline: 6px;
+  background-color: $red-500;
+  border-radius: 100px;
+  color: $white;
+  @include text-tiny;
+  font-weight: $bold;
+  border-width: 1px;
+  border-style: solid;
+
+  &.notification-danger {
+    &.notification-solid {
+      @include notification-type(
+        $color: $white,
+        $bgColor: $red-500,
+        $borderColor: $red-500
+      );
+    }
+
+    &.notification-soft {
+      @include notification-type(
+        $color: $red-500,
+        $bgColor: $red-100,
+        $borderColor: $red-100
+      );
+    }
+  }
+
+  &.notification-primary {
+    &.notification-solid {
+      @include notification-type(
+        $color: $white,
+        $bgColor: $primary-500,
+        $borderColor: $primary-500
+      );
+    }
+
+    &.notification-soft {
+      @include notification-type(
+        $color: $primary-500,
+        $bgColor: $primary-100,
+        $borderColor: $primary-100
+      );
+    }
+  }
+}
