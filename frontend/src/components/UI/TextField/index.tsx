@@ -1,4 +1,4 @@
-import { FC, ChangeEvent } from 'react'
+import { FC, ChangeEventHandler } from 'react'
 
 import './styles.scss'
 import { ReactSVG } from 'react-svg'
@@ -7,7 +7,7 @@ import { errorMessageAnim } from '../../../utils/motion'
 
 interface props {
   id?: string
-  onChange?: (e: ChangeEvent) => void
+  onChange?: ChangeEventHandler<HTMLInputElement> | undefined
   value?: string
   placeholder?: string
   label?: string

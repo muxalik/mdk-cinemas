@@ -11,6 +11,7 @@ import { cinema } from '../../types'
 import api, { baseURL } from '../../utils/api'
 
 const Cinemas = () => {
+  const [query, setQuery] = useState('')
   const [cinemas, setCinemas] = useState<cinema[] | null>(null)
   const [pagination, setPagination] = useState({
     current: 1,
@@ -20,9 +21,11 @@ const Cinemas = () => {
     perPage: 10,
   })
 
-  useEffect(() => {
+  const queryCinemas = (search?: string) => {
     api
-      .get(baseURL + '/cinemas', { params: { page: pagination.current } })
+      .get(baseURL + '/cinemas', {
+        params: { page: pagination.current, search },
+      })
       .then((response) => {
         setCinemas(response.data.data)
         setPagination({
@@ -32,11 +35,19 @@ const Cinemas = () => {
           to: response.data.to,
           perPage: response.data.per_page,
         })
-
-        console.log(response)
       })
       .catch(console.log)
+  }
+
+  useEffect(() => {
+    queryCinemas()
   }, [pagination.current])
+
+  useEffect(() => {
+    if (query.length > 2) {
+      queryCinemas(query)
+    }
+  }, [query])
 
   return (
     <Layout>
@@ -73,7 +84,12 @@ const Cinemas = () => {
           </div>
         </div>
         <div className='controls'>
-          <TextField placeholder='Search cinema' icon={search} />
+          <TextField
+            placeholder='Search cinema'
+            icon={search}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
           <Button
             type='tertiary'
             variant={Variants.primary}
