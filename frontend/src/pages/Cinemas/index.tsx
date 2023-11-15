@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import './styles.scss'
 import Layout from '../../layouts/Layout'
 import Breadcrumbs from '../../components/UI/Breadcrumbs'
@@ -6,8 +7,37 @@ import { Variants } from '../../enums'
 import { exportIcon, plus, search, slider } from '../../assets'
 import TextField from '../../components/UI/TextField'
 import Pagination from '../../components/UI/Pagination'
+import { cinema } from '../../types'
+import api, { baseURL } from '../../utils/api'
 
 const Cinemas = () => {
+  const [cinemas, setCinemas] = useState<cinema[] | null>(null)
+  const [pagination, setPagination] = useState({
+    current: 1,
+    total: 0,
+    from: 0,
+    to: 0,
+    perPage: 10,
+  })
+
+  useEffect(() => {
+    api
+      .get(baseURL + '/cinemas', { params: { page: pagination.current } })
+      .then((response) => {
+        setCinemas(response.data.data)
+        setPagination({
+          current: response.data.current_page,
+          total: response.data.total,
+          from: response.data.from,
+          to: response.data.to,
+          perPage: response.data.per_page,
+        })
+
+        console.log(response)
+      })
+      .catch(console.log)
+  }, [pagination.current])
+
   return (
     <Layout>
       <div className='cinemas'>
@@ -18,7 +48,7 @@ const Cinemas = () => {
               links={[
                 {
                   title: 'Home',
-                  to: '/cinemas',
+                  to: '/',
                 },
                 {
                   title: 'Cinemas',
@@ -70,29 +100,40 @@ const Cinemas = () => {
               </tr>
             </thead>
             <tbody className='table-body'>
-              {Array.from({ length: 5 })
-                .fill(0)
-                .map(() => (
-                  <tr className='table-row'>
-                    <td className='table-cell'>
-                      <span className='cinema-name'>Cinema#1</span>
-                    </td>
-                    <td className='table-cell'>
-                      <span>District#1</span>
-                    </td>
-                    <td className='table-cell'>
-                      <span>123</span>
-                    </td>
-                    <td className='table-cell'>
-                      <span>Is opened</span>
-                    </td>
-                  </tr>
-                ))}
+              {cinemas?.map((cinema) => (
+                <tr className='table-row' key={cinema.id}>
+                  <td className='table-cell'>
+                    <span className='cinema-name'>{cinema.name}</span>
+                  </td>
+                  <td className='table-cell'>
+                    <span>{cinema.district}</span>
+                  </td>
+                  <td className='table-cell'>
+                    <span>{cinema.capacity}</span>
+                  </td>
+                  <td className='table-cell'>
+                    <span>{cinema.is_opened ? 'Opened' : 'Closed'}</span>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
           <div className='table-footer'>
-            <p className='progress'>Showing 1-10 from 15</p>
-            <Pagination total={5} current={1} onChange={() => {}} />
+            <p className='progress'>
+              Showing {pagination.from}-{pagination.to} from {pagination.total}
+            </p>
+            <Pagination
+              total={Math.ceil(pagination.total / pagination.perPage)}
+              current={pagination.current}
+              onChange={(page) =>
+                setPagination((prev) => {
+                  return {
+                    ...prev,
+                    current: page,
+                  }
+                })
+              }
+            />
           </div>
         </div>
       </div>

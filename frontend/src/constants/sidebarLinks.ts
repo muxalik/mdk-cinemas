@@ -1,15 +1,9 @@
 import {
   building,
-  cart,
   earphone,
   gear,
-  gridAlt,
-  lineChartUp,
   movie,
-  shoppingBag,
-  store,
   user,
-  users,
 } from '../assets'
 
 export type link = {
@@ -36,14 +30,14 @@ export const sidebarTopLinks: link[] = [
     float: 'left',
   },
   {
-    id: 3,
+    id: 2,
     icon: movie,
     text: 'Movies',
     link: '/movies',
     float: 'left',
   },
   {
-    id: 4,
+    id: 3,
     icon: user,
     text: 'Performers',
     link: '/performers',
