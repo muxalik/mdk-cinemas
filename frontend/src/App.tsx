@@ -2,14 +2,13 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 
 import './styles/variables.scss'
 import './App.scss'
-import Dashboard from './pages/Dashboard'
+import Cinemas from './pages/Cinemas'
 
 const App = () => {
   return (
     <div id='app'>
       <Routes>
-        <Route path='/cinemas' element={<Dashboard />} />
-        <Route path='/products/create' element={<Dashboard />} />
+        <Route path='/cinemas' element={<Cinemas />} />
         <Route path='*' element={<Navigate to='/cinemas' />} />
       </Routes>
     </div>

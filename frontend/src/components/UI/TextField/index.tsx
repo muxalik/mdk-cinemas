@@ -30,6 +30,8 @@ const TextField: FC<props> = ({
   hasError,
   error,
 }) => {
+  iconFloat = iconFloat || 'left'
+
   return (
     <div
       className={`text-field ${disabled ? 'text-field-disabled' : ''} ${

@@ -30,7 +30,7 @@ const User: FC<props> = ({ active, setActive }) => {
           <div className='circle' />
         </div>
         <div className='info'>
-          <p className='name'>Jay Hargudson</p>
+          <p className='name'>Michael Kornilov</p>
           <p className='position'>Main Admin</p>
         </div>
         <motion.div

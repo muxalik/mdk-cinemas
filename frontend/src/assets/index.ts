@@ -11,6 +11,7 @@ import chevronDown from './images/chevron-down.svg'
 import earphone from './images/earphone.svg'
 import envelope from './images/envelope.svg'
 import eye from './images/eye.svg'
+import exportIcon from './images/export.svg'
 import gear from './images/gear.svg'
 import gridAlt from './images/grid-alt.svg'
 import img from './images/img.svg'
@@ -54,6 +55,7 @@ export {
   earphone,
   envelope,
   eye,
+  exportIcon,
   gear,
   gridAlt,
   img,
