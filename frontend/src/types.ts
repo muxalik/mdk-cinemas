@@ -26,3 +26,12 @@ export type actor = {
   name: string
   movies_count: number
 }
+
+export type session = {
+  id: number
+  cinema: string
+  movie: string
+  ticket_price: string
+  free_places: number
+  starts_at: string
+}

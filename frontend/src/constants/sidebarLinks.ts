@@ -1,5 +1,6 @@
 import {
   building,
+  calendarAlt,
   earphone,
   gear,
   movie,
@@ -41,6 +42,13 @@ export const sidebarTopLinks: link[] = [
     icon: user,
     text: 'Actors',
     link: '/actors',
+    float: 'left',
+  },
+  {
+    id: 4,
+    icon: calendarAlt,
+    text: 'Sessions',
+    link: '/sessions',
     float: 'left',
   },
 ]

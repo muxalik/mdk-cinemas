@@ -5,6 +5,7 @@ import './App.scss'
 import Cinemas from './pages/Cinemas'
 import Movies from './pages/Movies'
 import Actors from './pages/Actors'
+import Sessions from './pages/Sessions'
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path='/cinemas' element={<Cinemas />} />
         <Route path='/movies' element={<Movies />} />
         <Route path='/actors' element={<Actors />} />
+        <Route path='/sessions' element={<Sessions />} />
         <Route path='*' element={<Navigate to='/cinemas' />} />
       </Routes>
     </div>
