@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActorController;
 use App\Http\Controllers\CinemaController;
 use App\Http\Controllers\MovieController;
 use Illuminate\Support\Facades\Route;
@@ -17,3 +18,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('cinemas', CinemaController::class);
 Route::get('movies', MovieController::class);
+Route::get('actors', ActorController::class);
