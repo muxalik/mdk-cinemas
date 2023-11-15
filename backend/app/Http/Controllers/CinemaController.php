@@ -6,10 +6,8 @@ use App\Models\Cinema;
 
 class CinemaController extends Controller
 {
-    public function index()
+    public function __invoke()
     {
-        return view('cinemas.index', [
-            'cinemas' => Cinema::latest()->paginate(20),
-        ]);
+        return Cinema::latest('id')->paginate(10);
     }
 }
