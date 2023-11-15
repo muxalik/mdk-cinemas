@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Genres;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,13 +17,11 @@ class MovieFactory extends Factory
      */
     public function definition(): array
     {
-        $genres = ['Comedy', 'Action', 'Fantasy', 'Drama', 'Horror'];
-
         return [
             'name' => fake()->words(mt_rand(3, 7), true),
             'producer' => fake()->name(),
             'operator' => fake()->name(),
-            'genre' => fake()->randomElement($genres),
+            'genre' => Genres::randomValue(),
             'production' => fake()->country(),
             'awards' => $this->awards(),
             'duration' => fake()->regexify('^[1-3]h [1-5][0-9]m$'),

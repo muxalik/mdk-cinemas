@@ -9,9 +9,9 @@ class CinemaController extends Controller
 {
     public function __invoke(Request $request)
     {
-        if ($request->filled('search')) {
+        if ($request->has('search')) {            
             return Cinema::query()
-                ->where('name', 'LIKE', '%' . $request->name . '%')
+                ->where('name', 'LIKE', '%' . $request->search . '%')
                 ->latest('id')
                 ->paginate(10);
         }

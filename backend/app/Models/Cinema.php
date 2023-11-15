@@ -10,6 +10,19 @@ class Cinema extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'district',
+        'address',
+        'category',
+        'capacity',
+        'is_opened',
+    ];
+
+    protected $casts = [
+        'is_opened' => 'bool',
+    ];
+
     public function sessions(): HasMany
     {
         return $this->hasMany(Session::class);

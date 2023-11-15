@@ -19,6 +19,7 @@ class CinemaFactory extends Factory
         return [
             'name' => 'Cinema #' . fake()->numberBetween(1_000, 10_000),
             'district' => 'District #' . fake()->numberBetween(1_000, 10_000),
+            'address' => fake()->address(),
             'category' => fake()->words(mt_rand(3, 4), true),
             'capacity' => fake()->numberBetween(1_000, 10_000),
             'is_opened' => fake()->boolean(),

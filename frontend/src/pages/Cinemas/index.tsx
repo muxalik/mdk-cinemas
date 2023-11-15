@@ -21,10 +21,13 @@ const Cinemas = () => {
     perPage: 10,
   })
 
-  const queryCinemas = (search?: string) => {
+  useEffect(() => {
     api
       .get(baseURL + '/cinemas', {
-        params: { page: pagination.current, search },
+        params: {
+          page: pagination.current,
+          search: query,
+        },
       })
       .then((response) => {
         setCinemas(response.data.data)
@@ -37,17 +40,7 @@ const Cinemas = () => {
         })
       })
       .catch(console.log)
-  }
-
-  useEffect(() => {
-    queryCinemas()
-  }, [pagination.current])
-
-  useEffect(() => {
-    if (query.length > 2) {
-      queryCinemas(query)
-    }
-  }, [query])
+  }, [pagination.current, query])
 
   return (
     <Layout>
@@ -88,7 +81,15 @@ const Cinemas = () => {
             placeholder='Search cinema'
             icon={search}
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setPagination((prev) => {
+                return {
+                  ...prev,
+                  current: 1,
+                }
+              })
+              setQuery(e.target.value)
+            }}
           />
           <Button
             type='tertiary'
@@ -107,6 +108,9 @@ const Cinemas = () => {
                 <th className='table-header-cell district'>
                   <span className='table-title'>District</span>
                 </th>
+                <th className='table-header-cell district'>
+                  <span className='table-title'>Address</span>
+                </th>
                 <th className='table-header-cell capacity'>
                   <span className='table-title'>Capacity</span>
                 </th>
@@ -123,6 +127,9 @@ const Cinemas = () => {
                   </td>
                   <td className='table-cell'>
                     <span>{cinema.district}</span>
+                  </td>
+                  <td className='table-cell'>
+                    <span>{cinema.address}</span>
                   </td>
                   <td className='table-cell'>
                     <span>{cinema.capacity}</span>

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('district');
+            $table->string('address');
             $table->string('category');
             $table->unsignedInteger('capacity');
             $table->boolean('is_opened');

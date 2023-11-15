@@ -10,6 +10,18 @@ class Session extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'cinema_id',
+        'movie_id',
+        'ticket_price',
+        'free_places',
+        'starts_at',
+    ];
+
+    protected $casts = [
+        'starts_at' => 'datetime',
+    ];
+
     public function cinema(): BelongsTo
     {
         return $this->belongsTo(Cinema::class);
