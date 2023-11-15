@@ -1,0 +1,44 @@
+# version: '3.8'
+# services:
+#   # app 
+#   app:
+#     build: 
+#       context: ./backend
+#       dockerfile: Dockerfile
+#     ports:
+#       - 8000:8000
+#     volumes:
+#       - .:/var/www/html
+#     depends_on:
+#       - database
+
+#   # database 
+#   database:
+#     image: mysql:5.7
+#     environment:
+#       MYSQL_DATABASE: laravel
+#       MYSQL_ROOT_PASSWORD: secret
+#     ports:
+#       - 3306:3306
+
+version: '3.8'
+services:
+
+  nginx: 
+    image: nginx:latest
+    container_name: cinemas-nginx
+    volumes:
+      - ./backend:/var/www/backend
+      - ./backend/.docker/nginx/conf.d:/etc/nginx/conf.d
+    ports: 
+      - 8080:80
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend/.docker
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/var/www/backend
+    container_name: cinemas-backend
