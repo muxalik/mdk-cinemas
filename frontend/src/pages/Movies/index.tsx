@@ -161,7 +161,7 @@ const Movies = () => {
                     </span>
                   </td>
                   <td className='table-cell'>
-                    <span>{movie.price}</span>
+                    <span>{movie.price}$</span>
                   </td>
                 </tr>
               ))}

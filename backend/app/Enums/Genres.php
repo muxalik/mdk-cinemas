@@ -4,10 +4,10 @@ namespace App\Enums;
 
 enum Genres: string
 {
-    case Action = 'action';
-    case Adventure = 'adventure';
-    case Comedy = 'comedy';
-    case Fantasy = 'fantasy';
+    case Action = 'Action';
+    case Adventure = 'Adventure';
+    case Comedy = 'Comedy';
+    case Fantasy = 'Fantasy';
 
     public static function values(): array
     {
