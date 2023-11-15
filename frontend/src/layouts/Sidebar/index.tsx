@@ -16,7 +16,7 @@ const Sidebar = () => {
       <div className='header'>
         <Link to='/' className='link'>
           <ReactSVG src={logo} className='logo' />
-          <h1 className='title'>Dashlab</h1>
+          <h1 className='title'>Admin</h1>
         </Link>
       </div>
       <div className='content'>

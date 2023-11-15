@@ -10,13 +10,6 @@ const Dashboard = () => {
     <Layout>
       <div className='dashboard'>
         <div className='grid'>
-          <Pagination
-            current={current}
-            onChange={setCurrent}
-            total={15}
-            start={5}
-            siblings={1}
-          />
         </div>
       </div>
     </Layout>

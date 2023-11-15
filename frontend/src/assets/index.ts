@@ -36,6 +36,10 @@ import userCheck from './images/user-check.svg'
 import users from './images/users.svg'
 import wallet from './images/wallet.svg'
 
+import user from './images/user.svg'
+import building from './images/building.svg'
+import movie from './images/movie.svg'
+
 export {
   avatar,
   arrowUp,
@@ -74,4 +78,7 @@ export {
   userCheck,
   users,
   wallet,
+  user,
+  building,
+  movie,
 }
