@@ -20,3 +20,9 @@ export type movie = {
   is_available: boolean
   price: string
 }
+
+export type actor = {
+  id: number
+  name: string
+  movies_count: number
+}

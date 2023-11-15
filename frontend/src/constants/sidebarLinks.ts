@@ -39,8 +39,8 @@ export const sidebarTopLinks: link[] = [
   {
     id: 3,
     icon: user,
-    text: 'Performers',
-    link: '/performers',
+    text: 'Actors',
+    link: '/actors',
     float: 'left',
   },
 ]

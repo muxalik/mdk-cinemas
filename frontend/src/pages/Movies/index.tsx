@@ -32,11 +32,12 @@ const Movies = () => {
       .then((response) => {
         setMovies(response.data.data)
         setPagination({
-          current: response.data.current_page,
-          total: response.data.total,
-          from: response.data.from,
-          to: response.data.to,
-          perPage: response.data.per_page,
+          current:
+            response.data.current_page || response.data.meta.current_page,
+          total: response.data.total || response.data.meta.total,
+          from: response.data.from || response.data.meta.from,
+          to: response.data.to || response.data.meta.to,
+          perPage: response.data.per_page || response.data.meta.per_page,
         })
       })
       .catch(console.log)
