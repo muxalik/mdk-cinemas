@@ -42,3 +42,17 @@ services:
     volumes:
       - ./backend:/var/www/backend
     container_name: cinemas-backend
+    depends_on:
+      - db
+
+  db: 
+    image: mysql:8.0
+    restart: always
+    volumes:
+      - ./tmp/db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: cinemas
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3366:3306
+    container_name: cinemas-db
