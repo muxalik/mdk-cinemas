@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CinemaController;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,5 +13,3 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', fn () => 'Hello World!');

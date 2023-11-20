@@ -43,6 +43,25 @@ const Cinemas = () => {
       .catch(console.log)
   }, [pagination.current, query])
 
+  const onExport = () => {
+    api({
+      url: baseURL + '/cinemas/pdf',
+      method: 'GET',
+      responseType: 'blob',
+    }).then((response) => {
+      const href = URL.createObjectURL(response.data)
+
+      const link = document.createElement('a')
+      link.href = href
+      link.setAttribute('download', 'file.pdf') //or any other extension
+      document.body.appendChild(link)
+      link.click()
+
+      document.body.removeChild(link)
+      URL.revokeObjectURL(href)
+    })
+  }
+
   return (
     <Layout>
       <div className='cinemas'>
@@ -68,6 +87,7 @@ const Cinemas = () => {
               variant={Variants.primary}
               text='Export'
               icon={exportIcon}
+              onClick={onExport}
             />
             <Button
               type='primary'
