@@ -1,7 +1,6 @@
 import { FC, ChangeEvent } from 'react'
 
 import './styles.scss'
-import { ReactSVG } from 'react-svg'
 import { AnimatePresence, motion } from 'framer-motion'
 import { errorMessageAnim } from '../../../utils/motion'
 

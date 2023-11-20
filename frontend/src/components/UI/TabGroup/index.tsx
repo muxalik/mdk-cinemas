@@ -1,8 +1,6 @@
 import { FC } from 'react'
 
 import './styles.scss'
-import Button from '../Button'
-import { Variants } from '../../../enums'
 
 interface props {
   active: string | number
