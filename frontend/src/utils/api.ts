@@ -1,13 +1,13 @@
 import axios from 'axios'
 
-export const baseURL = 'http://localhost:8000/api'
+export const baseURL = 'https://my-magic-art.online:8000/api'
 
 const api = axios.create()
 
 ;(async function () {
   try {
     const response = await axios.get('/sanctum/csrf-cookie', {
-      baseURL: 'http://localhost:8000',
+      baseURL: 'https://my-magic-art.online:8000',
     })
 
     api.defaults.headers.common['X-CSRF-TOKEN'] = response.data.csrf_token
