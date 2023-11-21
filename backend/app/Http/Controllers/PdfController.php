@@ -10,37 +10,37 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class PdfController extends Controller
 {
-    public function cinemasPdf()
+    public function exportCinemas()
     {
         $cinemas = Cinema::latest('id')->get();
 
         return Pdf::loadView('pdf.cinemas', compact('cinemas'))
             ->setPaper('a4', 'landscape')
             ->setWarnings(false)
-            ->download('Cinemas.pdf');
+            ->download('cinemas.pdf');
     }
 
-    public function moviesPdf()
+    public function exportMovies()
     {
         $movies = Movie::latest('id')->get();
 
         return Pdf::loadView('pdf.movies', compact('movies'))
             ->setPaper('a4', 'landscape')
             ->setWarnings(false)
-            ->download('Movies.pdf');
+            ->download('movies.pdf');
     }
 
-    public function actorsPdf()
+    public function exportActors()
     {
         $actors = Actor::latest('id')->withCount('movies')->get();
 
         return Pdf::loadView('pdf.actors', compact('actors'))
             ->setPaper('a4', 'landscape')
             ->setWarnings(false)
-            ->download('Actors.pdf');
+            ->download('actors.pdf');
     }
 
-    public function sessionsPdf()
+    public function exportSessions()
     {
         $sessions = Session::latest('id')
             ->with('movie', 'cinema')
@@ -49,6 +49,6 @@ class PdfController extends Controller
         return Pdf::loadView('pdf.sessions', compact('sessions'))
             ->setPaper('a4', 'landscape')
             ->setWarnings(false)
-            ->download('Sessions.pdf');
+            ->download('sessions.pdf');
     }
 }

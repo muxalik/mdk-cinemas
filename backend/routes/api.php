@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ActorController;
 use App\Http\Controllers\CinemaController;
+use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\SessionController;
@@ -19,13 +20,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('cinemas', CinemaController::class);
-Route::get('cinemas/pdf', [PdfController::class, 'cinemasPdf']);
+Route::get('cinemas/pdf', [PdfController::class, 'exportCinemas']);
+Route::get('cinemas/excel', [ExcelController::class, 'exportCinemas']);
 
 Route::get('movies', MovieController::class);
-Route::get('movies/pdf', [PdfController::class, 'moviesPdf']);
+Route::get('movies/pdf', [PdfController::class, 'exportMovies']);
+Route::get('movies/excel', [ExcelController::class, 'exportMovies']);
 
 Route::get('actors', ActorController::class);
-Route::get('actors/pdf', [PdfController::class, 'actorsPdf']);
+Route::get('actors/pdf', [PdfController::class, 'exportActors']);
+Route::get('actors/excel', [ExcelController::class, 'exportActors']);
 
 Route::get('sessions', SessionController::class);
-Route::get('sessions/pdf', [PdfController::class, 'sessionsPdf']);
+Route::get('sessions/pdf', [PdfController::class, 'exportSessions']);
+Route::get('sessions/excel', [ExcelController::class, 'exportSessions']);

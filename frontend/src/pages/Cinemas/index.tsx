@@ -69,7 +69,7 @@ const Cinemas = () => {
               variant={Variants.primary}
               text='Export'
               icon={exportIcon}
-              onClick={() => downloadFromUrl('/cinemas/pdf', 'cinemas.pdf')}
+              onClick={() => downloadFromUrl('/cinemas/excel', 'cinemas.csv')}
             />
             <Button
               type='primary'
