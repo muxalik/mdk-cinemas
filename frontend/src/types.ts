@@ -17,7 +17,7 @@ export type movie = {
   production: string
   awards: string
   duration: string
-  is_available: boolean
+  status: string
   price: string
 }
 
