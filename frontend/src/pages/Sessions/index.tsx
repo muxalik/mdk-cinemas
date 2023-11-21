@@ -9,6 +9,7 @@ import TextField from '../../components/UI/TextField'
 import Pagination from '../../components/UI/Pagination'
 import { session } from '../../types'
 import api, { baseURL } from '../../utils/api'
+import downloadFromUrl from '../../utils/downloadFromUrl'
 
 const Sessions = () => {
   const [query, setQuery] = useState('')
@@ -43,25 +44,6 @@ const Sessions = () => {
       .catch(console.log)
   }, [pagination.current, query])
 
-  const onExport = () => {
-    api({
-      url: baseURL + '/sessions/pdf',
-      method: 'GET',
-      responseType: 'blob',
-    }).then((response) => {
-      const href = URL.createObjectURL(response.data)
-
-      const link = document.createElement('a')
-      link.href = href
-      link.setAttribute('download', 'file.pdf') //or any other extension
-      document.body.appendChild(link)
-      link.click()
-
-      document.body.removeChild(link)
-      URL.revokeObjectURL(href)
-    })
-  }
-
   return (
     <Layout>
       <div className='actors'>
@@ -87,7 +69,7 @@ const Sessions = () => {
               variant={Variants.primary}
               text='Export'
               icon={exportIcon}
-              onClick={onExport}
+              onClick={() => downloadFromUrl('/sessions/pdf', 'sessions.pdf')}
             />
             <Button
               type='primary'

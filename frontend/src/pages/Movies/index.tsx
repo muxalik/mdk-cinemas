@@ -9,6 +9,7 @@ import TextField from '../../components/UI/TextField'
 import Pagination from '../../components/UI/Pagination'
 import { movie } from '../../types'
 import api, { baseURL } from '../../utils/api'
+import downloadFromUrl from '../../utils/downloadFromUrl'
 
 const Movies = () => {
   const [query, setQuery] = useState('')
@@ -43,25 +44,6 @@ const Movies = () => {
       .catch(console.log)
   }, [pagination.current, query])
 
-  const onExport = () => {
-    api({
-      url: baseURL + '/movies/pdf',
-      method: 'GET',
-      responseType: 'blob',
-    }).then((response) => {
-      const href = URL.createObjectURL(response.data)
-
-      const link = document.createElement('a')
-      link.href = href
-      link.setAttribute('download', 'file.pdf') //or any other extension
-      document.body.appendChild(link)
-      link.click()
-
-      document.body.removeChild(link)
-      URL.revokeObjectURL(href)
-    })
-  }
-
   return (
     <Layout>
       <div className='movies'>
@@ -87,7 +69,7 @@ const Movies = () => {
               variant={Variants.primary}
               text='Export'
               icon={exportIcon}
-              onClick={onExport}
+              onClick={() => downloadFromUrl('/movies/pdf', 'movies.pdf')}
             />
             <Button
               type='primary'
