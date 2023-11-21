@@ -138,7 +138,7 @@ const Cinemas = () => {
                     <span>{cinema.capacity}</span>
                   </td>
                   <td className='table-cell'>
-                    <span>{cinema.is_opened ? 'Opened' : 'Closed'}</span>
+                    <span>{cinema.status}</span>
                   </td>
                 </tr>
               ))}

@@ -69,7 +69,7 @@ const Sessions = () => {
               variant={Variants.primary}
               text='Export'
               icon={exportIcon}
-              onClick={() => downloadFromUrl('/sessions/pdf', 'sessions.pdf')}
+              onClick={() => downloadFromUrl('/sessions/excel', 'sessions.xlsx')}
             />
             <Button
               type='primary'
@@ -132,7 +132,7 @@ const Sessions = () => {
                     <span>{session.movie}</span>
                   </td>
                   <td className='table-cell'>
-                    <span>{session.ticket_price}$</span>
+                    <span>{session.ticket_price}</span>
                   </td>
                   <td className='table-cell'>
                     <span>{session.free_places}</span>

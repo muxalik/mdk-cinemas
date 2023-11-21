@@ -5,7 +5,7 @@ export type cinema = {
   address: string
   category: string
   capacity: number
-  is_opened: boolean
+  status: string
 }
 
 export type movie = {
@@ -24,7 +24,7 @@ export type movie = {
 export type actor = {
   id: number
   name: string
-  movies_count: number
+  total_movies: number
 }
 
 export type session = {

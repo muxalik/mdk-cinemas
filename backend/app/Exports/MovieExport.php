@@ -36,16 +36,16 @@ class MovieExport implements FromCollection, ShouldAutoSize, WithHeadings
     public function headings(): array
     {
         return [
-            'id',
-            'name',
-            'producer',
-            'operator',
-            'genre',
-            'production',
-            'awards',
-            'duration',
-            'status',
-            'price',
+            'Id',
+            'Name',
+            'Producer',
+            'Operator',
+            'Genre',
+            'Production',
+            'Awards',
+            'Duration',
+            'Status',
+            'Price',
         ];
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ActorResource extends JsonResource
+class CinemaResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,7 +17,11 @@ class ActorResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'total_movies' => $this->whenCounted('movies', $this->movies_count),
+            'district' => $this->district,
+            'address' => $this->address,
+            'category' => $this->category,
+            'capacity' => $this->capacity,
+            'status' => $this->is_opened ? 'Opened' : 'Closed',
         ];
     }
 }

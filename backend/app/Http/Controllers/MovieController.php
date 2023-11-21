@@ -10,17 +10,12 @@ class MovieController extends Controller
 {
     public function __invoke(Request $request)
     {
-        if ($request->has('search')) {
-            $movies = Movie::query()
-                ->where('name', 'LIKE', '%' . $request->search . '%')
-                ->latest('id')
-                ->paginate(10);
+        $query = Movie::query()->latest('id');
 
-            return MovieResource::collection($movies);
+        if ($request->has('search')) {
+            $query->where('name', 'LIKE', '%' . $request->search . '%');
         }
 
-        return MovieResource::collection(
-            Movie::latest('id')->paginate(10)
-        );
+        return MovieResource::collection($query->paginate(10));
     }
 }

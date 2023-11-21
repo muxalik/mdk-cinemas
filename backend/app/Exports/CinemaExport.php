@@ -36,12 +36,12 @@ class CinemaExport implements FromCollection, WithHeadings, ShouldAutoSize
     public function headings(): array
     {
         return [
-            'id',
-            'name',
-            'district',
-            'address',
-            'capacity',
-            'status',
+            'Id',
+            'Name',
+            'District',
+            'Address',
+            'Capacity',
+            'Status',
         ];
     }
 }

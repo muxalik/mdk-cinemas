@@ -69,7 +69,7 @@ const Actors = () => {
               variant={Variants.primary}
               text='Export'
               icon={exportIcon}
-              onClick={() => downloadFromUrl('/actors/pdf', 'actors.pdf')}
+              onClick={() => downloadFromUrl('/actors/excel', 'actors.xlsx')}
             />
             <Button
               type='primary'
@@ -120,7 +120,7 @@ const Actors = () => {
                     <span>{actor.name}</span>
                   </td>
                   <td className='table-cell'>
-                    <span>{actor.movies_count}</span>
+                    <span>{actor.total_movies}</span>
                   </td>
                 </tr>
               ))}
