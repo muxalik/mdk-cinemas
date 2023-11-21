@@ -4,17 +4,19 @@ import Layout from '../../layouts/Layout'
 import Breadcrumbs from '../../components/UI/Breadcrumbs'
 import Button from '../../components/UI/Button'
 import { Variants } from '../../enums'
-import { exportIcon, plus, search, slider } from '../../assets'
+import { pdf, plus, search, slider, xlsx } from '../../assets'
 import TextField from '../../components/UI/TextField'
-import Pagination from '../../components/UI/Pagination'
-import { movie } from '../../types'
+import { movie, pagination } from '../../types'
 import api, { baseURL } from '../../utils/api'
 import downloadFromUrl from '../../utils/downloadFromUrl'
+import Exports from '../../components/Exports'
+import Table from '../../components/UI/Table'
+import { movieCols } from '../../constants/tableCols'
 
 const Movies = () => {
   const [query, setQuery] = useState('')
   const [movies, setMovies] = useState<movie[] | null>(null)
-  const [pagination, setPagination] = useState({
+  const [pagination, setPagination] = useState<pagination>({
     current: 1,
     total: 0,
     from: 0,
@@ -44,6 +46,28 @@ const Movies = () => {
       .catch(console.log)
   }, [pagination.current, query])
 
+  const onPageChange = (page: number) =>
+    setPagination((prev) => {
+      return {
+        ...prev,
+        current: page,
+      }
+    })
+
+  const rows = movies?.map((movie) => {
+    return [
+      movie.name,
+      movie.producer,
+      movie.operator,
+      movie.genre,
+      movie.production,
+      movie.awards,
+      movie.duration,
+      movie.status,
+      movie.price,
+    ]
+  })
+
   return (
     <Layout>
       <div className='movies'>
@@ -64,13 +88,21 @@ const Movies = () => {
             />
           </div>
           <div className='actions'>
-            <Button
-              type='secondary'
-              variant={Variants.primary}
-              text='Export'
-              icon={exportIcon}
-              onClick={() => downloadFromUrl('/movies/pdf', 'movies.pdf')}
-            />
+            <Exports
+              items={[
+                {
+                  icon: xlsx,
+                  text: 'Excel',
+                  download: () =>
+                    downloadFromUrl('/movies/excel', 'movies.xlsx'),
+                },
+                {
+                  icon: pdf,
+                  text: 'PDF',
+                  download: () => downloadFromUrl('/movies/pdf', 'movies.pdf'),
+                },
+              ]}
+            />{' '}
             <Button
               type='primary'
               variant={Variants.primary}
@@ -101,93 +133,12 @@ const Movies = () => {
             icon={slider}
           />
         </div>
-        <div className='table-wrapper'>
-          <table className='table'>
-            <thead className='table-header'>
-              <tr className='table-header-row'>
-                <th className='table-header-cell'>
-                  <span className='table-title'>Name</span>
-                </th>
-                <th className='table-header-cell'>
-                  <span className='table-title'>Producer</span>
-                </th>
-                <th className='table-header-cell'>
-                  <span className='table-title'>Operator</span>
-                </th>
-                <th className='table-header-cell'>
-                  <span className='table-title'>Genre</span>
-                </th>
-                <th className='table-header-cell'>
-                  <span className='table-title'>Production</span>
-                </th>
-                <th className='table-header-cell'>
-                  <span className='table-title'>Awards</span>
-                </th>
-                <th className='table-header-cell'>
-                  <span className='table-title'>Duration</span>
-                </th>
-                <th className='table-header-cell'>
-                  <span className='table-title'>Status</span>
-                </th>
-                <th className='table-header-cell'>
-                  <span className='table-title'>Price</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody className='table-body'>
-              {movies?.map((movie) => (
-                <tr className='table-row' key={movie.id}>
-                  <td className='table-cell'>
-                    <span className='movie-name'>{movie.name}</span>
-                  </td>
-                  <td className='table-cell'>
-                    <span>{movie.producer}</span>
-                  </td>
-                  <td className='table-cell'>
-                    <span>{movie.operator}</span>
-                  </td>
-                  <td className='table-cell'>
-                    <span>{movie.genre}</span>
-                  </td>
-                  <td className='table-cell'>
-                    <span>{movie.production}</span>
-                  </td>
-                  <td className='table-cell'>
-                    <span>{movie.awards}</span>
-                  </td>
-                  <td className='table-cell'>
-                    <span>{movie.duration}</span>
-                  </td>
-                  <td className='table-cell'>
-                    <span>
-                      {movie.status}
-                    </span>
-                  </td>
-                  <td className='table-cell'>
-                    <span>{movie.price}</span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className='table-footer'>
-            <p className='progress'>
-              Showing {pagination.from}-{pagination.to} from {pagination.total}
-            </p>
-            <Pagination
-              total={Math.ceil(pagination.total / pagination.perPage)}
-              current={pagination.current}
-              onChange={(page) =>
-                setPagination((prev) => {
-                  return {
-                    ...prev,
-                    current: page,
-                  }
-                })
-              }
-            />
-          </div>
-        </div>
+        <Table
+          columns={movieCols}
+          rows={rows}
+          pagination={pagination}
+          onPageChange={onPageChange}
+        />
       </div>
     </Layout>
   )

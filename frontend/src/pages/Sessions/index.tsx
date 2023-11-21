@@ -4,17 +4,19 @@ import Layout from '../../layouts/Layout'
 import Breadcrumbs from '../../components/UI/Breadcrumbs'
 import Button from '../../components/UI/Button'
 import { Variants } from '../../enums'
-import { exportIcon, plus, search, slider } from '../../assets'
+import { pdf, plus, search, slider, xlsx } from '../../assets'
 import TextField from '../../components/UI/TextField'
-import Pagination from '../../components/UI/Pagination'
-import { session } from '../../types'
+import { pagination, session } from '../../types'
 import api, { baseURL } from '../../utils/api'
 import downloadFromUrl from '../../utils/downloadFromUrl'
+import Exports from '../../components/Exports'
+import Table from '../../components/UI/Table'
+import { sessionCols } from '../../constants/tableCols'
 
 const Sessions = () => {
   const [query, setQuery] = useState('')
   const [sessions, setSessions] = useState<session[] | null>(null)
-  const [pagination, setPagination] = useState({
+  const [pagination, setPagination] = useState<pagination>({
     current: 1,
     total: 0,
     from: 0,
@@ -44,6 +46,24 @@ const Sessions = () => {
       .catch(console.log)
   }, [pagination.current, query])
 
+  const onPageChange = (page: number) =>
+    setPagination((prev) => {
+      return {
+        ...prev,
+        current: page,
+      }
+    })
+
+  const rows = sessions?.map((session) => {
+    return [
+      session.cinema,
+      session.movie,
+      session.ticket_price,
+      session.free_places.toString(),
+      session.starts_at,
+    ]
+  })
+
   return (
     <Layout>
       <div className='actors'>
@@ -64,12 +84,21 @@ const Sessions = () => {
             />
           </div>
           <div className='actions'>
-            <Button
-              type='secondary'
-              variant={Variants.primary}
-              text='Export'
-              icon={exportIcon}
-              onClick={() => downloadFromUrl('/sessions/excel', 'sessions.xlsx')}
+            <Exports
+              items={[
+                {
+                  icon: xlsx,
+                  text: 'Excel',
+                  download: () =>
+                    downloadFromUrl('/sessions/excel', 'sessions.xlsx'),
+                },
+                {
+                  icon: pdf,
+                  text: 'PDF',
+                  download: () =>
+                    downloadFromUrl('/sessions/pdf', 'sessions.pdf'),
+                },
+              ]}
             />
             <Button
               type='primary'
@@ -101,67 +130,12 @@ const Sessions = () => {
             icon={slider}
           />
         </div>
-        <div className='table-wrapper'>
-          <table className='table'>
-            <thead className='table-header'>
-              <tr className='table-header-row'>
-                <th className='table-header-cell'>
-                  <span className='table-title'>Cinema</span>
-                </th>
-                <th className='table-header-cell'>
-                  <span className='table-title'>Movie</span>
-                </th>
-                <th className='table-header-cell'>
-                  <span className='table-title'>Ticket price</span>
-                </th>
-                <th className='table-header-cell'>
-                  <span className='table-title'>Free places</span>
-                </th>
-                <th className='table-header-cell'>
-                  <span className='table-title'>Starts</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody className='table-body'>
-              {sessions?.map((session) => (
-                <tr className='table-row' key={session.id}>
-                  <td className='table-cell'>
-                    <span>{session.cinema}</span>
-                  </td>
-                  <td className='table-cell'>
-                    <span>{session.movie}</span>
-                  </td>
-                  <td className='table-cell'>
-                    <span>{session.ticket_price}</span>
-                  </td>
-                  <td className='table-cell'>
-                    <span>{session.free_places}</span>
-                  </td>
-                  <td className='table-cell'>
-                    <span>{session.starts_at}</span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className='table-footer'>
-            <p className='progress'>
-              Showing {pagination.from}-{pagination.to} from {pagination.total}
-            </p>
-            <Pagination
-              total={Math.ceil(pagination.total / pagination.perPage)}
-              current={pagination.current}
-              onChange={(page) =>
-                setPagination((prev) => {
-                  return {
-                    ...prev,
-                    current: page,
-                  }
-                })
-              }
-            />
-          </div>
-        </div>
+        <Table
+          columns={sessionCols}
+          rows={rows}
+          pagination={pagination}
+          onPageChange={onPageChange}
+        />
       </div>
     </Layout>
   )

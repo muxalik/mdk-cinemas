@@ -35,3 +35,11 @@ export type session = {
   free_places: number
   starts_at: string
 }
+
+export type pagination = {
+  current: number | null
+  total: number | null
+  from: number | null
+  to: number | null
+  perPage: number | null
+}

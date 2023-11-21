@@ -41,6 +41,9 @@ import user from './images/user.svg'
 import building from './images/building.svg'
 import movie from './images/movie.svg'
 
+import pdf from './images/pdf.svg'
+import xlsx from './images/xlsx.svg'
+
 export {
   avatar,
   arrowUp,
@@ -83,4 +86,6 @@ export {
   user,
   building,
   movie,
+  pdf,
+  xlsx,
 }

@@ -4,17 +4,19 @@ import Layout from '../../layouts/Layout'
 import Breadcrumbs from '../../components/UI/Breadcrumbs'
 import Button from '../../components/UI/Button'
 import { Variants } from '../../enums'
-import { exportIcon, plus, search, slider } from '../../assets'
+import { pdf, plus, search, slider, xlsx } from '../../assets'
 import TextField from '../../components/UI/TextField'
-import Pagination from '../../components/UI/Pagination'
-import { actor } from '../../types'
+import { actor, pagination } from '../../types'
 import api, { baseURL } from '../../utils/api'
 import downloadFromUrl from '../../utils/downloadFromUrl'
+import Exports from '../../components/Exports'
+import Table from '../../components/UI/Table'
+import { actorCols } from '../../constants/tableCols'
 
 const Actors = () => {
   const [query, setQuery] = useState('')
   const [actors, setActors] = useState<actor[] | null>(null)
-  const [pagination, setPagination] = useState({
+  const [pagination, setPagination] = useState<pagination>({
     current: 1,
     total: 0,
     from: 0,
@@ -44,6 +46,18 @@ const Actors = () => {
       .catch(console.log)
   }, [pagination.current, query])
 
+  const onPageChange = (page: number) =>
+    setPagination((prev) => {
+      return {
+        ...prev,
+        current: page,
+      }
+    })
+
+  const rows = actors?.map((actor) => {
+    return [actor.name, actor.total_movies.toString()]
+  })
+
   return (
     <Layout>
       <div className='actors'>
@@ -64,12 +78,20 @@ const Actors = () => {
             />
           </div>
           <div className='actions'>
-            <Button
-              type='secondary'
-              variant={Variants.primary}
-              text='Export'
-              icon={exportIcon}
-              onClick={() => downloadFromUrl('/actors/excel', 'actors.xlsx')}
+            <Exports
+              items={[
+                {
+                  icon: xlsx,
+                  text: 'Excel',
+                  download: () =>
+                    downloadFromUrl('/actors/excel', 'actors.xlsx'),
+                },
+                {
+                  icon: pdf,
+                  text: 'PDF',
+                  download: () => downloadFromUrl('/actors/pdf', 'actors.pdf'),
+                },
+              ]}
             />
             <Button
               type='primary'
@@ -101,49 +123,12 @@ const Actors = () => {
             icon={slider}
           />
         </div>
-        <div className='table-wrapper'>
-          <table className='table'>
-            <thead className='table-header'>
-              <tr className='table-header-row'>
-                <th className='table-header-cell'>
-                  <span className='table-title'>Name</span>
-                </th>
-                <th className='table-header-cell'>
-                  <span className='table-title'>Total Movies</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody className='table-body'>
-              {actors?.map((actor) => (
-                <tr className='table-row' key={actor.id}>
-                  <td className='table-cell'>
-                    <span>{actor.name}</span>
-                  </td>
-                  <td className='table-cell'>
-                    <span>{actor.total_movies}</span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className='table-footer'>
-            <p className='progress'>
-              Showing {pagination.from}-{pagination.to} from {pagination.total}
-            </p>
-            <Pagination
-              total={Math.ceil(pagination.total / pagination.perPage)}
-              current={pagination.current}
-              onChange={(page) =>
-                setPagination((prev) => {
-                  return {
-                    ...prev,
-                    current: page,
-                  }
-                })
-              }
-            />
-          </div>
-        </div>
+        <Table
+          columns={actorCols}
+          rows={rows}
+          pagination={pagination}
+          onPageChange={onPageChange}
+        />
       </div>
     </Layout>
   )

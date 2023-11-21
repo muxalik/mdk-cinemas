@@ -4,17 +4,19 @@ import Layout from '../../layouts/Layout'
 import Breadcrumbs from '../../components/UI/Breadcrumbs'
 import Button from '../../components/UI/Button'
 import { Variants } from '../../enums'
-import { exportIcon, plus, search, slider } from '../../assets'
+import { pdf, plus, search, slider, xlsx } from '../../assets'
 import TextField from '../../components/UI/TextField'
-import Pagination from '../../components/UI/Pagination'
-import { cinema } from '../../types'
+import { cinema, pagination } from '../../types'
 import api, { baseURL } from '../../utils/api'
+import Exports from '../../components/Exports'
 import downloadFromUrl from '../../utils/downloadFromUrl'
+import Table from '../../components/UI/Table'
+import { cinemaCols } from '../../constants/tableCols'
 
 const Cinemas = () => {
   const [query, setQuery] = useState('')
   const [cinemas, setCinemas] = useState<cinema[] | null>(null)
-  const [pagination, setPagination] = useState({
+  const [pagination, setPagination] = useState<pagination>({
     current: 1,
     total: 0,
     from: 0,
@@ -44,6 +46,24 @@ const Cinemas = () => {
       .catch(console.log)
   }, [pagination.current, query])
 
+  const onPageChange = (page: number) =>
+    setPagination((prev) => {
+      return {
+        ...prev,
+        current: page,
+      }
+    })
+
+  const rows = cinemas?.map((cinema) => {
+    return [
+      cinema.name,
+      cinema.district,
+      cinema.address,
+      cinema.capacity.toString(),
+      cinema.status,
+    ]
+  })
+
   return (
     <Layout>
       <div className='cinemas'>
@@ -64,12 +84,21 @@ const Cinemas = () => {
             />
           </div>
           <div className='actions'>
-            <Button
-              type='secondary'
-              variant={Variants.primary}
-              text='Export'
-              icon={exportIcon}
-              onClick={() => downloadFromUrl('/cinemas/excel', 'cinemas.csv')}
+            <Exports
+              items={[
+                {
+                  icon: xlsx,
+                  text: 'Excel',
+                  download: () =>
+                    downloadFromUrl('/cinemas/excel', 'cinemas.xlsx'),
+                },
+                {
+                  icon: pdf,
+                  text: 'PDF',
+                  download: () =>
+                    downloadFromUrl('/cinemas/pdf', 'cinemas.pdf'),
+                },
+              ]}
             />
             <Button
               type='primary'
@@ -101,67 +130,12 @@ const Cinemas = () => {
             icon={slider}
           />
         </div>
-        <div className='table-wrapper'>
-          <table className='table'>
-            <thead className='table-header'>
-              <tr className='table-header-row'>
-                <th className='table-header-cell cinema'>
-                  <span className='table-title'>Cinema</span>
-                </th>
-                <th className='table-header-cell district'>
-                  <span className='table-title'>District</span>
-                </th>
-                <th className='table-header-cell district'>
-                  <span className='table-title'>Address</span>
-                </th>
-                <th className='table-header-cell capacity'>
-                  <span className='table-title'>Capacity</span>
-                </th>
-                <th className='table-header-cell status'>
-                  <span className='table-title'>Status</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody className='table-body'>
-              {cinemas?.map((cinema) => (
-                <tr className='table-row' key={cinema.id}>
-                  <td className='table-cell'>
-                    <span className='cinema-name'>{cinema.name}</span>
-                  </td>
-                  <td className='table-cell'>
-                    <span>{cinema.district}</span>
-                  </td>
-                  <td className='table-cell'>
-                    <span>{cinema.address}</span>
-                  </td>
-                  <td className='table-cell'>
-                    <span>{cinema.capacity}</span>
-                  </td>
-                  <td className='table-cell'>
-                    <span>{cinema.status}</span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className='table-footer'>
-            <p className='progress'>
-              Showing {pagination.from}-{pagination.to} from {pagination.total}
-            </p>
-            <Pagination
-              total={Math.ceil(pagination.total / pagination.perPage)}
-              current={pagination.current}
-              onChange={(page) =>
-                setPagination((prev) => {
-                  return {
-                    ...prev,
-                    current: page,
-                  }
-                })
-              }
-            />
-          </div>
-        </div>
+        <Table
+          columns={cinemaCols}
+          rows={rows}
+          pagination={pagination}
+          onPageChange={onPageChange}
+        />
       </div>
     </Layout>
   )

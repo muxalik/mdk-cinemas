@@ -1,0 +1,59 @@
+@import '../../styles/variables.scss';
+@import '../../styles/mixins.scss';
+
+.exports {
+  position: relative;
+
+  .popup {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-top: 8px;
+    transform-origin: top;
+    width: 200px;
+    overflow: hidden;
+    z-index: 30;
+
+    .exports-select {
+      display: flex;
+      flex-direction: column;
+
+      .exports-item {
+        .exports-button {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding-inline: 15px;
+          height: 50px;
+          width: 100%;
+          background-color: transparent;
+          transition: color 0.1s ease-in-out, background-color 0.1s ease-in-out;
+
+          &:hover {
+            background-color: $primary-100;
+            color: $primary-600;
+
+            .icon {
+              color: $primary-600;
+            }
+
+            .text {
+              font-weight: $semibold;
+            }
+          }
+
+          .icon {
+            color: #9d9c9b;
+            width: 24px;
+            transition: color 0.1s ease-in-out,
+              background-color 0.1s ease-in-out;
+          }
+
+          .text {
+            @include text-m;
+          }
+        }
+      }
+    }
+  }
+}
