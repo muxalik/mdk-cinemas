@@ -1,17 +1,32 @@
 import { FC } from 'react'
+import { motion } from 'framer-motion'
 
 import './styles.scss'
 import { pagination } from '../../../types'
 import Pagination from '../Pagination'
+import { ReactSVG } from 'react-svg'
+import { chevronDown } from '../../../assets'
+import { tableCol } from '../../../constants/tableCols'
 
 interface props {
-  columns: string[]
+  columns: tableCol[]
+  onColumnClick: (columnKey: string) => void
+  sortedCol?: string | null
+  sortOrder: 'asc' | 'desc'
   rows?: string[][]
   pagination: pagination
   onPageChange: (page: number) => void
 }
 
-const Table: FC<props> = ({ columns, rows, pagination, onPageChange }) => {
+const Table: FC<props> = ({
+  columns,
+  onColumnClick,
+  sortedCol,
+  sortOrder,
+  rows,
+  pagination,
+  onPageChange,
+}) => {
   return (
     <div className='table-wrapper'>
       <table className='table'>
@@ -19,7 +34,23 @@ const Table: FC<props> = ({ columns, rows, pagination, onPageChange }) => {
           <tr className='table-header-row'>
             {columns.map((column, index) => (
               <th key={index} className='table-header-cell'>
-                <span className='table-title'>{column}</span>
+                <button
+                  className='table-header-button'
+                  onClick={() => onColumnClick(column.key)}
+                >
+                  <span className='table-title'>{column.value}</span>
+                  <motion.div
+                    animate={
+                      sortedCol === column.key && sortOrder === 'asc'
+                        ? { rotate: 180 }
+                        : { rotate: 0 }
+                    }
+                    transition={{ type: 'tween', duration: 0.15 }}
+                    className='chevron'
+                  >
+                    <ReactSVG src={chevronDown} className='icon' />
+                  </motion.div>
+                </button>
               </th>
             ))}
           </tr>

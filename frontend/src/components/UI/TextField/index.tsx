@@ -7,6 +7,7 @@ import { errorMessageAnim } from '../../../utils/motion'
 
 interface props {
   id?: string
+  type?: string
   onChange?: ChangeEventHandler<HTMLInputElement> | undefined
   value?: string
   placeholder?: string
@@ -20,6 +21,7 @@ interface props {
 
 const TextField: FC<props> = ({
   id,
+  type,
   onChange,
   value,
   placeholder,
@@ -30,6 +32,7 @@ const TextField: FC<props> = ({
   hasError,
   error,
 }) => {
+  type = type || 'text'
   iconFloat = iconFloat || 'left'
 
   return (
@@ -42,7 +45,7 @@ const TextField: FC<props> = ({
         <ReactSVG src={icon} className='icon' style={{ left: 12 }} />
       )}
       <input
-        type='text'
+        type={type}
         id={id}
         onChange={onChange}
         value={value}
@@ -50,9 +53,11 @@ const TextField: FC<props> = ({
         className='input'
         disabled={disabled}
         style={
-          iconFloat === 'right' || label
-            ? { paddingRight: 40 }
-            : { paddingLeft: 40 }
+          icon
+            ? iconFloat === 'right' || label
+              ? { paddingRight: 40 }
+              : { paddingLeft: 40 }
+            : {}
         }
       />
       <AnimatePresence>

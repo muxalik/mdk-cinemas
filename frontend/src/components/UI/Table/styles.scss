@@ -5,6 +5,7 @@
   border-radius: $border-radius-8;
   border: 1px solid $gray-100;
   box-shadow: $shadow-hard;
+  overflow: hidden;
 
   .table {
     width: 100%;
@@ -20,21 +21,53 @@
       background-color: $gray-25;
       border-top-right-radius: $border-radius-8;
 
-      &-row .table-header-cell:first-of-type {
-        border-top-left-radius: $border-radius-8;
+      &-row {
+        height: 100%;
+
+        & .table-header-cell:first-of-type {
+          border-top-left-radius: $border-radius-8;
+        }
+
+        & .table-header-cell:last-of-type {
+          border-top-right-radius: $border-radius-8;
+        }
       }
 
-      &-row .table-header-cell:last-of-type {
-        border-top-right-radius: $border-radius-8;
-      }
-
-      &-cell {
+      &-button {
+        width: 100%;
+        height: 56px;
         padding-inline: 22px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        &:hover {
+          background-color: $primary-100;
+          color: $primary-600;
+          transition: color 0.15s ease-in-out,
+            background-color 0.15s ease-in-out;
+
+          .icon {
+            color: $primary-600;
+          }
+
+          .table-title {
+            color: $primary-600;
+          }
+        }
+
+        .icon {
+          width: 24px;
+          color: $black-600;
+          padding-top: 5px;
+          transition: color 0.15s ease-in-out;
+        }
 
         .table-title {
           @include text-m;
-          font-weight: $medium;
-          color: $black-700;
+          font-weight: $semibold;
+          color: $black-600;
+          transition: color 0.15s ease-in-out;
         }
       }
     }

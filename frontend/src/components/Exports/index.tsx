@@ -7,7 +7,6 @@ import { useOutsideClick } from '../../hooks/useOutsideClick'
 import Button from '../UI/Button'
 import { Variants } from '../../enums'
 import Popup from '../UI/Popup'
-import downloadFromUrl from '../../utils/downloadFromUrl'
 
 interface props {
   items: {

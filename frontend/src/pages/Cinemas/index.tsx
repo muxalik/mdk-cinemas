@@ -4,7 +4,7 @@ import Layout from '../../layouts/Layout'
 import Breadcrumbs from '../../components/UI/Breadcrumbs'
 import Button from '../../components/UI/Button'
 import { Variants } from '../../enums'
-import { pdf, plus, search, slider, xlsx } from '../../assets'
+import { cross, pdf, plus, search, slider, xlsx } from '../../assets'
 import TextField from '../../components/UI/TextField'
 import { cinema, pagination } from '../../types'
 import api, { baseURL } from '../../utils/api'
@@ -12,8 +12,27 @@ import Exports from '../../components/Exports'
 import downloadFromUrl from '../../utils/downloadFromUrl'
 import Table from '../../components/UI/Table'
 import { cinemaCols } from '../../constants/tableCols'
+import { useOutsideClick } from '../../hooks/useOutsideClick'
+import Popup from '../../components/UI/Popup'
+import Link from '../../components/UI/Link'
+import FilterGroup from '../../components/UI/FilterGroup'
+import Radio from '../../components/UI/Radio'
+
+type filters = {
+  minCapacity: number | null
+  maxCapacity: number | null
+  status: 'opened' | 'closed' | 'any'
+}
+
+const defaultFilters: filters = {
+  minCapacity: null,
+  maxCapacity: null,
+  status: 'any',
+}
 
 const Cinemas = () => {
+  const [sortBy, setSortBy] = useState<string | null>(null)
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
   const [query, setQuery] = useState('')
   const [cinemas, setCinemas] = useState<cinema[] | null>(null)
   const [pagination, setPagination] = useState<pagination>({
@@ -24,14 +43,24 @@ const Cinemas = () => {
     perPage: 10,
   })
 
+  const [appliedFilters, setAppliedFilters] = useState<filters>(defaultFilters)
+  const [currentFilters, setCurrentFilters] = useState<filters>(defaultFilters)
+  const [showFilters, setShowFilters] = useState(false)
+  const filtersRef = useOutsideClick(() => setShowFilters(false))
+
   useEffect(() => {
+    let params: any = {
+      page: pagination.current,
+      search: query,
+      sort: sortBy,
+      order: sortOrder,
+      min_capacity: appliedFilters.minCapacity,
+      max_capacity: appliedFilters.maxCapacity,
+      status: appliedFilters.status,
+    }
+
     api
-      .get(baseURL + '/cinemas', {
-        params: {
-          page: pagination.current,
-          search: query,
-        },
-      })
+      .get(baseURL + '/cinemas', { params })
       .then((response) => {
         setCinemas(response.data.data)
         setPagination({
@@ -44,7 +73,7 @@ const Cinemas = () => {
         })
       })
       .catch(console.log)
-  }, [pagination.current, query])
+  }, [pagination.current, query, sortBy, sortOrder, appliedFilters])
 
   const onPageChange = (page: number) =>
     setPagination((prev) => {
@@ -63,6 +92,22 @@ const Cinemas = () => {
       cinema.status,
     ]
   })
+
+  const onFiltersReset = () => {
+    setAppliedFilters(defaultFilters)
+    setCurrentFilters(defaultFilters)
+  }
+
+  const onFiltersApply = () => {
+    setShowFilters(false)
+    setAppliedFilters(currentFilters)
+  }
+
+  const onFiltersCancel = () => {
+    setShowFilters(false)
+    setAppliedFilters(defaultFilters)
+    setCurrentFilters(defaultFilters)
+  }
 
   return (
     <Layout>
@@ -123,18 +168,166 @@ const Cinemas = () => {
               setQuery(e.target.value)
             }}
           />
-          <Button
-            type='tertiary'
-            variant={Variants.primary}
-            text='Filters'
-            icon={slider}
-          />
+          <div ref={filtersRef} className='filters'>
+            <Button
+              type='tertiary'
+              variant={Variants.primary}
+              text='Filters'
+              icon={slider}
+              onClick={() => setShowFilters(!showFilters)}
+            />
+            <Popup show={showFilters}>
+              <div className='filters-header'>
+                <h4 className='filters-title'>Filters</h4>
+                <Link
+                  text='Reset'
+                  icon={cross}
+                  variant={Variants.primary}
+                  to='#'
+                  onClick={onFiltersReset}
+                />
+              </div>
+              <div className='filters-body'>
+                <FilterGroup title='Capacity' opened>
+                  <div className='filters-group'>
+                    <label className='input-label' htmlFor='min-capacity'>
+                      Minimum capacity
+                    </label>
+                    <TextField
+                      id='min-capacity'
+                      type='number'
+                      onChange={(e) =>
+                        setCurrentFilters((prev) => {
+                          const value = e.target.value
+
+                          return {
+                            ...prev,
+                            minCapacity:
+                              value === ''
+                                ? null
+                                : !isNaN(+value) && +value >= 0
+                                ? +value
+                                : prev.minCapacity,
+                          }
+                        })
+                      }
+                      value={
+                        currentFilters.minCapacity === null
+                          ? ''
+                          : currentFilters.minCapacity?.toString()
+                      }
+                      placeholder='Minimum...'
+                    />
+                  </div>
+                  <div className='filters-group'>
+                    <label className='input-label' htmlFor='max-capacity'>
+                      Maximun capacity
+                    </label>
+                    <TextField
+                      id='max-capacity'
+                      type='number'
+                      onChange={(e) =>
+                        setCurrentFilters((prev) => {
+                          const value = e.target.value
+
+                          return {
+                            ...prev,
+                            maxCapacity:
+                              value === ''
+                                ? null
+                                : !isNaN(+value) && +value >= 0
+                                ? +value
+                                : prev.maxCapacity,
+                          }
+                        })
+                      }
+                      value={
+                        currentFilters.maxCapacity === null
+                          ? ''
+                          : currentFilters.maxCapacity?.toString()
+                      }
+                      placeholder='Maximum...'
+                    />
+                  </div>
+                </FilterGroup>
+                <FilterGroup title='Status' opened>
+                  <div className='filters-radio'>
+                    <Radio
+                      checked={currentFilters.status === 'opened'}
+                      setChecked={() =>
+                        setCurrentFilters((prev) => {
+                          return {
+                            ...prev,
+                            status: 'opened',
+                          }
+                        })
+                      }
+                      value='opened'
+                      label='Only opened'
+                    />
+                    <Radio
+                      checked={currentFilters.status === 'closed'}
+                      setChecked={() =>
+                        setCurrentFilters((prev) => {
+                          return {
+                            ...prev,
+                            status: 'closed',
+                          }
+                        })
+                      }
+                      value='closed'
+                      label='Only closed'
+                    />
+                    <Radio
+                      checked={currentFilters.status === 'any'}
+                      setChecked={() =>
+                        setCurrentFilters((prev) => {
+                          return {
+                            ...prev,
+                            status: 'any',
+                          }
+                        })
+                      }
+                      value='any'
+                      label='Any'
+                    />
+                  </div>
+                </FilterGroup>
+                <div className='filters-controls'>
+                  <Button
+                    type='tertiary'
+                    variant={Variants.primary}
+                    text='Cancel'
+                    onClick={onFiltersCancel}
+                  />
+                  <Button
+                    type='primary'
+                    variant={Variants.primary}
+                    text='Apply filters'
+                    onClick={onFiltersApply}
+                  />
+                </div>
+              </div>
+            </Popup>
+          </div>
         </div>
         <Table
           columns={cinemaCols}
           rows={rows}
           pagination={pagination}
           onPageChange={onPageChange}
+          onColumnClick={(columnKey) => {
+            setSortBy(columnKey)
+            setSortOrder(
+              columnKey === sortBy
+                ? sortOrder === 'asc'
+                  ? 'desc'
+                  : 'asc'
+                : 'asc'
+            )
+          }}
+          sortedCol={sortBy}
+          sortOrder={sortOrder}
         />
       </div>
     </Layout>

@@ -1,0 +1,48 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.filter-group {
+  border-radius: $border-radius-8;
+  border: 1px solid $gray-50;
+
+  .filter-header {
+    border-top-left-radius: $border-radius-8;
+    border-top-right-radius: $border-radius-8;
+    border-bottom: 1px solid $gray-50;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    background-color: $gray-25;
+
+    &:hover {
+      .icon {
+        color: $black-700;
+      }
+    }
+
+    .title {
+      @include text-m;
+      font-weight: $medium;
+      color: $black-700;
+    }
+
+    .icon {
+      width: 20px;
+      color: $black-500;
+      transition: color 0.15s ease-in-out;
+    }
+  }
+
+  .filter-body {
+    padding: 12px;
+
+    .filter-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+}
