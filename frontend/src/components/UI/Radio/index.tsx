@@ -3,30 +3,22 @@ import { FC } from 'react'
 import './styles.scss'
 
 interface props {
-  value: string | number
   checked?: boolean
-  setChecked: (value: string | number) => void
+  onChange: () => void
   label?: string
   labelFloat?: 'left' | 'right'
 }
 
-const Radio: FC<props> = ({
-  value,
-  checked,
-  setChecked,
-  label,
-  labelFloat,
-}) => {
+const Radio: FC<props> = ({ checked, onChange, label, labelFloat }) => {
   labelFloat = labelFloat || 'right'
-  
+
   return (
     <label className='radio'>
       <input
-        value={value}
         type='radio'
         className='input'
         checked={checked}
-        onChange={() => setChecked(value)}
+        onChange={onChange}
       />
       {label && labelFloat === 'left' && <span className='label'>{label}</span>}
       <div className='circle'>

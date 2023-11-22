@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActorController;
 use App\Http\Controllers\CinemaController;
 use App\Http\Controllers\ExcelController;
+use App\Http\Controllers\GenreController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\SessionController;
@@ -34,3 +35,5 @@ Route::get('actors/excel', [ExcelController::class, 'exportActors']);
 Route::get('sessions', SessionController::class);
 Route::get('sessions/pdf', [PdfController::class, 'exportSessions']);
 Route::get('sessions/excel', [ExcelController::class, 'exportSessions']);
+
+Route::get('/genres', GenreController::class);

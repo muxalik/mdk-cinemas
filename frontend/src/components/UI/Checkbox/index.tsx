@@ -7,6 +7,7 @@ import { check, minus } from '../../../assets'
 type float = 'left' | 'right'
 
 interface props {
+  id?: string | number
   type?: 'default' | 'all'
   checked?: boolean
   onChange: (isChecked: boolean) => void
@@ -18,6 +19,7 @@ interface props {
 }
 
 const Checkbox: FC<props> = ({
+  id,
   type,
   checked,
   onChange,
@@ -32,7 +34,7 @@ const Checkbox: FC<props> = ({
   iconFloat = iconFloat || 'right'
 
   return (
-    <label className='checkbox'>
+    <label className='checkbox' key={id}>
       <input
         type='checkbox'
         className='input'

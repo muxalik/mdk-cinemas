@@ -17,6 +17,9 @@ class MovieFactory extends Factory
      */
     public function definition(): array
     {
+        $HOURS = [1 * 60, 3 * 60];
+        $MINUTES = [0, 60];
+
         return [
             'name' => fake()->words(mt_rand(3, 7), true),
             'producer' => fake()->name(),
@@ -24,7 +27,7 @@ class MovieFactory extends Factory
             'genre' => Genres::randomValue(),
             'production' => fake()->country(),
             'awards' => $this->awards(),
-            'duration' => fake()->regexify('^[1-3]h [1-5][0-9]m$'),
+            'duration' => fake()->numberBetween(...$HOURS) + fake()->numberBetween(...$MINUTES),
             'advert_screenshot' => '/path/to/sreenshot/' . fake()->md5 . '.jpg',
             'is_available' => fake()->boolean(),
             'price' => fake()->numberBetween(1_000_000, 20_000_000),

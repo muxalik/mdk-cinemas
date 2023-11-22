@@ -18,4 +18,12 @@ enum Genres: string
     {
         return fake()->randomElement(self::values());
     }
+
+    public static function items(): array
+    {
+        return array_map(fn (self $case) => [
+            'key' => $case,
+            'value' => $case->value,
+        ], self::cases());
+    }
 }

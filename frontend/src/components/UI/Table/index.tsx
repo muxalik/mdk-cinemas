@@ -59,7 +59,11 @@ const Table: FC<props> = ({
           {rows?.map((row, i) => (
             <tr className='table-row' key={i}>
               {row.map((cell, j) => (
-                <td className='table-cell' key={j}>
+                <td
+                  className='table-cell'
+                  style={columns[j].oneLine ? { whiteSpace: 'nowrap' } : {}}
+                  key={j}
+                >
                   <span>{cell}</span>
                 </td>
               ))}
@@ -69,7 +73,7 @@ const Table: FC<props> = ({
       </table>
       <div className='table-footer'>
         <p className='progress'>
-          Showing {pagination.from}-{pagination.to} from {pagination.total}
+          Showing {pagination.from || 0}-{pagination.to || 0} from {pagination.total}
         </p>
         <Pagination
           total={Math.ceil((pagination.total || 0) / (pagination.perPage || 0))}

@@ -1,6 +1,7 @@
 export type tableCol = {
   key: string
   value: string
+  oneLine?: true
 }
 
 export const actorCols: tableCol[] = [
@@ -37,22 +38,67 @@ export const cinemaCols: tableCol[] = [
   },
 ]
 
-export const movieCols: string[] = [
-  'Name',
-  'Producer',
-  'Operator',
-  'Genre',
-  'Production',
-  'Awards',
-  'Duration',
-  'Status',
-  'Price',
+export const movieCols: tableCol[] = [
+  {
+    key: 'name',
+    value: 'Name',
+  },
+  {
+    key: 'producer',
+    value: 'Producer',
+  },
+  {
+    key: 'operator',
+    value: 'Operator',
+  },
+  {
+    key: 'genre',
+    value: 'Genre',
+  },
+  {
+    key: 'production',
+    value: 'Production',
+  },
+  {
+    key: 'awards',
+    value: 'Awards',
+  },
+  {
+    key: 'duration',
+    value: 'Duration',
+    oneLine: true,
+  },
+  {
+    key: 'status',
+    value: 'Status',
+    oneLine: true,
+  },
+  {
+    key: 'price',
+    value: 'Price',
+    oneLine: true,
+  },
 ]
 
-export const sessionCols: string[] = [
-  'Cinema',
-  'Movie',
-  'Ticket price',
-  'Free places',
-  'Starts',
+export const sessionCols: tableCol[] = [
+  {
+    key: 'cinema',
+    value: 'Cinema',
+  },
+  {
+    key: 'movie',
+    value: 'Movie',
+  },
+  {
+    key: 'ticket_price',
+    value: 'Ticket price',
+  },
+  {
+    key: 'free_places',
+    value: 'Free places',
+  },
+  {
+    key: 'starts',
+    value: 'Starts',
+  },
 ]

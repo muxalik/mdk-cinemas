@@ -45,18 +45,18 @@ const Cinemas = () => {
   } = useCinemaFilters()
 
   useEffect(() => {
-    let params: any = {
-      page: pagination.current,
-      search: query,
-      sort: sortBy,
-      order: sortOrder,
-      min_capacity: appliedFilters.minCapacity,
-      max_capacity: appliedFilters.maxCapacity,
-      status: appliedFilters.status,
-    }
-
     api
-      .get(baseURL + '/cinemas', { params })
+      .get(baseURL + '/cinemas', {
+        params: {
+          page: pagination.current,
+          search: query,
+          sort: sortBy,
+          order: sortOrder,
+          min_capacity: appliedFilters.minCapacity,
+          max_capacity: appliedFilters.maxCapacity,
+          status: appliedFilters.status,
+        },
+      })
       .then((response) => {
         setCinemas(response.data.data)
         setPagination({

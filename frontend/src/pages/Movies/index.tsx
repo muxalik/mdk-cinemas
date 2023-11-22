@@ -4,7 +4,7 @@ import Layout from '../../layouts/Layout'
 import Breadcrumbs from '../../components/UI/Breadcrumbs'
 import Button from '../../components/UI/Button'
 import { Variants } from '../../enums'
-import { pdf, plus, search, slider, xlsx } from '../../assets'
+import { cross, pdf, plus, search, slider, xlsx } from '../../assets'
 import TextField from '../../components/UI/TextField'
 import { movie, pagination } from '../../types'
 import api, { baseURL } from '../../utils/api'
@@ -12,8 +12,18 @@ import downloadFromUrl from '../../utils/downloadFromUrl'
 import Exports from '../../components/Exports'
 import Table from '../../components/UI/Table'
 import { movieCols } from '../../constants/tableCols'
+import useMovieFilters from '../../hooks/filters/useMovieFilters'
+import FilterGroup from '../../components/UI/FilterGroup'
+import Link from '../../components/UI/Link'
+import Popup from '../../components/UI/Popup'
+import Checkbox from '../../components/UI/Checkbox'
+import useGenres from '../../hooks/useGenres'
+import Radio from '../../components/UI/Radio'
 
 const Movies = () => {
+  const genres = useGenres()
+  const [sortBy, setSortBy] = useState<string | null>(null)
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
   const [query, setQuery] = useState('')
   const [movies, setMovies] = useState<movie[] | null>(null)
   const [pagination, setPagination] = useState<pagination>({
@@ -24,12 +34,31 @@ const Movies = () => {
     perPage: 10,
   })
 
+  const {
+    appliedFilters,
+    currentFilters,
+    setCurrentFilters,
+    showFilters,
+    setShowFilters,
+    filtersRef,
+    onFiltersReset,
+    onFiltersApply,
+    onFiltersCancel,
+    newFiltersAdded,
+  } = useMovieFilters()
+
   useEffect(() => {
     api
       .get(baseURL + '/movies', {
         params: {
           page: pagination.current,
           search: query,
+          sort: sortBy,
+          order: sortOrder,
+          genres: appliedFilters.genres,
+          min_price: appliedFilters.minPrice,
+          max_price: appliedFilters.maxPrice,
+          status: appliedFilters.status,
         },
       })
       .then((response) => {
@@ -44,7 +73,7 @@ const Movies = () => {
         })
       })
       .catch(console.log)
-  }, [pagination.current, query])
+  }, [pagination.current, query, sortBy, sortOrder, appliedFilters])
 
   const onPageChange = (page: number) =>
     setPagination((prev) => {
@@ -102,7 +131,7 @@ const Movies = () => {
                   download: () => downloadFromUrl('/movies/pdf', 'movies.pdf'),
                 },
               ]}
-            />{' '}
+            />
             <Button
               type='primary'
               variant={Variants.primary}
@@ -126,18 +155,182 @@ const Movies = () => {
               setQuery(e.target.value)
             }}
           />
-          <Button
-            type='tertiary'
-            variant={Variants.primary}
-            text='Filters'
-            icon={slider}
-          />
+          <div ref={filtersRef} className='filters'>
+            <Button
+              type='tertiary'
+              variant={Variants.primary}
+              text='Filters'
+              icon={slider}
+              onClick={() => setShowFilters(!showFilters)}
+            />
+            <Popup show={showFilters}>
+              <div className='filters-header'>
+                <h4 className='filters-title'>Filters</h4>
+                <Link
+                  text='Reset'
+                  icon={cross}
+                  variant={Variants.primary}
+                  to='#'
+                  onClick={onFiltersReset}
+                />
+              </div>
+              <div className='filters-body scrollbar'>
+                <div className='filters-inner'>
+                  <FilterGroup title='Genres' opened>
+                    <div className='filters-checkbox'>
+                      {genres?.map((genre) => (
+                        <Checkbox
+                          id={genre.key}
+                          checked={currentFilters.genres?.includes(genre.key)}
+                          onChange={() =>
+                            setCurrentFilters({
+                              ...currentFilters,
+                              genres: currentFilters.genres?.includes(genre.key)
+                                ? currentFilters.genres.filter(
+                                    (item) => genre.key !== item
+                                  )
+                                : [...currentFilters.genres, genre.key],
+                            })
+                          }
+                          label={genre.value}
+                        />
+                      ))}
+                    </div>
+                  </FilterGroup>
+                  <FilterGroup title='Price' opened>
+                    <div className='filters-group'>
+                      <label className='input-label' htmlFor='min-price'>
+                        Minimum price
+                      </label>
+                      <TextField
+                        id='min-price'
+                        type='number'
+                        onChange={(e) =>
+                          setCurrentFilters((prev) => {
+                            const value = e.target.value
+
+                            return {
+                              ...prev,
+                              minPrice:
+                                value === ''
+                                  ? null
+                                  : !isNaN(+value) && +value >= 0
+                                  ? +value
+                                  : prev.minPrice,
+                            }
+                          })
+                        }
+                        value={
+                          currentFilters.minPrice === null
+                            ? ''
+                            : currentFilters.minPrice?.toString()
+                        }
+                        placeholder='Minimum...'
+                      />
+                    </div>
+                    <div className='filters-group'>
+                      <label className='input-label' htmlFor='max-price'>
+                        Maximun price
+                      </label>
+                      <TextField
+                        id='max-price'
+                        type='number'
+                        onChange={(e) =>
+                          setCurrentFilters((prev) => {
+                            const value = e.target.value
+
+                            return {
+                              ...prev,
+                              maxPrice:
+                                value === ''
+                                  ? null
+                                  : !isNaN(+value) && +value >= 0
+                                  ? +value
+                                  : prev.maxPrice,
+                            }
+                          })
+                        }
+                        value={
+                          currentFilters.maxPrice === null
+                            ? ''
+                            : currentFilters.maxPrice?.toString()
+                        }
+                        placeholder='Maximum...'
+                      />
+                    </div>
+                  </FilterGroup>
+                  <FilterGroup title='Status' opened>
+                    <div className='filters-radio'>
+                      <Radio
+                        checked={currentFilters.status === 'available'}
+                        onChange={() =>
+                          setCurrentFilters({
+                            ...currentFilters,
+                            status: 'available',
+                          })
+                        }
+                        label='Available'
+                      />
+                      <Radio
+                        checked={currentFilters.status === 'not_available'}
+                        onChange={() =>
+                          setCurrentFilters({
+                            ...currentFilters,
+                            status: 'not_available',
+                          })
+                        }
+                        label='Not available'
+                      />
+                      <Radio
+                        checked={currentFilters.status === null}
+                        onChange={() =>
+                          setCurrentFilters({
+                            ...currentFilters,
+                            status: null,
+                          })
+                        }
+                        label='Any'
+                      />
+                    </div>
+                  </FilterGroup>
+                </div>
+              </div>
+              <div className='filters-controls'>
+                <Button
+                  type='tertiary'
+                  variant={Variants.primary}
+                  disabled={!newFiltersAdded}
+                  text='Cancel'
+                  onClick={onFiltersCancel}
+                />
+                <Button
+                  type='primary'
+                  variant={Variants.primary}
+                  disabled={!newFiltersAdded}
+                  text='Apply filters'
+                  onClick={onFiltersApply}
+                />
+              </div>
+            </Popup>
+          </div>
         </div>
         <Table
           columns={movieCols}
           rows={rows}
           pagination={pagination}
           onPageChange={onPageChange}
+          onColumnClick={(columnKey) => {
+            setSortBy(columnKey)
+            setSortOrder(
+              columnKey === sortBy
+                ? sortOrder === 'asc'
+                  ? 'desc'
+                  : 'asc'
+                : 'asc'
+            )
+          }}
+          sortedCol={sortBy}
+          sortOrder={sortOrder}
         />
       </div>
     </Layout>

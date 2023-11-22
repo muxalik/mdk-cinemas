@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('genre');
             $table->string('production');
             $table->string('awards')->nullable();
-            $table->string('duration');
+            $table->integer('duration');
             $table->string('advert_screenshot');
             $table->boolean('is_available');
             $table->unsignedInteger('price');

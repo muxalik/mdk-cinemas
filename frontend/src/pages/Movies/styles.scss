@@ -36,5 +36,68 @@
       width: 100%;
       max-width: 320px;
     }
+
+    .filters {
+      position: relative;
+
+      .popup {
+        width: 95vw;
+        max-width: 400px;
+        padding: 20px;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        margin-top: 8px;
+        z-index: 30;
+        transform-origin: top right;
+
+        .filters-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 16px;
+
+          .filters-title {
+            @include text-l;
+            font-weight: $semibold;
+            color: $black-700;
+          }
+        }
+
+        .filters-body {
+          max-height: 500px;
+          overflow-y: auto;
+
+          .filters-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+
+            .input-label {
+              display: block;
+              color: $black-600;
+              @include text-m;
+              font-weight: $medium;
+              margin-bottom: 4px;
+            }
+
+            .filters-checkbox,
+            .filters-radio {
+              display: flex;
+              flex-direction: column;
+              gap: 16px;
+            }
+          }
+        }
+
+        .filters-controls {
+          padding-top: 16px;
+          display: flex;
+          justify-content: end;
+          gap: 12px;
+        }
+      }
+    }
   }
 }

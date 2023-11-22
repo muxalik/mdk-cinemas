@@ -43,3 +43,8 @@ export type pagination = {
   to: number | null
   perPage: number | null
 }
+
+export type genre = {
+  key: string
+  value: string
+}

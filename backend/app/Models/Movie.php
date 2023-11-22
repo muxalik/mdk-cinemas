@@ -35,4 +35,17 @@ class Movie extends Model
             ->withPivot('is_main_role')
             ->withTimestamps();
     }
+
+    public function getFormattedDurationAttribute(): string
+    {
+        $hours = floor($this->duration / 60);
+        $minutes = $this->duration % 60;
+
+        return "{$hours}h" . ($minutes ? " {$minutes}m" : "");
+    }
+
+    public function getFormattedPriceAttribute(): string
+    {
+        return '$' . number_format($this->price, 0, '.', ' ');
+    }
 }

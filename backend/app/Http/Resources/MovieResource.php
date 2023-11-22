@@ -22,9 +22,9 @@ class MovieResource extends JsonResource
             'genre' => $this->genre,
             'production' => $this->production,
             'awards' => $this->awards,
-            'duration' => $this->duration,
+            'duration' => $this->formatted_duration,
             'status' => $this->is_available ? 'Available' : 'Not available',
-            'price' => $this->price . '$',
+            'price' => $this->formatted_price,
         ];
     }
 }

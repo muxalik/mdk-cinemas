@@ -13,8 +13,12 @@ class CinemaController extends Controller
     {
         $query = (new CinemaFilter(
             $request,
-            Cinema::query(),
-        ))->handle();
+            Cinema::query()
+        ))
+            ->filter()
+            ->search()
+            ->sort()
+            ->apply();
 
         return CinemaResource::collection(
             $query->paginate(10),

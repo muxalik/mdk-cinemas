@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\MovieFilter;
 use App\Http\Resources\MovieResource;
 use App\Models\Movie;
 use Illuminate\Http\Request;
@@ -10,12 +11,17 @@ class MovieController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $query = Movie::query()->latest('id');
+        $query = (new MovieFilter(
+            $request,
+            Movie::query()
+        ))
+            ->filter()
+            ->search()
+            ->sort()
+            ->apply();
 
-        if ($request->has('search')) {
-            $query->where('name', 'LIKE', '%' . $request->search . '%');
-        }
-
-        return MovieResource::collection($query->paginate(10));
+        return MovieResource::collection(
+            $query->paginate(10)
+        );
     }
 }

@@ -3,26 +3,10 @@
 namespace App\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 
-class CinemaFilter
+class CinemaFilter extends Filter
 {
-    public function __construct(
-        protected readonly Request $request,
-        protected Builder $query,
-    ) {
-    }
-
-    public function handle(): Builder
-    {
-        $this->search();
-        $this->sort();
-        $this->filter();
-
-        return $this->query;
-    }
-
-    private function search(): void
+    public function search(): self
     {
         $request = $this->request;
 
@@ -47,9 +31,11 @@ class CinemaFilter
                         });
                 });
         }
+
+        return $this;
     }
 
-    private function sort(): void
+    public function sort(): self
     {
         $request = $this->request;
 
@@ -82,9 +68,11 @@ class CinemaFilter
                     break;
             }
         }
+
+        return $this;
     }
 
-    private function filter(): void
+    public function filter(): self
     {
         $request = $this->request;
 
@@ -117,5 +105,7 @@ class CinemaFilter
                     }
             }
         }
+
+        return $this;
     }
 }
