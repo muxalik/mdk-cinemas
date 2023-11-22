@@ -12,23 +12,11 @@ import Exports from '../../components/Exports'
 import downloadFromUrl from '../../utils/downloadFromUrl'
 import Table from '../../components/UI/Table'
 import { cinemaCols } from '../../constants/tableCols'
-import { useOutsideClick } from '../../hooks/useOutsideClick'
 import Popup from '../../components/UI/Popup'
 import Link from '../../components/UI/Link'
 import FilterGroup from '../../components/UI/FilterGroup'
 import Radio from '../../components/UI/Radio'
-
-type filters = {
-  minCapacity: number | null
-  maxCapacity: number | null
-  status: 'opened' | 'closed' | 'any'
-}
-
-const defaultFilters: filters = {
-  minCapacity: null,
-  maxCapacity: null,
-  status: 'any',
-}
+import useCinemaFilters from '../../hooks/filters/useCinemaFilters'
 
 const Cinemas = () => {
   const [sortBy, setSortBy] = useState<string | null>(null)
@@ -43,10 +31,18 @@ const Cinemas = () => {
     perPage: 10,
   })
 
-  const [appliedFilters, setAppliedFilters] = useState<filters>(defaultFilters)
-  const [currentFilters, setCurrentFilters] = useState<filters>(defaultFilters)
-  const [showFilters, setShowFilters] = useState(false)
-  const filtersRef = useOutsideClick(() => setShowFilters(false))
+  const {
+    appliedFilters,
+    currentFilters,
+    setCurrentFilters,
+    showFilters,
+    setShowFilters,
+    filtersRef,
+    onFiltersReset,
+    onFiltersApply,
+    onFiltersCancel,
+    newFiltersAdded,
+  } = useCinemaFilters()
 
   useEffect(() => {
     let params: any = {
@@ -92,22 +88,6 @@ const Cinemas = () => {
       cinema.status,
     ]
   })
-
-  const onFiltersReset = () => {
-    setAppliedFilters(defaultFilters)
-    setCurrentFilters(defaultFilters)
-  }
-
-  const onFiltersApply = () => {
-    setShowFilters(false)
-    setAppliedFilters(currentFilters)
-  }
-
-  const onFiltersCancel = () => {
-    setShowFilters(false)
-    setAppliedFilters(defaultFilters)
-    setCurrentFilters(defaultFilters)
-  }
 
   return (
     <Layout>
@@ -297,12 +277,14 @@ const Cinemas = () => {
                   <Button
                     type='tertiary'
                     variant={Variants.primary}
+                    disabled={!newFiltersAdded}
                     text='Cancel'
                     onClick={onFiltersCancel}
                   />
                   <Button
                     type='primary'
                     variant={Variants.primary}
+                    disabled={!newFiltersAdded}
                     text='Apply filters'
                     onClick={onFiltersApply}
                   />
