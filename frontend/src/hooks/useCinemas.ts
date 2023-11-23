@@ -50,16 +50,6 @@ const useCinemas = (appliedFilters: any) => {
       }
     })
 
-  const rows = cinemas?.map((cinema) => {
-    return [
-      cinema.name,
-      cinema.district,
-      cinema.address,
-      cinema.capacity.toString(),
-      cinema.status,
-    ]
-  })
-
   return {
     sortBy,
     setSortBy,
@@ -71,7 +61,6 @@ const useCinemas = (appliedFilters: any) => {
     pagination,
     setPagination,
     onPageChange,
-    rows,
   }
 }
 

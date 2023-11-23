@@ -51,16 +51,6 @@ const useSessions = (appliedFilters: any) => {
       }
     })
 
-  const rows = sessions?.map((session) => {
-    return [
-      session.cinema,
-      session.movie,
-      session.ticket_price,
-      session.free_places.toString(),
-      session.starts_at,
-    ]
-  })
-
   return {
     sortBy,
     setSortBy,
@@ -71,7 +61,7 @@ const useSessions = (appliedFilters: any) => {
     pagination,
     setPagination,
     onPageChange,
-    rows,
+    sessions,
   }
 }
 

@@ -41,12 +41,11 @@
         display: flex;
         align-items: center;
         gap: 8px;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
 
-        &:hover {
+        &:hover:not(.no-hover) {
           background-color: $primary-100;
           color: $primary-600;
-          transition: color 0.15s ease-in-out,
-            background-color 0.15s ease-in-out;
 
           .icon {
             color: $primary-600;
@@ -55,6 +54,10 @@
           .table-title {
             color: $primary-600;
           }
+        }
+
+        &.no-hover {
+          cursor: default;
         }
 
         .icon {
@@ -84,9 +87,33 @@
           padding: 18px 22px;
           @include text-m;
           font-weight: $medium;
+        }
 
-          .cinema-name {
-            color: $black-700;
+        .actions-cell {
+          .actions {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+
+            .actions-item {
+              .actions-button {
+                padding: 5px;
+                width: 30px;
+                height: 30px;
+                color: $black-500;
+                transition: color 0.15s ease-in-out;
+
+                &:hover {
+                  color: $primary-500;
+                }
+
+                &.button-danger {
+                  &:hover {
+                    color: $red-500;
+                  }
+                }
+              }
+            }
           }
         }
       }

@@ -53,20 +53,6 @@ const useMovies = (appliedFilters: any) => {
       }
     })
 
-  const rows = movies?.map((movie) => {
-    return [
-      movie.name,
-      movie.producer,
-      movie.operator,
-      movie.genre,
-      movie.production,
-      movie.awards,
-      movie.duration,
-      movie.status,
-      movie.price,
-    ]
-  })
-
   return {
     genres,
     sortBy,
@@ -78,7 +64,7 @@ const useMovies = (appliedFilters: any) => {
     pagination,
     setPagination,
     onPageChange,
-    rows,
+    movies,
   }
 }
 

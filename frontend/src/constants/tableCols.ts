@@ -21,7 +21,7 @@ export const actorCols: tableCol[] = [
 
 export const cinemaCols: tableCol[] = [
   {
-    key: 'cinema',
+    key: 'name',
     value: 'Cinema',
   },
   {
@@ -102,7 +102,7 @@ export const sessionCols: tableCol[] = [
     value: 'Free places',
   },
   {
-    key: 'starts',
+    key: 'starts_at',
     value: 'Starts',
   },
 ]

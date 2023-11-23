@@ -42,7 +42,7 @@ const Cinemas = () => {
     pagination,
     setPagination,
     onPageChange,
-    rows,
+    cinemas,
   } = useCinemas(appliedFilters)
 
   return (
@@ -224,7 +224,7 @@ const Cinemas = () => {
         </div>
         <Table
           columns={cinemaCols}
-          rows={rows}
+          rows={cinemas}
           pagination={pagination}
           onPageChange={onPageChange}
           onColumnClick={(columnKey) => {

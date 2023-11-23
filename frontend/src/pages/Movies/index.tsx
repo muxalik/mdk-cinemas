@@ -44,7 +44,7 @@ const Movies = () => {
     pagination,
     setPagination,
     onPageChange,
-    rows,
+    movies,
   } = useMovies(appliedFilters)
 
   return (
@@ -241,7 +241,7 @@ const Movies = () => {
         </div>
         <Table
           columns={movieCols}
-          rows={rows}
+          rows={movies}
           pagination={pagination}
           onPageChange={onPageChange}
           onColumnClick={(columnKey) => {

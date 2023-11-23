@@ -41,7 +41,7 @@ const Sessions = () => {
     pagination,
     setPagination,
     onPageChange,
-    rows,
+    sessions,
   } = useSessions(appliedFilters)
 
   return (
@@ -245,7 +245,7 @@ const Sessions = () => {
         </div>
         <Table
           columns={sessionCols}
-          rows={rows}
+          rows={sessions}
           pagination={pagination}
           onPageChange={onPageChange}
           onColumnClick={(columnKey) => {

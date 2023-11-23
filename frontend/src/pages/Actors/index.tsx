@@ -41,7 +41,7 @@ const Actors = () => {
     pagination,
     setPagination,
     onPageChange,
-    rows,
+    actors,
   } = useActors(appliedFilters)
 
   return (
@@ -245,7 +245,7 @@ const Actors = () => {
         </div>
         <Table
           columns={actorCols}
-          rows={rows}
+          rows={actors}
           pagination={pagination}
           onPageChange={onPageChange}
           onColumnClick={(columnKey) => {

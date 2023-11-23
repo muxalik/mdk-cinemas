@@ -5,7 +5,7 @@ import './styles.scss'
 import { pagination } from '../../../types'
 import Pagination from '../Pagination'
 import { ReactSVG } from 'react-svg'
-import { chevronDown } from '../../../assets'
+import { chevronDown, pen, trash } from '../../../assets'
 import { tableCol } from '../../../constants/tableCols'
 
 interface props {
@@ -13,7 +13,11 @@ interface props {
   onColumnClick: (columnKey: string) => void
   sortedCol?: string | null
   sortOrder: 'asc' | 'desc'
-  rows?: string[][]
+  rows:
+    | {
+        [key: string]: number | string
+      }[]
+    | null
   pagination: pagination
   onPageChange: (page: number) => void
 }
@@ -53,27 +57,54 @@ const Table: FC<props> = ({
                 </button>
               </th>
             ))}
+            <th key='actions' className='table-header-cell'>
+              <button className='table-header-button no-hover'>
+                <span className='table-title'>Actions</span>
+              </button>
+            </th>
           </tr>
         </thead>
         <tbody className='table-body'>
           {rows?.map((row, i) => (
             <tr className='table-row' key={i}>
-              {row.map((cell, j) => (
+              {columns.map((col, j) => (
                 <td
                   className='table-cell'
                   style={columns[j].oneLine ? { whiteSpace: 'nowrap' } : {}}
                   key={j}
                 >
-                  <span>{cell}</span>
+                  <span>{row[col.key]}</span>
                 </td>
               ))}
+              <td
+                className='table-cell actions-cell'
+                style={{ whiteSpace: 'nowrap' }}
+                key='actions'
+              >
+                <ul className='actions'>
+                  <li className='actions-item'>
+                    <button className='actions-button'>
+                      <ReactSVG src={pen} className='actions-icon' />
+                    </button>
+                  </li>
+                  <li className='actions-item'>
+                    <button
+                      className='actions-button button-danger'
+                      onClick={() => console.log(row.id)}
+                    >
+                      <ReactSVG src={trash} className='actions-icon' />
+                    </button>
+                  </li>
+                </ul>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
       <div className='table-footer'>
         <p className='progress'>
-          Showing {pagination.from || 0}-{pagination.to || 0} from {pagination.total}
+          Showing {pagination.from || 0}-{pagination.to || 0} from{' '}
+          {pagination.total}
         </p>
         <Pagination
           total={Math.ceil((pagination.total || 0) / (pagination.perPage || 0))}
