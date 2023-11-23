@@ -11,19 +11,18 @@ class ActorFilter extends Filter
         $request = $this->request;
 
         if ($request->has('search')) {
-            $search = str($request->search)->lower();
+            $search = strtolower($request->search);
 
             $this->query
                 ->where(function (Builder $query) use ($search) {
                     $query
-                        ->where('name', 'LIKE', '%' . $search . '%')
-                        ->orWhere(function (Builder $query) use ($search) {
-                            if (is_numeric($search)) {
-                                $query
-                                    ->has('movies', intval($search))
-                                    ->orHas('moviesWithMainRole', intval($search));
-                            }
-                        });
+                        ->where('name', 'LIKE', '%' . $search . '%');
+
+                    if (is_numeric($search)) {
+                        $query
+                            ->orWhereHas('movies', null, '=', intval($search))
+                            ->orWhereHas('moviesWithMainRole', null, '=', intval($search));
+                    }
                 });
         }
 
@@ -37,7 +36,7 @@ class ActorFilter extends Filter
         if ($request->has('sort')) {
             $order = $request->order ? $request->order : 'ASC';
 
-            switch (str($request->sort)->lower()) {
+            switch (strtolower($request->sort)) {
                 case 'name':
                     $this->query->orderBy('name', $order);
                     break;

@@ -36,7 +36,9 @@ class DatabaseSeeder extends Seeder
         });
 
         $actors->each(function (Actor $actor) use ($movies) {
-            $randomMovies = $movies->random(7, 12);
+            $randomMovies = $movies->random(
+                fake()->numberBetween(7, 12),
+            );
 
             $randomMovies->each(function (Movie $movie) use ($actor) {
                 $actor->movies()->attach($movie->id, [
