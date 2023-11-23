@@ -30,9 +30,18 @@ export type actor = {
 
 export type session = {
   id: number
-  cinema: string
-  movie: string
-  ticket_price: string
+  cinema: {
+    id: number
+    name: string
+  }
+  movie: {
+    id: number
+    name: string
+  }
+  ticket_price: {
+    formatted: string
+    digital: number
+  }
   free_places: number
   starts_at: string
 }

@@ -16,9 +16,18 @@ class SessionResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'cinema' => $this->whenLoaded('cinema', $this->cinema->name),
-            'movie' => $this->whenLoaded('movie', $this->movie->name),
-            'ticket_price' => $this->ticket_price . '$',
+            'cinema' => $this->whenLoaded('cinema', [
+                'id' =>  $this->cinema->id,
+                'name' =>  $this->cinema->name,
+            ]),
+            'movie' => $this->whenLoaded('movie', [
+                'id' => $this->movie->id,
+                'name' => $this->movie->name,
+            ]),
+            'ticket_price' => [
+                'formatted' => $this->formatted_ticket_price,
+                'digital' => $this->ticket_price,
+            ],
             'free_places' => $this->free_places,
             'starts_at' => $this->starts_at->toDateTimeString(),
         ];

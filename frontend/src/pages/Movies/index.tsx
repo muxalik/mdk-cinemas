@@ -124,9 +124,6 @@ const Movies = () => {
                   </FilterGroup>
                   <FilterGroup title='Price' opened>
                     <div className='filters-group'>
-                      <label className='input-label' htmlFor='min-price'>
-                        Minimum price
-                      </label>
                       <TextField
                         id='min-price'
                         type='number'
@@ -150,13 +147,11 @@ const Movies = () => {
                             ? ''
                             : currentFilters.minPrice?.toString()
                         }
+                        label='Minimum price'
                         placeholder='Minimum...'
                       />
                     </div>
                     <div className='filters-group'>
-                      <label className='input-label' htmlFor='max-price'>
-                        Maximun price
-                      </label>
                       <TextField
                         id='max-price'
                         type='number'
@@ -180,6 +175,7 @@ const Movies = () => {
                             ? ''
                             : currentFilters.maxPrice?.toString()
                         }
+                        label='Maximun price'
                         placeholder='Maximum...'
                       />
                     </div>

@@ -101,9 +101,6 @@ const Cinemas = () => {
                 <div className='filters-inner'>
                   <FilterGroup title='Capacity' opened>
                     <div className='filters-group'>
-                      <label className='input-label' htmlFor='min-capacity'>
-                        Minimum capacity
-                      </label>
                       <TextField
                         id='min-capacity'
                         type='number'
@@ -127,13 +124,11 @@ const Cinemas = () => {
                             ? ''
                             : currentFilters.minCapacity?.toString()
                         }
+                        label='Minimum capacity'
                         placeholder='Minimum...'
                       />
                     </div>
                     <div className='filters-group'>
-                      <label className='input-label' htmlFor='max-capacity'>
-                        Maximun capacity
-                      </label>
                       <TextField
                         id='max-capacity'
                         type='number'
@@ -157,6 +152,7 @@ const Cinemas = () => {
                             ? ''
                             : currentFilters.maxCapacity?.toString()
                         }
+                        label='Maximun capacity'
                         placeholder='Maximum...'
                       />
                     </div>

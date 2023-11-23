@@ -10,10 +10,19 @@
     }
   }
 
+  .label {
+    display: block;
+    color: $black-600;
+    @include text-m;
+    font-weight: $medium;
+    margin-bottom: 4px;
+  }
+
   .react-datepicker-wrapper {
+    width: 100%;
+
     .react-datepicker__input-container {
       input {
-        max-width: 138px;
         position: relative;
         z-index: 0;
         height: 40px;
@@ -24,7 +33,7 @@
         @include text-m;
         color: $black-700;
         font-weight: $medium;
-        text-align: center;
+        width: 100%;
       }
 
       .calendar-icon {
@@ -119,11 +128,16 @@
               -moz-appearance: none;
               text-indent: 1px;
               text-overflow: '';
+              @include scrollbar;
               outline-color: $primary-500;
               height: 100%;
               color: $black-700;
               @include text-m;
               font-weight: 500;
+            }
+
+            .popup {
+              left: 50%;
             }
           }
         }
@@ -171,7 +185,8 @@
             transition: color 0.1s ease-in-out,
               background-color 0.1s ease-in-out;
 
-            &--selected {
+            &--selected,
+            &.react-datepicker__day--keyboard-selected {
               background-color: $primary-500;
               color: $white;
             }

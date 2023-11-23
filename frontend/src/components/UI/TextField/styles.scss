@@ -1,73 +1,83 @@
 @import '../../../styles/variables.scss';
 @import '../../../styles/mixins.scss';
 
-.text-field {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-
-  .input {
-    height: 40px;
-    display: block;
-    border-radius: $border-radius-8;
-    padding-inline: 12px;
-    display: flex;
-    align-items: center;
-    @include text-m;
-    color: $black-700;
-    border: 1px solid $gray-100;
-    background-color: $white;
-    outline: none;
-    transition: border-color 0.1s ease-in-out, color 0.1s ease-in-out,
-      background-color 0.1s ease-in-out;
-
-    &:focus {
-      border-color: $primary-500;
-    }
-
-    &::placeholder {
-      color: $gray-400;
-    }
-  }
-
-  &-disabled {
-    .input {
-      background-color: $gray-100;
-      color: $gray-300;
-    }
-  }
-
-  &-has-error {
-    .input {
-      background-color: $red-50;
-      border-color: $red-100;
-    }
-  }
-
-  .icon {
-    position: absolute;
-    top: 8px;
-    width: 24px;
-    height: 24px;
-    min-width: 24px;
-    z-index: 5;
-    color: $black-500;
-  }
-
+.text-field-wrapper {
   .label {
+    display: block;
+    color: $black-600;
     @include text-m;
-    color: $black-500;
-    position: absolute;
-    top: 10px;
-    right: 12px;
-    z-index: 5;
-    color: $black-500;
+    font-weight: $medium;
+    margin-bottom: 4px;
   }
 
-  .error {
-    padding-left: 8px;
-    margin-top: 4px;
-    @include text-s;
-    color: $red-500;
+  .text-field {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    .input {
+      height: 40px;
+      display: block;
+      border-radius: $border-radius-8;
+      padding-inline: 12px;
+      display: flex;
+      align-items: center;
+      @include text-m;
+      color: $black-700;
+      border: 1px solid $gray-100;
+      background-color: $white;
+      outline: none;
+      transition: border-color 0.1s ease-in-out, color 0.1s ease-in-out,
+        background-color 0.1s ease-in-out;
+
+      &:focus {
+        border-color: $primary-500;
+      }
+
+      &::placeholder {
+        color: $gray-400;
+      }
+    }
+
+    &-disabled {
+      .input {
+        background-color: $gray-100;
+        color: $gray-300;
+      }
+    }
+
+    &-has-error {
+      .input {
+        background-color: $red-50;
+        border-color: $red-100;
+      }
+    }
+
+    .icon {
+      position: absolute;
+      top: 8px;
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      z-index: 5;
+      color: $black-500;
+    }
+
+    .secondary-label {
+      @include text-m;
+      color: $black-500;
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      z-index: 5;
+      color: $black-500;
+    }
+
+    .error {
+      padding-left: 8px;
+      margin-top: 4px;
+      @include text-s;
+      color: $red-500;
+    }
   }
 }

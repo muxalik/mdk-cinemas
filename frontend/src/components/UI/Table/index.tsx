@@ -10,16 +10,14 @@ import { tableCol } from '../../../constants/tableCols'
 
 interface props {
   columns: tableCol[]
-  onColumnClick: (columnKey: string) => void
+  onColumnClick: (colName: string) => void
   sortedCol?: string | null
   sortOrder: 'asc' | 'desc'
-  rows:
-    | {
-        [key: string]: number | string
-      }[]
-    | null
+  rows: any[] | null
   pagination: pagination
   onPageChange: (page: number) => void
+  onRowDelete: (id: number) => void
+  onRowEdit: (id: number) => void
 }
 
 const Table: FC<props> = ({
@@ -30,6 +28,8 @@ const Table: FC<props> = ({
   rows,
   pagination,
   onPageChange,
+  onRowEdit,
+  onRowDelete,
 }) => {
   return (
     <div className='table-wrapper'>
@@ -40,12 +40,12 @@ const Table: FC<props> = ({
               <th key={index} className='table-header-cell'>
                 <button
                   className='table-header-button'
-                  onClick={() => onColumnClick(column.key)}
+                  onClick={() => onColumnClick(column.sort)}
                 >
                   <span className='table-title'>{column.value}</span>
                   <motion.div
                     animate={
-                      sortedCol === column.key && sortOrder === 'asc'
+                      sortedCol === column.sort && sortOrder === 'asc'
                         ? { rotate: 180 }
                         : { rotate: 0 }
                     }
@@ -67,15 +67,21 @@ const Table: FC<props> = ({
         <tbody className='table-body'>
           {rows?.map((row, i) => (
             <tr className='table-row' key={i}>
-              {columns.map((col, j) => (
-                <td
-                  className='table-cell'
-                  style={columns[j].oneLine ? { whiteSpace: 'nowrap' } : {}}
-                  key={j}
-                >
-                  <span>{row[col.key]}</span>
-                </td>
-              ))}
+              {columns.map((col, j) => {
+                const path = col.key.split('.').reduce((acc, cur) => {
+                  return acc[cur]
+                }, row)
+
+                return (
+                  <td
+                    className='table-cell'
+                    style={columns[j].oneLine ? { whiteSpace: 'nowrap' } : {}}
+                    key={j}
+                  >
+                    <span>{path}</span>
+                  </td>
+                )
+              })}
               <td
                 className='table-cell actions-cell'
                 style={{ whiteSpace: 'nowrap' }}
@@ -83,14 +89,17 @@ const Table: FC<props> = ({
               >
                 <ul className='actions'>
                   <li className='actions-item'>
-                    <button className='actions-button'>
+                    <button
+                      className='actions-button'
+                      onClick={() => onRowEdit(+row.id)}
+                    >
                       <ReactSVG src={pen} className='actions-icon' />
                     </button>
                   </li>
                   <li className='actions-item'>
                     <button
                       className='actions-button button-danger'
-                      onClick={() => console.log(row.id)}
+                      onClick={() => onRowDelete(+row.id)}
                     >
                       <ReactSVG src={trash} className='actions-icon' />
                     </button>

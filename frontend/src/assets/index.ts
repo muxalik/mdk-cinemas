@@ -8,6 +8,7 @@ import calendarAlt from './images/calendar-alt.svg'
 import cart from './images/cart.svg'
 import cashChecked from './images/cash-checked.svg'
 import chevronDown from './images/chevron-down.svg'
+import dollar from './images/dollar.svg'
 import earphone from './images/earphone.svg'
 import envelope from './images/envelope.svg'
 import eye from './images/eye.svg'
@@ -55,6 +56,7 @@ export {
   cart,
   cashChecked,
   chevronDown,
+  dollar,
   earphone,
   envelope,
   eye,

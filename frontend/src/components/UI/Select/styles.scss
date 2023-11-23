@@ -2,69 +2,12 @@
 @import '../../../styles/mixins.scss';
 
 .select {
-  width: 100%;
-  max-width: 300px;
-
-  .input {
-    position: relative;
-    height: 40px;
-    user-select: none;
-    cursor: pointer;
-    width: 100%;
-    border-radius: $border-radius-8;
-    border: 1px solid $gray-100;
-    padding-inline: 12px 40px;
-    color: $black-700;
-    transition: border-color 0.1s ease-in-out, color 0.1s ease-in-out,
-      background-color 0.1s ease-in-out;
-    text-align: left;
-
-    .value {
-      @include text-m;
-      font-weight: $medium;
-    }
-
-    .placeholder {
-      @include text-m;
-      font-weight: $medium;
-      color: $gray-400;
-    }
-
-    &:focus {
-      outline: none;
-      border-color: $primary-500;
-    }
-
-    .chevron {
-      position: absolute;
-      top: 8px;
-      right: 12px;
-      width: 20px;
-      height: 20px;
-      min-width: 20px;
-      color: $gray-400;
-      transition: transform 0.15s ease-in-out;
-      pointer-events: none;
-
-      &--opened {
-        transform: rotate(180deg);
-      }
-    }
-
-    &:hover {
-      .input {
-        background-color: $primary-50;
-        color: $primary-500;
-
-        &::placeholder {
-          color: $primary-500;
-        }
-      }
-
-      .chevron {
-        color: $primary-500;
-      }
-    }
+  .label {
+    display: block;
+    color: $black-600;
+    @include text-m;
+    font-weight: $medium;
+    margin-bottom: 4px;
   }
 
   &--outline .input {
@@ -92,67 +35,127 @@
     }
   }
 
-  .error {
-    padding-left: 8px;
-    margin-top: 4px;
-    @include text-s;
-    color: $red-500;
-  }
+  &-inner {
+    width: 100%;
+    position: relative;
+    .input {
+      position: relative;
+      height: 40px;
+      user-select: none;
+      cursor: pointer;
+      width: 100%;
+      border-radius: $border-radius-8;
+      border: 1px solid $gray-100;
+      padding-inline: 12px 40px;
+      color: $black-700;
+      transition: border-color 0.1s ease-in-out, color 0.1s ease-in-out,
+        background-color 0.1s ease-in-out;
+      text-align: left;
 
-  .popup {
-    margin-top: 4px;
+      .value {
+        @include text-m;
+        font-weight: $medium;
+      }
 
-    .options-wrapper {
-      padding: 8px 0;
+      .placeholder {
+        @include text-m;
+        font-weight: $medium;
+        color: $gray-400;
+      }
 
-      .options {
-        max-height: 236px;
-        overflow-y: auto;
-        display: flex;
-        flex-direction: column;
+      &:focus {
+        outline: none;
+        border-color: $primary-500;
+      }
 
-        .option {
-          width: 100%;
-          height: 44px;
+      .chevron {
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        width: 20px;
+        height: 20px;
+        min-width: 20px;
+        max-height: 20px;
+        color: $gray-400;
+        transition: transform 0.15s ease-in-out;
+        pointer-events: none;
+
+        &--opened {
+          transform: rotate(180deg) translateY(2px);
+        }
+      }
+
+      &:hover {
+        .input {
+          background-color: $primary-50;
+          color: $primary-500;
+
+          &::placeholder {
+            color: $primary-500;
+          }
+        }
+
+        .chevron {
+          color: $primary-500;
+        }
+      }
+    }
+
+    .error {
+      padding-left: 8px;
+      margin-top: 4px;
+      @include text-s;
+      color: $red-500;
+    }
+
+    .popup {
+      position: absolute;
+      min-width: 100%;
+      margin-top: 4px;
+      z-index: 20;
+
+      .options-wrapper {
+        .options {
+          max-height: 256px;
+          overflow-y: auto;
           display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 0px 14px;
-          @include text-m;
-          font-weight: $medium;
-          color: $gray-400;
-          cursor: pointer;
-          transition: color 0.1s ease-in-out, background-color 0.1s ease-in-out;
-          border: 1px solid transparent;
+          flex-direction: column;
 
-          &:hover {
-            background-color: $primary-50;
-            color: $primary-500;
-          }
+          .option {
+            width: 100%;
+            height: 44px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            padding: 0px 14px;
+            @include text-m;
+            font-weight: $medium;
+            color: $gray-400;
+            cursor: pointer;
+            transition: color 0.1s ease-in-out,
+              background-color 0.1s ease-in-out;
+            border: 1px solid transparent;
 
-          &:focus {
-            outline: none;
-            border-color: $primary-500;
-          }
+            &:hover {
+              background-color: $primary-50;
+              color: $primary-500;
+            }
 
-          &-first {
-            border-top-right-radius: $border-radius-8;
-            border-top-left-radius: $border-radius-8;
-          }
+            &:focus {
+              outline: none;
+              border-color: $primary-500;
+            }
 
-          &-last {
-            border-bottom-right-radius: $border-radius-8;
-            border-bottom-left-radius: $border-radius-8;
-          }
+            &-selected {
+              color: $primary-500;
+            }
 
-          &-selected {
-            color: $primary-500;
-          }
-
-          .icon {
-            width: 20px;
-            height: 20px;
-            min-width: 20px;
+            .icon {
+              width: 20px;
+              height: 20px;
+              min-width: 20px;
+            }
           }
         }
       }

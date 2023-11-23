@@ -43,7 +43,7 @@ const Notifications: FC<props> = ({ active, setActive }) => {
               <ReactSVG src={gear} className='icon' />
             </Link>
           </div>
-          <div className='body scrollbar'>
+          <div className='notifications-body scrollbar'>
             <ul className='list'>
               {notifications.map((item) => (
                 <li key={item.id} className='item'>
@@ -56,7 +56,7 @@ const Notifications: FC<props> = ({ active, setActive }) => {
               ))}
             </ul>
           </div>
-          <div className='actions'>
+          <div className='notifications-actions'>
             <MyLink
               icon={check}
               to='#'

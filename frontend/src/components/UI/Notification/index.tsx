@@ -35,7 +35,7 @@ const Notification: FC<props> = ({ notification, isRead, onClick }) => {
             initial={{ opacity: 1, marginTop: 0 }}
             exit={{ opacity: 0, marginTop: -20 }}
             transition={{ type: 'spring', duration: 0.4 }}
-            className='footer'
+            className='notification-footer'
           >
             <Link
               variant={Variants.primary}

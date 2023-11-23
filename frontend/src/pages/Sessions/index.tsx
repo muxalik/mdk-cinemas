@@ -33,15 +33,16 @@ const Sessions = () => {
 
   const {
     sortBy,
-    setSortBy,
     sortOrder,
-    setSortOrder,
     query,
     setQuery,
     pagination,
     setPagination,
     onPageChange,
     sessions,
+    editSession,
+    deleteSession,
+    onColumnClick,
   } = useSessions(appliedFilters)
 
   return (
@@ -57,7 +58,7 @@ const Sessions = () => {
             <Button
               type='primary'
               variant={Variants.primary}
-              text='Add actor'
+              text='Add session'
               icon={plus}
             />
           </div>
@@ -100,9 +101,6 @@ const Sessions = () => {
                 <div className='filters-inner'>
                   <FilterGroup title='Ticket price' opened>
                     <div className='filters-group'>
-                      <label className='input-label' htmlFor='min-price'>
-                        Minimum ticket price
-                      </label>
                       <TextField
                         id='min-price'
                         type='number'
@@ -126,13 +124,11 @@ const Sessions = () => {
                             ? ''
                             : currentFilters.minTicketPrice?.toString()
                         }
+                        label='Minimum ticket price'
                         placeholder='Minimum...'
                       />
                     </div>
                     <div className='filters-group'>
-                      <label className='input-label' htmlFor='max-ticket-price'>
-                        Maximun ticket price
-                      </label>
                       <TextField
                         id='max-ticket-price'
                         type='number'
@@ -156,15 +152,13 @@ const Sessions = () => {
                             ? ''
                             : currentFilters.maxTicketPrice?.toString()
                         }
+                        label='Maximun ticket price'
                         placeholder='Maximum...'
                       />
                     </div>
                   </FilterGroup>
                   <FilterGroup title='Ticket price' opened>
                     <div className='filters-group'>
-                      <label className='input-label' htmlFor='min-free-places'>
-                        Minimum free places
-                      </label>
                       <TextField
                         id='min-free-places'
                         type='number'
@@ -188,13 +182,11 @@ const Sessions = () => {
                             ? ''
                             : currentFilters.minFreePlaces?.toString()
                         }
+                        label='Minimum free places'
                         placeholder='Minimum...'
                       />
                     </div>
                     <div className='filters-group'>
-                      <label className='input-label' htmlFor='max-free-places'>
-                        Maximun free places
-                      </label>
                       <TextField
                         id='max-free-places'
                         type='number'
@@ -218,6 +210,7 @@ const Sessions = () => {
                             ? ''
                             : currentFilters.maxFreePlaces?.toString()
                         }
+                        label='Maximun free places'
                         placeholder='Maximum...'
                       />
                     </div>
@@ -248,18 +241,11 @@ const Sessions = () => {
           rows={sessions}
           pagination={pagination}
           onPageChange={onPageChange}
-          onColumnClick={(columnKey) => {
-            setSortBy(columnKey)
-            setSortOrder(
-              columnKey === sortBy
-                ? sortOrder === 'asc'
-                  ? 'desc'
-                  : 'asc'
-                : 'asc'
-            )
-          }}
+          onColumnClick={onColumnClick}
           sortedCol={sortBy}
           sortOrder={sortOrder}
+          onRowDelete={deleteSession}
+          onRowEdit={editSession}
         />
       </div>
     </Layout>

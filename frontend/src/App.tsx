@@ -6,15 +6,22 @@ import Cinemas from './pages/Cinemas'
 import Movies from './pages/Movies'
 import Actors from './pages/Actors'
 import Sessions from './pages/Sessions'
+import EditSession from './pages/Sessions/EditSession'
 
 const App = () => {
   return (
     <div id='app'>
       <Routes>
-        <Route path='/cinemas' element={<Cinemas />} />
+        <Route path='/cinemas'>
+          <Route index element={<Cinemas />} />
+          {/* <Route path='edit/:id' element={<Cinemas />} /> */}
+        </Route>
         <Route path='/movies' element={<Movies />} />
         <Route path='/actors' element={<Actors />} />
-        <Route path='/sessions' element={<Sessions />} />
+        <Route path='/sessions'>
+          <Route index element={<Sessions />} />
+          <Route path=':id/edit' element={<EditSession />} />
+        </Route>
         <Route path='*' element={<Navigate to='/cinemas' />} />
       </Routes>
     </div>

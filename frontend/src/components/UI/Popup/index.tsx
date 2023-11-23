@@ -14,9 +14,9 @@ const Popup: FC<props> = ({ children, show, props }) => {
     <AnimatePresence>
       {show && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.85, ...props }}
+          initial={{ opacity: 0, scale: 0.9, ...props }}
           animate={{ opacity: 1, scale: 1, ...props }}
-          exit={{ opacity: 0, scale: 0.85, ...props }}
+          exit={{ opacity: 0, scale: 0.9, ...props }}
           transition={{ type: 'spring', duration: 0.2 }}
           className='popup'
         >

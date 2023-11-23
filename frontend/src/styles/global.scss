@@ -22,17 +22,17 @@
 }
 
 .scrollbar::-webkit-scrollbar {
-  width: 25px;
+  width: 15px;
 }
 
 .scrollbar::-webkit-scrollbar-track {
   box-shadow: inset 0 0 10px 10px $gray-50;
   border-radius: 100px;
-  border: solid 10px transparent;
+  border: solid 5px transparent;
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
   box-shadow: inset 0 0 10px 10px $primary-500;
   border-radius: 100px;
-  border: solid 10px transparent;
+  border: solid 5px transparent;
 }

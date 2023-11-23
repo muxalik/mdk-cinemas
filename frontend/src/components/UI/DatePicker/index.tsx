@@ -5,15 +5,22 @@ import { getYears } from '../../../utils/getYears'
 import { ReactSVG } from 'react-svg'
 import { calendarAlt, chevronDown } from '../../../assets'
 import './styles.scss'
+import Select from '../Select'
 
 interface props {
+  label?: string
   startDate?: Date
   onChange: (date: Date) => void
+  placement?: 'bottom' | 'bottom-end' | 'bottom-start'
 }
 
-const DatePicker: FC<props> = ({ startDate, onChange }) => {
+const DatePicker: FC<props> = ({ label, startDate, onChange, placement }) => {
   const [open, setOpen] = useState(false)
-  const years = getYears(2000)
+  const years = getYears(2000).map((year) => ({
+    value: year,
+    name: year.toString(),
+  }))
+
   const months = [
     'January',
     'February',
@@ -27,15 +34,19 @@ const DatePicker: FC<props> = ({ startDate, onChange }) => {
     'October',
     'November',
     'December',
-  ]
+  ].map((month) => ({
+    value: month,
+    name: month,
+  }))
 
   return (
     <div className={`datapicker ${open ? 'datapicker--opened' : ''} `}>
+      {label && <label className='label'>{label}</label>}
       <ReactDatePicker
         showPopperArrow={false}
         placeholderText='Select Date'
         dateFormat='d MMM yyyy'
-        popperPlacement='bottom-end'
+        popperPlacement={placement || 'bottom'}
         showIcon
         icon={<ReactSVG src={calendarAlt} className='calendar-icon' />}
         renderCustomHeader={({
@@ -57,31 +68,31 @@ const DatePicker: FC<props> = ({ startDate, onChange }) => {
             </button>
 
             <div className='lists'>
-              <select
-                value={date.getFullYear()}
-                onChange={({ target: { value } }) => changeYear(+value)}
-                className='list'
-              >
-                {years.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
+              <Select
+                props={{ x: '-50%' }}
+                placeholder='Year'
+                id='year'
+                variant='none'
+                options={years}
+                selected={date.getFullYear()}
+                onChange={(option) => changeYear(+option.value)}
+              />
 
-              <select
-                value={months[date.getMonth()]}
-                onChange={({ target: { value } }) =>
-                  changeMonth(months.indexOf(value))
+              <Select
+                props={{ x: '-50%' }}
+                placeholder='Month'
+                id='month'
+                variant='none'
+                options={months}
+                selected={months[date.getMonth()].value}
+                onChange={(option) =>
+                  changeMonth(
+                    months.findIndex((month) => {
+                      return month.value === option.value
+                    })
+                  )
                 }
-                className='list'
-              >
-                {months.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
+              />
             </div>
 
             <button

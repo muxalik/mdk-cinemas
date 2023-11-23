@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { pagination, session } from '../types'
 import api, { baseURL } from '../utils/api'
+import { useNavigate } from 'react-router-dom'
+import useSort from './useSort'
 
 const useSessions = (appliedFilters: any) => {
-  const [sortBy, setSortBy] = useState<string | null>(null)
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
+  const navigate = useNavigate()
   const [query, setQuery] = useState('')
-  const [sessions, setSessions] = useState<session[] | null>(null)
+  const [sessions, setSessions] = useState<session[]>([])
   const [pagination, setPagination] = useState<pagination>({
     current: 1,
     total: 0,
@@ -14,8 +15,9 @@ const useSessions = (appliedFilters: any) => {
     to: 0,
     perPage: 10,
   })
+  const { sortBy, sortOrder, setSortBy, setSortOrder } = useSort()
 
-  useEffect(() => {
+  const fetchSessions = () => {
     api
       .get(baseURL + '/sessions', {
         params: {
@@ -41,6 +43,10 @@ const useSessions = (appliedFilters: any) => {
         })
       })
       .catch(console.log)
+  }
+
+  useEffect(() => {
+    fetchSessions()
   }, [pagination.current, query, sortBy, sortOrder, appliedFilters])
 
   const onPageChange = (page: number) =>
@@ -51,17 +57,38 @@ const useSessions = (appliedFilters: any) => {
       }
     })
 
+  const deleteSession = (id: number) => {
+    api
+      .delete(baseURL + `/sessions/${id}`)
+      .then(() => {
+        fetchSessions()
+      })
+      .catch(console.log)
+  }
+
+  const editSession = (id: number) => {
+    navigate(`/sessions/${id}/edit`, {
+      state: { session: sessions.find((session) => session.id === id) },
+    })
+  }
+
+  const onColumnClick = (colName: string) => {
+    setSortBy(colName)
+    setSortOrder(colName)
+  }
+
   return {
     sortBy,
-    setSortBy,
     sortOrder,
-    setSortOrder,
     query,
     setQuery,
     pagination,
     setPagination,
     onPageChange,
     sessions,
+    editSession,
+    deleteSession,
+    onColumnClick,
   }
 }
 

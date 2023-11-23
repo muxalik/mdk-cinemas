@@ -40,6 +40,21 @@ export const sessionsBreadcrumbs: breadcrumbLink[] = [
   },
   {
     title: 'Sessions',
+    to: '#',
+  },
+]
+
+export const sessionEditBreadcrumbs: breadcrumbLink[] = [
+  {
+    title: 'Home',
+    to: '/',
+  },
+  {
+    title: 'Sessions',
     to: '/sessions',
+  },
+  {
+    title: 'Edit Session',
+    to: '#',
   },
 ]

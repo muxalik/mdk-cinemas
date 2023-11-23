@@ -100,9 +100,6 @@ const Actors = () => {
                 <div className='filters-inner'>
                   <FilterGroup title='Movies' opened>
                     <div className='filters-group'>
-                      <label className='input-label' htmlFor='min-movies'>
-                        Minimum movies
-                      </label>
                       <TextField
                         id='min-movies'
                         type='number'
@@ -126,13 +123,11 @@ const Actors = () => {
                             ? ''
                             : currentFilters.minMovies?.toString()
                         }
+                        label='Minimum movies'
                         placeholder='Minimum...'
                       />
                     </div>
                     <div className='filters-group'>
-                      <label className='input-label' htmlFor='max-movies'>
-                        Maximun movies
-                      </label>
                       <TextField
                         id='max-movies'
                         type='number'
@@ -156,15 +151,13 @@ const Actors = () => {
                             ? ''
                             : currentFilters.maxMovies?.toString()
                         }
+                        label='Maximun movies'
                         placeholder='Maximum...'
                       />
                     </div>
                   </FilterGroup>
                   <FilterGroup title='Main roles' opened>
                     <div className='filters-group'>
-                      <label className='input-label' htmlFor='min-main-roles'>
-                        Minimum main roles
-                      </label>
                       <TextField
                         id='min-main-roles'
                         type='number'
@@ -188,13 +181,11 @@ const Actors = () => {
                             ? ''
                             : currentFilters.minMainRoles?.toString()
                         }
+                        label='Minimum main roles'
                         placeholder='Minimum...'
                       />
                     </div>
                     <div className='filters-group'>
-                      <label className='input-label' htmlFor='max-main-roles'>
-                        Maximun main roles
-                      </label>
                       <TextField
                         id='max-main-roles'
                         type='number'
@@ -218,6 +209,7 @@ const Actors = () => {
                             ? ''
                             : currentFilters.maxMainRoles?.toString()
                         }
+                        label='Maximun main roles'
                         placeholder='Maximum...'
                       />
                     </div>

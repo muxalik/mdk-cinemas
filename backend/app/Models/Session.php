@@ -31,4 +31,9 @@ class Session extends Model
     {
         return $this->belongsTo(Movie::class);
     }
+
+    public function getFormattedTicketPriceAttribute(): string
+    {
+        return '$' . $this->ticket_price;
+    }
 }

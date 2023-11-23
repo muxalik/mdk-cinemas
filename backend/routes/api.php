@@ -20,19 +20,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('cinemas', CinemaController::class);
-Route::get('cinemas/pdf', [PdfController::class, 'exportCinemas']);
-Route::get('cinemas/excel', [ExcelController::class, 'exportCinemas']);
+Route::prefix('cinemas')->group(function () {
+    Route::get('pdf', [PdfController::class, 'exportCinemas']);
+    Route::get('excel', [ExcelController::class, 'exportCinemas']);
+    Route::apiResource('/', CinemaController::class)->only('index');
+    Route::get('list', [CinemaController::class, 'list']);
+});
 
-Route::get('movies', MovieController::class);
-Route::get('movies/pdf', [PdfController::class, 'exportMovies']);
-Route::get('movies/excel', [ExcelController::class, 'exportMovies']);
+Route::prefix('movies')->group(function () {
+    Route::get('pdf', [PdfController::class, 'exportMovies']);
+    Route::get('excel', [ExcelController::class, 'exportMovies']);
+    Route::apiResource('/', MovieController::class)->only('index');
+    Route::get('list', [MovieController::class, 'list']);
+});
 
 Route::get('actors', ActorController::class);
 Route::get('actors/pdf', [PdfController::class, 'exportActors']);
 Route::get('actors/excel', [ExcelController::class, 'exportActors']);
 
-Route::get('sessions', SessionController::class);
+Route::apiResource('sessions', SessionController::class)
+    ->only('index', 'update', 'destroy');
+
 Route::get('sessions/pdf', [PdfController::class, 'exportSessions']);
 Route::get('sessions/excel', [ExcelController::class, 'exportSessions']);
 
