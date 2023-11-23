@@ -109,3 +109,8 @@ export const actorDefaultFilters: actorFilters = {
   minMainRoles: null,
   maxMainRoles: null,
 }
+
+export type breadcrumbLink = {
+  title: string
+  to: string
+}

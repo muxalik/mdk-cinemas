@@ -16,6 +16,7 @@ import Radio from '../../components/UI/Radio'
 import Filters from '../../components/Filters'
 import useFilters from '../../hooks/useFilters'
 import useCinemas from '../../hooks/useCinemas'
+import { cinemasBreadcrumbs } from '../../constants/breadcrumbs'
 
 const Cinemas = () => {
   const {
@@ -50,18 +51,7 @@ const Cinemas = () => {
         <div className='intro'>
           <div className='location'>
             <h1 className='title'>Cinemas</h1>
-            <Breadcrumbs
-              links={[
-                {
-                  title: 'Home',
-                  to: '/',
-                },
-                {
-                  title: 'Cinemas',
-                  to: '/cinemas',
-                },
-              ]}
-            />
+            <Breadcrumbs links={cinemasBreadcrumbs} />
           </div>
           <div className='actions'>
             <Exports

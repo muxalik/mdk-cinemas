@@ -15,6 +15,7 @@ import Link from '../../components/UI/Link'
 import FilterGroup from '../../components/UI/FilterGroup'
 import useFilters from '../../hooks/useFilters'
 import useSessions from '../../hooks/useSessions'
+import { sessionsBreadcrumbs } from '../../constants/breadcrumbs'
 
 const Sessions = () => {
   const {
@@ -49,18 +50,7 @@ const Sessions = () => {
         <div className='intro'>
           <div className='location'>
             <h1 className='title'>Sessions</h1>
-            <Breadcrumbs
-              links={[
-                {
-                  title: 'Home',
-                  to: '/',
-                },
-                {
-                  title: 'Sessions',
-                  to: '/sessions',
-                },
-              ]}
-            />
+            <Breadcrumbs links={sessionsBreadcrumbs} />
           </div>
           <div className='actions'>
             <Exports

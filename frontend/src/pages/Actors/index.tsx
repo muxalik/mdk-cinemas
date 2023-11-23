@@ -15,6 +15,7 @@ import Link from '../../components/UI/Link'
 import Filters from '../../components/Filters'
 import useFilters from '../../hooks/useFilters'
 import useActors from '../../hooks/useActors'
+import { actorsBreadcrumbs } from '../../constants/breadcrumbs'
 
 const Actors = () => {
   const {
@@ -49,18 +50,7 @@ const Actors = () => {
         <div className='intro'>
           <div className='location'>
             <h1 className='title'>Movies</h1>
-            <Breadcrumbs
-              links={[
-                {
-                  title: 'Home',
-                  to: '/',
-                },
-                {
-                  title: 'Actors',
-                  to: '/actors',
-                },
-              ]}
-            />
+            <Breadcrumbs links={actorsBreadcrumbs} />
           </div>
           <div className='actions'>
             <Exports

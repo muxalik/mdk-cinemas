@@ -4,13 +4,11 @@ import './styles.scss'
 import { NavLink } from 'react-router-dom'
 import { ReactSVG } from 'react-svg'
 import { chevronDown } from '../../../assets'
+import { breadcrumbLink } from '../../../types'
 
 interface props {
   type?: 'chevron' | 'slash'
-  links: {
-    title: string
-    to: string
-  }[]
+  links: breadcrumbLink[]
 }
 
 const Breadcrumbs: FC<props> = ({ type, links }) => {
