@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import './styles.scss'
 import Layout from '../../layouts/Layout'
 import Breadcrumbs from '../../components/UI/Breadcrumbs'
@@ -6,8 +5,7 @@ import Button from '../../components/UI/Button'
 import { Variants } from '../../enums'
 import { cross, pdf, plus, search, slider, xlsx } from '../../assets'
 import TextField from '../../components/UI/TextField'
-import { cinema, cinemaDefaultFilters, pagination } from '../../types'
-import api, { baseURL } from '../../utils/api'
+import { cinemaDefaultFilters } from '../../types'
 import Exports from '../../components/Exports'
 import downloadFromUrl from '../../utils/downloadFromUrl'
 import Table from '../../components/UI/Table'
@@ -17,20 +15,9 @@ import FilterGroup from '../../components/UI/FilterGroup'
 import Radio from '../../components/UI/Radio'
 import Filters from '../../components/Filters'
 import useFilters from '../../hooks/useFilters'
+import useCinemas from '../../hooks/useCinemas'
 
 const Cinemas = () => {
-  const [sortBy, setSortBy] = useState<string | null>(null)
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
-  const [query, setQuery] = useState('')
-  const [cinemas, setCinemas] = useState<cinema[] | null>(null)
-  const [pagination, setPagination] = useState<pagination>({
-    current: 1,
-    total: 0,
-    from: 0,
-    to: 0,
-    perPage: 10,
-  })
-
   const {
     appliedFilters,
     currentFilters,
@@ -44,40 +31,18 @@ const Cinemas = () => {
     newFiltersAdded,
   } = useFilters(cinemaDefaultFilters)
 
-  useEffect(() => {
-    api
-      .get(baseURL + '/cinemas', {
-        params: {
-          page: pagination.current,
-          search: query,
-          sort: sortBy,
-          order: sortOrder,
-          min_capacity: appliedFilters.minCapacity,
-          max_capacity: appliedFilters.maxCapacity,
-          status: appliedFilters.status,
-        },
-      })
-      .then((response) => {
-        setCinemas(response.data.data)
-        setPagination({
-          current:
-            response.data.current_page || response.data.meta.current_page,
-          total: response.data.total || response.data.meta.total,
-          from: response.data.from || response.data.meta.from,
-          to: response.data.to || response.data.meta.to,
-          perPage: response.data.per_page || response.data.meta.per_page,
-        })
-      })
-      .catch(console.log)
-  }, [pagination.current, query, sortBy, sortOrder, appliedFilters])
-
-  const onPageChange = (page: number) =>
-    setPagination((prev) => {
-      return {
-        ...prev,
-        current: page,
-      }
-    })
+  const {
+    sortBy,
+    setSortBy,
+    sortOrder,
+    setSortOrder,
+    query,
+    setQuery,
+    cinemas,
+    pagination,
+    setPagination,
+    onPageChange,
+  } = useCinemas(appliedFilters)
 
   const rows = cinemas?.map((cinema) => {
     return [
