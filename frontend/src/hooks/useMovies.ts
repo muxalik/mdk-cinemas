@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
-import { cinema, pagination } from '../types'
 import api, { baseURL } from '../utils/api'
+import useGenres from './useGenres'
+import { movie, pagination } from '../types'
 
-const useCinemas = (appliedFilters: any) => {
+const useMovies = (appliedFilters: any) => {
+  const genres = useGenres()
   const [sortBy, setSortBy] = useState<string | null>(null)
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
   const [query, setQuery] = useState('')
-  const [cinemas, setCinemas] = useState<cinema[] | null>(null)
+  const [movies, setMovies] = useState<movie[] | null>(null)
   const [pagination, setPagination] = useState<pagination>({
     current: 1,
     total: 0,
@@ -17,19 +19,20 @@ const useCinemas = (appliedFilters: any) => {
 
   useEffect(() => {
     api
-      .get(baseURL + '/cinemas', {
+      .get(baseURL + '/movies', {
         params: {
           page: pagination.current,
           search: query,
           sort: sortBy,
           order: sortOrder,
-          min_capacity: appliedFilters.minCapacity,
-          max_capacity: appliedFilters.maxCapacity,
+          genres: appliedFilters.genres,
+          min_price: appliedFilters.minPrice,
+          max_price: appliedFilters.maxPrice,
           status: appliedFilters.status,
         },
       })
       .then((response) => {
-        setCinemas(response.data.data)
+        setMovies(response.data.data)
         setPagination({
           current:
             response.data.current_page || response.data.meta.current_page,
@@ -50,24 +53,28 @@ const useCinemas = (appliedFilters: any) => {
       }
     })
 
-  const rows = cinemas?.map((cinema) => {
+  const rows = movies?.map((movie) => {
     return [
-      cinema.name,
-      cinema.district,
-      cinema.address,
-      cinema.capacity.toString(),
-      cinema.status,
+      movie.name,
+      movie.producer,
+      movie.operator,
+      movie.genre,
+      movie.production,
+      movie.awards,
+      movie.duration,
+      movie.status,
+      movie.price,
     ]
   })
 
   return {
+    genres,
     sortBy,
     setSortBy,
     sortOrder,
     setSortOrder,
     query,
     setQuery,
-    cinemas,
     pagination,
     setPagination,
     onPageChange,
@@ -75,4 +82,4 @@ const useCinemas = (appliedFilters: any) => {
   }
 }
 
-export default useCinemas
+export default useMovies

@@ -38,21 +38,11 @@ const Cinemas = () => {
     setSortOrder,
     query,
     setQuery,
-    cinemas,
     pagination,
     setPagination,
     onPageChange,
+    rows,
   } = useCinemas(appliedFilters)
-
-  const rows = cinemas?.map((cinema) => {
-    return [
-      cinema.name,
-      cinema.district,
-      cinema.address,
-      cinema.capacity.toString(),
-      cinema.status,
-    ]
-  })
 
   return (
     <Layout>

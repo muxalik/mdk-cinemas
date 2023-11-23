@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import './styles.scss'
 import Layout from '../../layouts/Layout'
 import Breadcrumbs from '../../components/UI/Breadcrumbs'
@@ -6,8 +5,7 @@ import Button from '../../components/UI/Button'
 import { Variants } from '../../enums'
 import { cross, pdf, plus, search, slider, xlsx } from '../../assets'
 import TextField from '../../components/UI/TextField'
-import { movie, movieDefaultFilters, pagination } from '../../types'
-import api, { baseURL } from '../../utils/api'
+import { movieDefaultFilters } from '../../types'
 import downloadFromUrl from '../../utils/downloadFromUrl'
 import Exports from '../../components/Exports'
 import Table from '../../components/UI/Table'
@@ -15,25 +13,12 @@ import { movieCols } from '../../constants/tableCols'
 import FilterGroup from '../../components/UI/FilterGroup'
 import Link from '../../components/UI/Link'
 import Checkbox from '../../components/UI/Checkbox'
-import useGenres from '../../hooks/useGenres'
 import Radio from '../../components/UI/Radio'
 import Filters from '../../components/Filters'
 import useFilters from '../../hooks/useFilters'
+import useMovies from '../../hooks/useMovies'
 
 const Movies = () => {
-  const genres = useGenres()
-  const [sortBy, setSortBy] = useState<string | null>(null)
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
-  const [query, setQuery] = useState('')
-  const [movies, setMovies] = useState<movie[] | null>(null)
-  const [pagination, setPagination] = useState<pagination>({
-    current: 1,
-    total: 0,
-    from: 0,
-    to: 0,
-    perPage: 10,
-  })
-
   const {
     appliedFilters,
     currentFilters,
@@ -47,55 +32,19 @@ const Movies = () => {
     newFiltersAdded,
   } = useFilters(movieDefaultFilters)
 
-  useEffect(() => {
-    api
-      .get(baseURL + '/movies', {
-        params: {
-          page: pagination.current,
-          search: query,
-          sort: sortBy,
-          order: sortOrder,
-          genres: appliedFilters.genres,
-          min_price: appliedFilters.minPrice,
-          max_price: appliedFilters.maxPrice,
-          status: appliedFilters.status,
-        },
-      })
-      .then((response) => {
-        setMovies(response.data.data)
-        setPagination({
-          current:
-            response.data.current_page || response.data.meta.current_page,
-          total: response.data.total || response.data.meta.total,
-          from: response.data.from || response.data.meta.from,
-          to: response.data.to || response.data.meta.to,
-          perPage: response.data.per_page || response.data.meta.per_page,
-        })
-      })
-      .catch(console.log)
-  }, [pagination.current, query, sortBy, sortOrder, appliedFilters])
-
-  const onPageChange = (page: number) =>
-    setPagination((prev) => {
-      return {
-        ...prev,
-        current: page,
-      }
-    })
-
-  const rows = movies?.map((movie) => {
-    return [
-      movie.name,
-      movie.producer,
-      movie.operator,
-      movie.genre,
-      movie.production,
-      movie.awards,
-      movie.duration,
-      movie.status,
-      movie.price,
-    ]
-  })
+  const {
+    genres,
+    sortBy,
+    setSortBy,
+    sortOrder,
+    setSortOrder,
+    query,
+    setQuery,
+    pagination,
+    setPagination,
+    onPageChange,
+    rows,
+  } = useMovies(appliedFilters)
 
   return (
     <Layout>

@@ -51,6 +51,14 @@ const useActors = (appliedFilters: any) => {
       }
     })
 
+  const rows = actors?.map((actor) => {
+    return [
+      actor.name,
+      actor.total_movies.toString(),
+      actor.main_role_movies.toString(),
+    ]
+  })
+
   return {
     sortBy,
     setSortBy,
@@ -62,6 +70,7 @@ const useActors = (appliedFilters: any) => {
     pagination,
     setPagination,
     onPageChange,
+    rows,
   }
 }
 

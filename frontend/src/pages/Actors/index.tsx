@@ -37,19 +37,11 @@ const Actors = () => {
     setSortOrder,
     query,
     setQuery,
-    actors,
     pagination,
     setPagination,
     onPageChange,
+    rows,
   } = useActors(appliedFilters)
-
-  const rows = actors?.map((actor) => {
-    return [
-      actor.name,
-      actor.total_movies.toString(),
-      actor.main_role_movies.toString(),
-    ]
-  })
 
   return (
     <Layout>
