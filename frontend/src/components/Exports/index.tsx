@@ -7,13 +7,11 @@ import { useOutsideClick } from '../../hooks/useOutsideClick'
 import Button from '../UI/Button'
 import { Variants } from '../../enums'
 import Popup from '../UI/Popup'
+import { exportMethod } from '../../types'
+import downloadFromUrl from '../../utils/downloadFromUrl'
 
 interface props {
-  items: {
-    icon: string
-    text: string
-    download: () => void
-  }[]
+  items: exportMethod[]
 }
 
 const Exports: FC<props> = ({ items }) => {
@@ -36,7 +34,10 @@ const Exports: FC<props> = ({ items }) => {
         <ul className='exports-select'>
           {items.map((item, index) => (
             <li key={index} className='exports-item'>
-              <button onClick={item.download} className='exports-button'>
+              <button
+                onClick={() => downloadFromUrl(item.url, item.filename)}
+                className='exports-button'
+              >
                 <ReactSVG src={item.icon} className='icon' />
                 <span className='text'>{item.text}</span>
               </button>

@@ -3,10 +3,9 @@ import Layout from '../../layouts/Layout'
 import Breadcrumbs from '../../components/UI/Breadcrumbs'
 import Button from '../../components/UI/Button'
 import { Variants } from '../../enums'
-import { cross, pdf, plus, search, slider, xlsx } from '../../assets'
+import { cross, plus, search, slider } from '../../assets'
 import TextField from '../../components/UI/TextField'
 import { movieDefaultFilters } from '../../types'
-import downloadFromUrl from '../../utils/downloadFromUrl'
 import Exports from '../../components/Exports'
 import Table from '../../components/UI/Table'
 import { movieCols } from '../../constants/tableCols'
@@ -18,6 +17,7 @@ import Filters from '../../components/Filters'
 import useFilters from '../../hooks/useFilters'
 import useMovies from '../../hooks/useMovies'
 import { moviesBreadcrumbs } from '../../constants/breadcrumbs'
+import { moviesExports } from '../../constants/exports'
 
 const Movies = () => {
   const {
@@ -56,21 +56,7 @@ const Movies = () => {
             <Breadcrumbs links={moviesBreadcrumbs} />
           </div>
           <div className='actions'>
-            <Exports
-              items={[
-                {
-                  icon: xlsx,
-                  text: 'Excel',
-                  download: () =>
-                    downloadFromUrl('/movies/excel', 'movies.xlsx'),
-                },
-                {
-                  icon: pdf,
-                  text: 'PDF',
-                  download: () => downloadFromUrl('/movies/pdf', 'movies.pdf'),
-                },
-              ]}
-            />
+            <Exports items={moviesExports} />
             <Button
               type='primary'
               variant={Variants.primary}

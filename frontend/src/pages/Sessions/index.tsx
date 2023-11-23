@@ -3,10 +3,9 @@ import Layout from '../../layouts/Layout'
 import Breadcrumbs from '../../components/UI/Breadcrumbs'
 import Button from '../../components/UI/Button'
 import { Variants } from '../../enums'
-import { cross, pdf, plus, search, slider, xlsx } from '../../assets'
+import { cross, plus, search, slider } from '../../assets'
 import TextField from '../../components/UI/TextField'
 import { sessionDefaultFilters } from '../../types'
-import downloadFromUrl from '../../utils/downloadFromUrl'
 import Exports from '../../components/Exports'
 import Table from '../../components/UI/Table'
 import { sessionCols } from '../../constants/tableCols'
@@ -16,6 +15,7 @@ import FilterGroup from '../../components/UI/FilterGroup'
 import useFilters from '../../hooks/useFilters'
 import useSessions from '../../hooks/useSessions'
 import { sessionsBreadcrumbs } from '../../constants/breadcrumbs'
+import { sessionsExports } from '../../constants/exports'
 
 const Sessions = () => {
   const {
@@ -53,22 +53,7 @@ const Sessions = () => {
             <Breadcrumbs links={sessionsBreadcrumbs} />
           </div>
           <div className='actions'>
-            <Exports
-              items={[
-                {
-                  icon: xlsx,
-                  text: 'Excel',
-                  download: () =>
-                    downloadFromUrl('/sessions/excel', 'sessions.xlsx'),
-                },
-                {
-                  icon: pdf,
-                  text: 'PDF',
-                  download: () =>
-                    downloadFromUrl('/sessions/pdf', 'sessions.pdf'),
-                },
-              ]}
-            />
+            <Exports items={sessionsExports} />
             <Button
               type='primary'
               variant={Variants.primary}

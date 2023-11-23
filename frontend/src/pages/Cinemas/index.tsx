@@ -3,11 +3,10 @@ import Layout from '../../layouts/Layout'
 import Breadcrumbs from '../../components/UI/Breadcrumbs'
 import Button from '../../components/UI/Button'
 import { Variants } from '../../enums'
-import { cross, pdf, plus, search, slider, xlsx } from '../../assets'
+import { cross, plus, search, slider } from '../../assets'
 import TextField from '../../components/UI/TextField'
 import { cinemaDefaultFilters } from '../../types'
 import Exports from '../../components/Exports'
-import downloadFromUrl from '../../utils/downloadFromUrl'
 import Table from '../../components/UI/Table'
 import { cinemaCols } from '../../constants/tableCols'
 import Link from '../../components/UI/Link'
@@ -17,6 +16,7 @@ import Filters from '../../components/Filters'
 import useFilters from '../../hooks/useFilters'
 import useCinemas from '../../hooks/useCinemas'
 import { cinemasBreadcrumbs } from '../../constants/breadcrumbs'
+import { cinemasExports } from '../../constants/exports'
 
 const Cinemas = () => {
   const {
@@ -54,22 +54,7 @@ const Cinemas = () => {
             <Breadcrumbs links={cinemasBreadcrumbs} />
           </div>
           <div className='actions'>
-            <Exports
-              items={[
-                {
-                  icon: xlsx,
-                  text: 'Excel',
-                  download: () =>
-                    downloadFromUrl('/cinemas/excel', 'cinemas.xlsx'),
-                },
-                {
-                  icon: pdf,
-                  text: 'PDF',
-                  download: () =>
-                    downloadFromUrl('/cinemas/pdf', 'cinemas.pdf'),
-                },
-              ]}
-            />
+            <Exports items={cinemasExports} />
             <Button
               type='primary'
               variant={Variants.primary}

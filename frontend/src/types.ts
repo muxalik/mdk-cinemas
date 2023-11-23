@@ -114,3 +114,10 @@ export type breadcrumbLink = {
   title: string
   to: string
 }
+
+export type exportMethod = {
+  icon: string
+  text: string
+  url: string
+  filename: string
+}

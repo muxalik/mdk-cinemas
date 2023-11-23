@@ -3,10 +3,9 @@ import Layout from '../../layouts/Layout'
 import Breadcrumbs from '../../components/UI/Breadcrumbs'
 import Button from '../../components/UI/Button'
 import { Variants } from '../../enums'
-import { cross, pdf, plus, search, slider, xlsx } from '../../assets'
+import { cross, plus, search, slider } from '../../assets'
 import TextField from '../../components/UI/TextField'
 import { actorDefaultFilters } from '../../types'
-import downloadFromUrl from '../../utils/downloadFromUrl'
 import Exports from '../../components/Exports'
 import Table from '../../components/UI/Table'
 import { actorCols } from '../../constants/tableCols'
@@ -16,6 +15,7 @@ import Filters from '../../components/Filters'
 import useFilters from '../../hooks/useFilters'
 import useActors from '../../hooks/useActors'
 import { actorsBreadcrumbs } from '../../constants/breadcrumbs'
+import { actorsExports } from '../../constants/exports'
 
 const Actors = () => {
   const {
@@ -53,21 +53,7 @@ const Actors = () => {
             <Breadcrumbs links={actorsBreadcrumbs} />
           </div>
           <div className='actions'>
-            <Exports
-              items={[
-                {
-                  icon: xlsx,
-                  text: 'Excel',
-                  download: () =>
-                    downloadFromUrl('/actors/excel', 'actors.xlsx'),
-                },
-                {
-                  icon: pdf,
-                  text: 'PDF',
-                  download: () => downloadFromUrl('/actors/pdf', 'actors.pdf'),
-                },
-              ]}
-            />
+            <Exports items={actorsExports} />
             <Button
               type='primary'
               variant={Variants.primary}
