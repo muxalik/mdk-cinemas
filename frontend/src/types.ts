@@ -49,3 +49,63 @@ export type genre = {
   key: string
   value: string
 }
+
+// FILTERS
+
+export type cinemaFilters = {
+  minCapacity: number | null
+  maxCapacity: number | null
+  status: 'opened' | 'closed' | 'any'
+}
+
+export const cinemaDefaultFilters: cinemaFilters = {
+  minCapacity: null,
+  maxCapacity: null,
+  status: 'any',
+}
+
+export type sessionFilters = {
+  minTicketPrice: number | null
+  maxTicketPrice: number | null
+  minFreePlaces: number | null
+  maxFreePlaces: number | null
+}
+
+export const sessionDefaultFilters: sessionFilters = {
+  minTicketPrice: null,
+  maxTicketPrice: null,
+  minFreePlaces: null,
+  maxFreePlaces: null,
+}
+
+export type movieFilters = {
+  genres: string[]
+  minPrice: number | null
+  maxPrice: number | null
+  status: 'available' | 'not_available' | null
+  minDuration: string | null
+  maxDuration: string | null
+}
+
+export const movieDefaultFilters: movieFilters = {
+  genres: [],
+  minPrice: null,
+  maxPrice: null,
+  status: null,
+  minDuration: null,
+  maxDuration: null,
+}
+
+export type actorFilters = {
+  minMovies: number | null
+  maxMovies: number | null
+  minMainRoles: number | null
+  maxMainRoles: number | null
+}
+
+export const actorDefaultFilters: actorFilters = {
+  minMovies: null,
+  maxMovies: null,
+  minMainRoles: null,
+  maxMainRoles: null,
+}

@@ -6,19 +6,19 @@ import Button from '../../components/UI/Button'
 import { Variants } from '../../enums'
 import { cross, pdf, plus, search, slider, xlsx } from '../../assets'
 import TextField from '../../components/UI/TextField'
-import { movie, pagination } from '../../types'
+import { movie, movieDefaultFilters, pagination } from '../../types'
 import api, { baseURL } from '../../utils/api'
 import downloadFromUrl from '../../utils/downloadFromUrl'
 import Exports from '../../components/Exports'
 import Table from '../../components/UI/Table'
 import { movieCols } from '../../constants/tableCols'
-import useMovieFilters from '../../hooks/filters/useMovieFilters'
 import FilterGroup from '../../components/UI/FilterGroup'
 import Link from '../../components/UI/Link'
 import Checkbox from '../../components/UI/Checkbox'
 import useGenres from '../../hooks/useGenres'
 import Radio from '../../components/UI/Radio'
 import Filters from '../../components/Filters'
+import useFilters from '../../hooks/useFilters'
 
 const Movies = () => {
   const genres = useGenres()
@@ -45,7 +45,7 @@ const Movies = () => {
     onFiltersApply,
     onFiltersCancel,
     newFiltersAdded,
-  } = useMovieFilters()
+  } = useFilters(movieDefaultFilters)
 
   useEffect(() => {
     api

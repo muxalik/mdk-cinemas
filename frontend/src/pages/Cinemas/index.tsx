@@ -6,7 +6,7 @@ import Button from '../../components/UI/Button'
 import { Variants } from '../../enums'
 import { cross, pdf, plus, search, slider, xlsx } from '../../assets'
 import TextField from '../../components/UI/TextField'
-import { cinema, pagination } from '../../types'
+import { cinema, cinemaDefaultFilters, pagination } from '../../types'
 import api, { baseURL } from '../../utils/api'
 import Exports from '../../components/Exports'
 import downloadFromUrl from '../../utils/downloadFromUrl'
@@ -15,8 +15,8 @@ import { cinemaCols } from '../../constants/tableCols'
 import Link from '../../components/UI/Link'
 import FilterGroup from '../../components/UI/FilterGroup'
 import Radio from '../../components/UI/Radio'
-import useCinemaFilters from '../../hooks/filters/useCinemaFilters'
 import Filters from '../../components/Filters'
+import useFilters from '../../hooks/useFilters'
 
 const Cinemas = () => {
   const [sortBy, setSortBy] = useState<string | null>(null)
@@ -42,7 +42,7 @@ const Cinemas = () => {
     onFiltersApply,
     onFiltersCancel,
     newFiltersAdded,
-  } = useCinemaFilters()
+  } = useFilters(cinemaDefaultFilters)
 
   useEffect(() => {
     api

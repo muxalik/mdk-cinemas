@@ -6,7 +6,7 @@ import Button from '../../components/UI/Button'
 import { Variants } from '../../enums'
 import { cross, pdf, plus, search, slider, xlsx } from '../../assets'
 import TextField from '../../components/UI/TextField'
-import { pagination, session } from '../../types'
+import { pagination, session, sessionDefaultFilters } from '../../types'
 import api, { baseURL } from '../../utils/api'
 import downloadFromUrl from '../../utils/downloadFromUrl'
 import Exports from '../../components/Exports'
@@ -15,7 +15,7 @@ import { sessionCols } from '../../constants/tableCols'
 import Filters from '../../components/Filters'
 import Link from '../../components/UI/Link'
 import FilterGroup from '../../components/UI/FilterGroup'
-import useSessionFilters from '../../hooks/filters/useSessionFilters'
+import useFilters from '../../hooks/useFilters'
 
 const Sessions = () => {
   const [sortBy, setSortBy] = useState<string | null>(null)
@@ -41,7 +41,7 @@ const Sessions = () => {
     onFiltersApply,
     onFiltersCancel,
     newFiltersAdded,
-  } = useSessionFilters()
+  } = useFilters(sessionDefaultFilters)
 
   useEffect(() => {
     api

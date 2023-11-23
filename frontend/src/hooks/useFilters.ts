@@ -1,23 +1,8 @@
 import { useState } from 'react'
+import { useOutsideClick } from './useOutsideClick'
 import { isEqual } from 'lodash'
 
-import { useOutsideClick } from '../useOutsideClick'
-
-type filters = {
-  minMovies: number | null
-  maxMovies: number | null
-  minMainRoles: number | null
-  maxMainRoles: number | null
-}
-
-const defaultFilters: filters = {
-  minMovies: null,
-  maxMovies: null,
-  minMainRoles: null,
-  maxMainRoles: null,
-}
-
-const useActorFilters = () => {
+const useFilters = <filters>(defaultFilters: filters) => {
   const [appliedFilters, setAppliedFilters] = useState<filters>(defaultFilters)
   const [currentFilters, setCurrentFilters] = useState<filters>(defaultFilters)
   const [showFilters, setShowFilters] = useState(false)
@@ -53,4 +38,4 @@ const useActorFilters = () => {
   }
 }
 
-export default useActorFilters
+export default useFilters
