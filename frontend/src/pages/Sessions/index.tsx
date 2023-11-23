@@ -46,7 +46,7 @@ const Sessions = () => {
 
   return (
     <Layout>
-      <div className='actors'>
+      <div className='sessions'>
         <div className='intro'>
           <div className='location'>
             <h1 className='title'>Sessions</h1>
