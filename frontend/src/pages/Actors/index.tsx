@@ -14,8 +14,8 @@ import Table from '../../components/UI/Table'
 import { actorCols } from '../../constants/tableCols'
 import useActorFilters from '../../hooks/filters/useActorFilters'
 import FilterGroup from '../../components/UI/FilterGroup'
-import Popup from '../../components/UI/Popup'
 import Link from '../../components/UI/Link'
+import Filters from '../../components/Filters'
 
 const Actors = () => {
   const [sortBy, setSortBy] = useState<string | null>(null)
@@ -155,7 +155,7 @@ const Actors = () => {
               icon={slider}
               onClick={() => setShowFilters(!showFilters)}
             />
-            <Popup show={showFilters}>
+            <Filters show={showFilters}>
               <div className='filters-header'>
                 <h4 className='filters-title'>Filters</h4>
                 <Link
@@ -166,149 +166,151 @@ const Actors = () => {
                   onClick={onFiltersReset}
                 />
               </div>
-              <div className='filters-body'>
-                <FilterGroup title='Movies' opened>
-                  <div className='filters-group'>
-                    <label className='input-label' htmlFor='min-movies'>
-                      Minimum movies
-                    </label>
-                    <TextField
-                      id='min-movies'
-                      type='number'
-                      onChange={(e) =>
-                        setCurrentFilters((prev) => {
-                          const value = e.target.value
+              <div className='filters-body scrollbar'>
+                <div className='filters-inner'>
+                  <FilterGroup title='Movies' opened>
+                    <div className='filters-group'>
+                      <label className='input-label' htmlFor='min-movies'>
+                        Minimum movies
+                      </label>
+                      <TextField
+                        id='min-movies'
+                        type='number'
+                        onChange={(e) =>
+                          setCurrentFilters((prev) => {
+                            const value = e.target.value
 
-                          return {
-                            ...prev,
-                            minMovies:
-                              value === ''
-                                ? null
-                                : !isNaN(+value) && +value >= 0
-                                ? +value
-                                : prev.minMovies,
-                          }
-                        })
-                      }
-                      value={
-                        currentFilters.minMovies === null
-                          ? ''
-                          : currentFilters.minMovies?.toString()
-                      }
-                      placeholder='Minimum...'
-                    />
-                  </div>
-                  <div className='filters-group'>
-                    <label className='input-label' htmlFor='max-movies'>
-                      Maximun movies
-                    </label>
-                    <TextField
-                      id='max-movies'
-                      type='number'
-                      onChange={(e) =>
-                        setCurrentFilters((prev) => {
-                          const value = e.target.value
+                            return {
+                              ...prev,
+                              minMovies:
+                                value === ''
+                                  ? null
+                                  : !isNaN(+value) && +value >= 0
+                                  ? +value
+                                  : prev.minMovies,
+                            }
+                          })
+                        }
+                        value={
+                          currentFilters.minMovies === null
+                            ? ''
+                            : currentFilters.minMovies?.toString()
+                        }
+                        placeholder='Minimum...'
+                      />
+                    </div>
+                    <div className='filters-group'>
+                      <label className='input-label' htmlFor='max-movies'>
+                        Maximun movies
+                      </label>
+                      <TextField
+                        id='max-movies'
+                        type='number'
+                        onChange={(e) =>
+                          setCurrentFilters((prev) => {
+                            const value = e.target.value
 
-                          return {
-                            ...prev,
-                            maxMovies:
-                              value === ''
-                                ? null
-                                : !isNaN(+value) && +value >= 0
-                                ? +value
-                                : prev.maxMovies,
-                          }
-                        })
-                      }
-                      value={
-                        currentFilters.maxMovies === null
-                          ? ''
-                          : currentFilters.maxMovies?.toString()
-                      }
-                      placeholder='Maximum...'
-                    />
-                  </div>
-                </FilterGroup>
-                <FilterGroup title='Main roles' opened>
-                  <div className='filters-group'>
-                    <label className='input-label' htmlFor='min-main-roles'>
-                      Minimum main roles
-                    </label>
-                    <TextField
-                      id='min-main-roles'
-                      type='number'
-                      onChange={(e) =>
-                        setCurrentFilters((prev) => {
-                          const value = e.target.value
+                            return {
+                              ...prev,
+                              maxMovies:
+                                value === ''
+                                  ? null
+                                  : !isNaN(+value) && +value >= 0
+                                  ? +value
+                                  : prev.maxMovies,
+                            }
+                          })
+                        }
+                        value={
+                          currentFilters.maxMovies === null
+                            ? ''
+                            : currentFilters.maxMovies?.toString()
+                        }
+                        placeholder='Maximum...'
+                      />
+                    </div>
+                  </FilterGroup>
+                  <FilterGroup title='Main roles' opened>
+                    <div className='filters-group'>
+                      <label className='input-label' htmlFor='min-main-roles'>
+                        Minimum main roles
+                      </label>
+                      <TextField
+                        id='min-main-roles'
+                        type='number'
+                        onChange={(e) =>
+                          setCurrentFilters((prev) => {
+                            const value = e.target.value
 
-                          return {
-                            ...prev,
-                            minMainRoles:
-                              value === ''
-                                ? null
-                                : !isNaN(+value) && +value >= 0
-                                ? +value
-                                : prev.minMainRoles,
-                          }
-                        })
-                      }
-                      value={
-                        currentFilters.minMainRoles === null
-                          ? ''
-                          : currentFilters.minMainRoles?.toString()
-                      }
-                      placeholder='Minimum...'
-                    />
-                  </div>
-                  <div className='filters-group'>
-                    <label className='input-label' htmlFor='max-main-roles'>
-                      Maximun main roles
-                    </label>
-                    <TextField
-                      id='max-main-roles'
-                      type='number'
-                      onChange={(e) =>
-                        setCurrentFilters((prev) => {
-                          const value = e.target.value
+                            return {
+                              ...prev,
+                              minMainRoles:
+                                value === ''
+                                  ? null
+                                  : !isNaN(+value) && +value >= 0
+                                  ? +value
+                                  : prev.minMainRoles,
+                            }
+                          })
+                        }
+                        value={
+                          currentFilters.minMainRoles === null
+                            ? ''
+                            : currentFilters.minMainRoles?.toString()
+                        }
+                        placeholder='Minimum...'
+                      />
+                    </div>
+                    <div className='filters-group'>
+                      <label className='input-label' htmlFor='max-main-roles'>
+                        Maximun main roles
+                      </label>
+                      <TextField
+                        id='max-main-roles'
+                        type='number'
+                        onChange={(e) =>
+                          setCurrentFilters((prev) => {
+                            const value = e.target.value
 
-                          return {
-                            ...prev,
-                            maxMainRoles:
-                              value === ''
-                                ? null
-                                : !isNaN(+value) && +value >= 0
-                                ? +value
-                                : prev.maxMainRoles,
-                          }
-                        })
-                      }
-                      value={
-                        currentFilters.maxMainRoles === null
-                          ? ''
-                          : currentFilters.maxMainRoles?.toString()
-                      }
-                      placeholder='Maximum...'
-                    />
-                  </div>
-                </FilterGroup>
-                <div className='filters-controls'>
-                  <Button
-                    type='tertiary'
-                    variant={Variants.primary}
-                    disabled={!newFiltersAdded}
-                    text='Cancel'
-                    onClick={onFiltersCancel}
-                  />
-                  <Button
-                    type='primary'
-                    variant={Variants.primary}
-                    disabled={!newFiltersAdded}
-                    text='Apply filters'
-                    onClick={onFiltersApply}
-                  />
+                            return {
+                              ...prev,
+                              maxMainRoles:
+                                value === ''
+                                  ? null
+                                  : !isNaN(+value) && +value >= 0
+                                  ? +value
+                                  : prev.maxMainRoles,
+                            }
+                          })
+                        }
+                        value={
+                          currentFilters.maxMainRoles === null
+                            ? ''
+                            : currentFilters.maxMainRoles?.toString()
+                        }
+                        placeholder='Maximum...'
+                      />
+                    </div>
+                  </FilterGroup>
                 </div>
               </div>
-            </Popup>
+              <div className='filters-controls'>
+                <Button
+                  type='tertiary'
+                  variant={Variants.primary}
+                  disabled={!newFiltersAdded}
+                  text='Cancel'
+                  onClick={onFiltersCancel}
+                />
+                <Button
+                  type='primary'
+                  variant={Variants.primary}
+                  disabled={!newFiltersAdded}
+                  text='Apply filters'
+                  onClick={onFiltersApply}
+                />
+              </div>
+            </Filters>
           </div>
         </div>
         <Table

@@ -12,11 +12,11 @@ import Exports from '../../components/Exports'
 import downloadFromUrl from '../../utils/downloadFromUrl'
 import Table from '../../components/UI/Table'
 import { cinemaCols } from '../../constants/tableCols'
-import Popup from '../../components/UI/Popup'
 import Link from '../../components/UI/Link'
 import FilterGroup from '../../components/UI/FilterGroup'
 import Radio from '../../components/UI/Radio'
 import useCinemaFilters from '../../hooks/filters/useCinemaFilters'
+import Filters from '../../components/Filters'
 
 const Cinemas = () => {
   const [sortBy, setSortBy] = useState<string | null>(null)
@@ -156,7 +156,7 @@ const Cinemas = () => {
               icon={slider}
               onClick={() => setShowFilters(!showFilters)}
             />
-            <Popup show={showFilters}>
+            <Filters show={showFilters}>
               <div className='filters-header'>
                 <h4 className='filters-title'>Filters</h4>
                 <Link
@@ -168,126 +168,128 @@ const Cinemas = () => {
                 />
               </div>
               <div className='filters-body'>
-                <FilterGroup title='Capacity' opened>
-                  <div className='filters-group'>
-                    <label className='input-label' htmlFor='min-capacity'>
-                      Minimum capacity
-                    </label>
-                    <TextField
-                      id='min-capacity'
-                      type='number'
-                      onChange={(e) =>
-                        setCurrentFilters((prev) => {
-                          const value = e.target.value
+                <div className='filters-inner'>
+                  <FilterGroup title='Capacity' opened>
+                    <div className='filters-group'>
+                      <label className='input-label' htmlFor='min-capacity'>
+                        Minimum capacity
+                      </label>
+                      <TextField
+                        id='min-capacity'
+                        type='number'
+                        onChange={(e) =>
+                          setCurrentFilters((prev) => {
+                            const value = e.target.value
 
-                          return {
-                            ...prev,
-                            minCapacity:
-                              value === ''
-                                ? null
-                                : !isNaN(+value) && +value >= 0
-                                ? +value
-                                : prev.minCapacity,
-                          }
-                        })
-                      }
-                      value={
-                        currentFilters.minCapacity === null
-                          ? ''
-                          : currentFilters.minCapacity?.toString()
-                      }
-                      placeholder='Minimum...'
-                    />
-                  </div>
-                  <div className='filters-group'>
-                    <label className='input-label' htmlFor='max-capacity'>
-                      Maximun capacity
-                    </label>
-                    <TextField
-                      id='max-capacity'
-                      type='number'
-                      onChange={(e) =>
-                        setCurrentFilters((prev) => {
-                          const value = e.target.value
+                            return {
+                              ...prev,
+                              minCapacity:
+                                value === ''
+                                  ? null
+                                  : !isNaN(+value) && +value >= 0
+                                  ? +value
+                                  : prev.minCapacity,
+                            }
+                          })
+                        }
+                        value={
+                          currentFilters.minCapacity === null
+                            ? ''
+                            : currentFilters.minCapacity?.toString()
+                        }
+                        placeholder='Minimum...'
+                      />
+                    </div>
+                    <div className='filters-group'>
+                      <label className='input-label' htmlFor='max-capacity'>
+                        Maximun capacity
+                      </label>
+                      <TextField
+                        id='max-capacity'
+                        type='number'
+                        onChange={(e) =>
+                          setCurrentFilters((prev) => {
+                            const value = e.target.value
 
-                          return {
-                            ...prev,
-                            maxCapacity:
-                              value === ''
-                                ? null
-                                : !isNaN(+value) && +value >= 0
-                                ? +value
-                                : prev.maxCapacity,
-                          }
-                        })
-                      }
-                      value={
-                        currentFilters.maxCapacity === null
-                          ? ''
-                          : currentFilters.maxCapacity?.toString()
-                      }
-                      placeholder='Maximum...'
-                    />
-                  </div>
-                </FilterGroup>
-                <FilterGroup title='Status' opened>
-                  <div className='filters-radio'>
-                    <Radio
-                      checked={currentFilters.status === 'opened'}
-                      onChange={() =>
-                        setCurrentFilters((prev) => {
-                          return {
-                            ...prev,
-                            status: 'opened',
-                          }
-                        })
-                      }
-                      label='Only opened'
-                    />
-                    <Radio
-                      checked={currentFilters.status === 'closed'}
-                      onChange={() =>
-                        setCurrentFilters((prev) => {
-                          return {
-                            ...prev,
-                            status: 'closed',
-                          }
-                        })
-                      }
-                      label='Only closed'
-                    />
-                    <Radio
-                      checked={currentFilters.status === 'any'}
-                      onChange={() =>
-                        setCurrentFilters((prev) => {
-                          return {
-                            ...prev,
-                            status: 'any',
-                          }
-                        })
-                      }
-                      label='Any'
-                    />
-                  </div>
-                </FilterGroup>
-                <div className='filters-controls'>
-                  <Button
-                    type='tertiary'
-                    variant={Variants.primary}
-                    disabled={!newFiltersAdded}
-                    text='Cancel'
-                    onClick={onFiltersCancel}
-                  />
-                  <Button
-                    type='primary'
-                    variant={Variants.primary}
-                    disabled={!newFiltersAdded}
-                    text='Apply filters'
-                    onClick={onFiltersApply}
-                  />
+                            return {
+                              ...prev,
+                              maxCapacity:
+                                value === ''
+                                  ? null
+                                  : !isNaN(+value) && +value >= 0
+                                  ? +value
+                                  : prev.maxCapacity,
+                            }
+                          })
+                        }
+                        value={
+                          currentFilters.maxCapacity === null
+                            ? ''
+                            : currentFilters.maxCapacity?.toString()
+                        }
+                        placeholder='Maximum...'
+                      />
+                    </div>
+                  </FilterGroup>
+                  <FilterGroup title='Status' opened>
+                    <div className='filters-radio'>
+                      <Radio
+                        checked={currentFilters.status === 'opened'}
+                        onChange={() =>
+                          setCurrentFilters((prev) => {
+                            return {
+                              ...prev,
+                              status: 'opened',
+                            }
+                          })
+                        }
+                        label='Only opened'
+                      />
+                      <Radio
+                        checked={currentFilters.status === 'closed'}
+                        onChange={() =>
+                          setCurrentFilters((prev) => {
+                            return {
+                              ...prev,
+                              status: 'closed',
+                            }
+                          })
+                        }
+                        label='Only closed'
+                      />
+                      <Radio
+                        checked={currentFilters.status === 'any'}
+                        onChange={() =>
+                          setCurrentFilters((prev) => {
+                            return {
+                              ...prev,
+                              status: 'any',
+                            }
+                          })
+                        }
+                        label='Any'
+                      />
+                    </div>
+                  </FilterGroup>
                 </div>
               </div>
-            </Popup>
+              <div className='filters-controls'>
+                <Button
+                  type='tertiary'
+                  variant={Variants.primary}
+                  disabled={!newFiltersAdded}
+                  text='Cancel'
+                  onClick={onFiltersCancel}
+                />
+                <Button
+                  type='primary'
+                  variant={Variants.primary}
+                  disabled={!newFiltersAdded}
+                  text='Apply filters'
+                  onClick={onFiltersApply}
+                />
+              </div>
+            </Filters>
           </div>
         </div>
         <Table

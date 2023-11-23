@@ -15,10 +15,10 @@ import { movieCols } from '../../constants/tableCols'
 import useMovieFilters from '../../hooks/filters/useMovieFilters'
 import FilterGroup from '../../components/UI/FilterGroup'
 import Link from '../../components/UI/Link'
-import Popup from '../../components/UI/Popup'
 import Checkbox from '../../components/UI/Checkbox'
 import useGenres from '../../hooks/useGenres'
 import Radio from '../../components/UI/Radio'
+import Filters from '../../components/Filters'
 
 const Movies = () => {
   const genres = useGenres()
@@ -163,7 +163,7 @@ const Movies = () => {
               icon={slider}
               onClick={() => setShowFilters(!showFilters)}
             />
-            <Popup show={showFilters}>
+            <Filters show={showFilters}>
               <div className='filters-header'>
                 <h4 className='filters-title'>Filters</h4>
                 <Link
@@ -311,7 +311,7 @@ const Movies = () => {
                   onClick={onFiltersApply}
                 />
               </div>
-            </Popup>
+            </Filters>
           </div>
         </div>
         <Table
