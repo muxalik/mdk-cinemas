@@ -25,6 +25,7 @@ export type actor = {
   id: number
   name: string
   total_movies: number
+  main_role_movies: number
 }
 
 export type session = {

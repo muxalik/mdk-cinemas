@@ -234,7 +234,7 @@ const Cinemas = () => {
                   <div className='filters-radio'>
                     <Radio
                       checked={currentFilters.status === 'opened'}
-                      setChecked={() =>
+                      onChange={() =>
                         setCurrentFilters((prev) => {
                           return {
                             ...prev,
@@ -242,12 +242,11 @@ const Cinemas = () => {
                           }
                         })
                       }
-                      value='opened'
                       label='Only opened'
                     />
                     <Radio
                       checked={currentFilters.status === 'closed'}
-                      setChecked={() =>
+                      onChange={() =>
                         setCurrentFilters((prev) => {
                           return {
                             ...prev,
@@ -255,12 +254,11 @@ const Cinemas = () => {
                           }
                         })
                       }
-                      value='closed'
                       label='Only closed'
                     />
                     <Radio
                       checked={currentFilters.status === 'any'}
-                      setChecked={() =>
+                      onChange={() =>
                         setCurrentFilters((prev) => {
                           return {
                             ...prev,
@@ -268,7 +266,6 @@ const Cinemas = () => {
                           }
                         })
                       }
-                      value='any'
                       label='Any'
                     />
                   </div>

@@ -20,4 +20,9 @@ class Actor extends Model
             ->withPivot('is_main_role')
             ->withTimestamps();
     }
+
+    public function moviesWithMainRole(): BelongsToMany
+    {
+        return $this->movies()->wherePivot('is_main_role', true);
+    }
 }

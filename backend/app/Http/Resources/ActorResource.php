@@ -17,7 +17,14 @@ class ActorResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'total_movies' => $this->whenCounted('movies', $this->movies_count),
+            'total_movies' => $this->whenCounted(
+                'movies',
+                $this->movies_count
+            ),
+            'main_role_movies' => $this->whenCounted(
+                'moviesWithMainRole',
+                $this->movies_with_main_role_count,
+            ),
         ];
     }
 }

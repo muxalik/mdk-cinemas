@@ -13,6 +13,10 @@ export const actorCols: tableCol[] = [
     key: 'total_movies',
     value: 'Total movies',
   },
+  {
+    key: 'main_role_movies',
+    value: 'Main role movies',
+  },
 ]
 
 export const cinemaCols: tableCol[] = [
