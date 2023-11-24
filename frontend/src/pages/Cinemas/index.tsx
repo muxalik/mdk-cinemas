@@ -17,8 +17,11 @@ import useFilters from '../../hooks/useFilters'
 import useCinemas from '../../hooks/useCinemas'
 import { cinemasBreadcrumbs } from '../../constants/breadcrumbs'
 import { cinemasExports } from '../../constants/exports'
+import { useNavigate } from 'react-router-dom'
 
 const Cinemas = () => {
+  const navigate = useNavigate()
+
   const {
     appliedFilters,
     currentFilters,
@@ -61,6 +64,7 @@ const Cinemas = () => {
               variant={Variants.primary}
               text='Add cinema'
               icon={plus}
+              onClick={() => navigate('create')}
             />
           </div>
         </div>

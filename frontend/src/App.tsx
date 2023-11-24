@@ -8,6 +8,8 @@ import Actors from './pages/Actors'
 import Sessions from './pages/Sessions'
 import EditSession from './pages/Sessions/EditSession'
 import CreateSession from './pages/Sessions/CreateSession'
+import EditCinema from './pages/Cinemas/EditCinema'
+import CreateCinema from './pages/Cinemas/CreateCinema'
 
 const App = () => {
   return (
@@ -15,7 +17,8 @@ const App = () => {
       <Routes>
         <Route path='/cinemas'>
           <Route index element={<Cinemas />} />
-          {/* <Route path='edit/:id' element={<Cinemas />} /> */}
+          <Route path='create' element={<CreateCinema />} />
+          <Route path=':id/edit' element={<EditCinema />} />
         </Route>
         <Route path='/movies' element={<Movies />} />
         <Route path='/actors' element={<Actors />} />

@@ -11,6 +11,36 @@ export const cinemasBreadcrumbs: breadcrumbLink[] = [
   },
 ]
 
+export const cinemasEditBreadcrumbs: breadcrumbLink[] = [
+  {
+    title: 'Home',
+    to: '/',
+  },
+  {
+    title: 'Cinemas',
+    to: '/cinemas',
+  },
+  {
+    title: 'Edit Cinema',
+    to: '#',
+  },
+]
+
+export const cinemasCreateBreadcrumbs: breadcrumbLink[] = [
+  {
+    title: 'Home',
+    to: '/',
+  },
+  {
+    title: 'Cinemas',
+    to: '/cinemas',
+  },
+  {
+    title: 'Add Cinema',
+    to: '#',
+  },
+]
+
 export const actorsBreadcrumbs: breadcrumbLink[] = [
   {
     title: 'Home',
@@ -59,7 +89,6 @@ export const sessionEditBreadcrumbs: breadcrumbLink[] = [
   },
 ]
 
-
 export const sessionCreateBreadcrumbs: breadcrumbLink[] = [
   {
     title: 'Home',
@@ -74,4 +103,3 @@ export const sessionCreateBreadcrumbs: breadcrumbLink[] = [
     to: '#',
   },
 ]
-

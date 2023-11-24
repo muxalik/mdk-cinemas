@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Enums\CinemaStatuses;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpstoreCinemaRequest extends FormRequest
 {
@@ -26,8 +27,9 @@ class UpstoreCinemaRequest extends FormRequest
             'name' => ['required', 'string', 'max:190'],
             'district' => ['required', 'string', 'max:190'],
             'address' => ['required', 'string', 'max:190'],
+            'category' => ['required', 'string', 'max:190'],
             'capacity' => ['required', 'integer', 'gte:0'],
-            'status' => ['required', 'in:' . CinemaStatuses::values()],
+            'status' => ['required', Rule::in(CinemaStatuses::values())],
         ];
     }
 }
