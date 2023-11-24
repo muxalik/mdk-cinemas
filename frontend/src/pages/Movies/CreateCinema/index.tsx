@@ -1,19 +1,96 @@
 import './styles.scss'
 import Layout from '../../../layouts/Layout'
 import Footer from '../../../layouts/Footer'
-import { FC } from 'react'
+import { ChangeEvent, FC, useState } from 'react'
 import Button from '../../../components/UI/Button'
 import { Variants } from '../../../enums'
 import { check, cross } from '../../../assets'
+import { useNavigate } from 'react-router-dom'
 import Breadcrumbs from '../../../components/UI/Breadcrumbs'
 import { cinemasEditBreadcrumbs } from '../../../constants/breadcrumbs'
 import FormCard from '../../../components/UI/FormCard'
+import api, { baseURL } from '../../../utils/api'
 import TextField from '../../../components/UI/TextField'
-import Select from '../../../components/UI/Select'
-import useCinema from '../../../hooks/cinemas/useCinema'
+import { isEqual } from 'lodash'
+import Select, { option } from '../../../components/UI/Select'
 
-const EditCinema = () => {
-  const { data, setField, statuses, onCancel, onSave, canBeSaved } = useCinema()
+type data = {
+  name: string | null
+  district: string | null
+  address: string | null
+  category: string | null
+  capacity: number | null
+  status: string
+}
+
+const defaultData: data = {
+  name: null,
+  district: null,
+  address: null,
+  category: null,
+  capacity: null,
+  status: 'Opened',
+}
+
+const CreateCinema = () => {
+  const navigate = useNavigate()
+  const [data, setData] = useState<data>(defaultData)
+
+  const valid = Object.values(data).every((value) => value !== null)
+
+  const redirectBack = () => navigate('/cinemas')
+
+  const onCancel = () => redirectBack()
+
+  const onCreate = () => {
+    api
+      .post(baseURL + '/cinemas', {
+        name: data.name,
+        district: data.district,
+        address: data.address,
+        category: data.category,
+        capacity: data.capacity,
+        status: data.status,
+      })
+      .then(redirectBack)
+      .catch(console.log)
+  }
+
+  const onNameChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setData({
+      ...data,
+      name: e.target.value,
+    })
+
+  const onDistrictChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setData({
+      ...data,
+      district: e.target.value,
+    })
+
+  const onAddressChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setData({
+      ...data,
+      address: e.target.value,
+    })
+
+  const onCategoryChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setData({
+      ...data,
+      category: e.target.value,
+    })
+
+  const onCapacityChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setData({
+      ...data,
+      capacity: +e.target.value,
+    })
+
+  const onStatusChange = (option: option) =>
+    setData({
+      ...data,
+      status: option.value.toString(),
+    })
 
   return (
     <Layout>
@@ -26,8 +103,8 @@ const EditCinema = () => {
           <div className='actions'>
             <Controls
               onCancel={onCancel}
-              onSave={onSave}
-              saveDisabled={!canBeSaved}
+              onCreate={onCreate}
+              saveDisabled={!valid}
             />
           </div>
         </div>
@@ -40,8 +117,8 @@ const EditCinema = () => {
                   id='name'
                   label='Name'
                   placeholder='Enter name'
-                  value={data.name}
-                  onChange={(value) => setField('name', value)}
+                  value={data.name || ''}
+                  onChange={onNameChange}
                 />
               </div>
               <div className='input-group'>
@@ -50,8 +127,8 @@ const EditCinema = () => {
                   id='district'
                   label='District'
                   placeholder='Enter district'
-                  value={data.district}
-                  onChange={(value) => setField('district', value)}
+                  value={data.district || ''}
+                  onChange={onDistrictChange}
                 />
               </div>
             </div>
@@ -62,8 +139,8 @@ const EditCinema = () => {
                   id='address'
                   label='Address'
                   placeholder='Enter address'
-                  value={data.address}
-                  onChange={(value) => setField('address', value)}
+                  value={data.address || ''}
+                  onChange={onAddressChange}
                 />
               </div>
             </div>
@@ -74,8 +151,8 @@ const EditCinema = () => {
                   id='category'
                   label='Category'
                   placeholder='Enter category'
-                  value={data.category}
-                  onChange={(value) => setField('category', value)}
+                  value={data.category || ''}
+                  onChange={onCategoryChange}
                 />
               </div>
               <div className='input-group'>
@@ -84,8 +161,8 @@ const EditCinema = () => {
                   id='capacity'
                   label='Capacity'
                   placeholder='Enter capacity'
-                  value={data.capacity}
-                  onChange={(value) => setField('capacity', +value)}
+                  value={data.capacity?.toString()}
+                  onChange={onCapacityChange}
                 />
               </div>
               <div className='input-group'>
@@ -93,10 +170,19 @@ const EditCinema = () => {
                   id='status'
                   variant='outline'
                   placeholder='Select status'
-                  options={statuses}
+                  options={[
+                    {
+                      value: 'Opened',
+                      name: 'Opened',
+                    },
+                    {
+                      value: 'Closed',
+                      name: 'Closed',
+                    },
+                  ]}
                   label='Status'
                   selected={data.status}
-                  onChange={(option) => setField('status', option.value)}
+                  onChange={onStatusChange}
                 />
               </div>
             </div>
@@ -104,11 +190,19 @@ const EditCinema = () => {
         </div>
         <Footer>
           <div className='footer-wrapper'>
+            {/* <div className='completion'>
+              <p className='completion-text'>Completion</p>
+              <Label
+                size='md'
+                variant={getVariantByPercentage(completion)}
+                text={`${completion}%`}
+              />
+            </div> */}
             <div className='actions'>
               <Controls
                 onCancel={onCancel}
-                onSave={onSave}
-                saveDisabled={!canBeSaved}
+                onCreate={onCreate}
+                saveDisabled={!valid}
               />
             </div>
           </div>
@@ -120,11 +214,11 @@ const EditCinema = () => {
 
 interface controlsProps {
   onCancel: () => void
-  onSave: () => void
+  onCreate: () => void
   saveDisabled: boolean
 }
 
-const Controls: FC<controlsProps> = ({ onCancel, onSave, saveDisabled }) => (
+const Controls: FC<controlsProps> = ({ onCancel, onCreate, saveDisabled }) => (
   <>
     <Button
       type='tertiary'
@@ -138,10 +232,10 @@ const Controls: FC<controlsProps> = ({ onCancel, onSave, saveDisabled }) => (
       variant={Variants.primary}
       icon={check}
       disabled={saveDisabled}
-      text='Save cinema'
-      onClick={onSave}
+      text='Add cinema'
+      onClick={onCreate}
     />
   </>
 )
 
-export default EditCinema
+export default CreateCinema

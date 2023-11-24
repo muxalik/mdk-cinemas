@@ -45,7 +45,7 @@ export const cinemaCols: tableCol[] = [
     value: 'Capacity',
   },
   {
-    key: 'status',
+    key: 'status.locale',
     sort: 'status',
     value: 'Status',
   },
@@ -95,7 +95,7 @@ export const movieCols: tableCol[] = [
     oneLine: true,
   },
   {
-    key: 'price',
+    key: 'price.formatted',
     sort: 'price',
     value: 'Price',
     oneLine: true,

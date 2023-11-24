@@ -10,6 +10,7 @@ import EditSession from './pages/Sessions/EditSession'
 import CreateSession from './pages/Sessions/CreateSession'
 import EditCinema from './pages/Cinemas/EditCinema'
 import CreateCinema from './pages/Cinemas/CreateCinema'
+import EditMovie from './pages/Movies/EditMovie'
 
 const App = () => {
   return (
@@ -20,7 +21,11 @@ const App = () => {
           <Route path='create' element={<CreateCinema />} />
           <Route path=':id/edit' element={<EditCinema />} />
         </Route>
-        <Route path='/movies' element={<Movies />} />
+        <Route path='/movies'>
+          <Route index element={<Movies />} />
+          <Route path='create' element={<CreateCinema />} />
+          <Route path=':id/edit' element={<EditMovie />} />
+        </Route>
         <Route path='/actors' element={<Actors />} />
         <Route path='/sessions'>
           <Route index element={<Sessions />} />

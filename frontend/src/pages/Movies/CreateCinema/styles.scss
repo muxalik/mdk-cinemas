@@ -1,0 +1,29 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.movies {
+  .footer-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+
+    .completion {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      &-text {
+        @include text-l;
+        font-weight: $medium;
+      }
+    }
+
+    .actions {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+  }
+}

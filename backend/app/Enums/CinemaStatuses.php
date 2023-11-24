@@ -3,12 +3,16 @@
 namespace App\Enums;
 
 use App\Interfaces\EnumerableInterface;
+use App\Interfaces\LocalizableInterface;
 use App\Traits\Enumerable;
+use App\Traits\Localizable;
 
-enum CinemaStatuses: string implements EnumerableInterface
+enum CinemaStatuses: string implements
+    EnumerableInterface,
+    LocalizableInterface
 {
-    use Enumerable;
+    use Enumerable, Localizable;
 
-    case Opened = 'Opened';
-    case Closed = 'Closed';
+    case Opened = 'opened';
+    case Closed = 'closed';
 }

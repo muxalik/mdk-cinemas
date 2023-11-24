@@ -10,11 +10,17 @@ const useSort = () => {
     )
   }
 
+  const toggleSort = (colName: string) => {
+    setSortBy(colName)
+    setSortOrder(colName)
+  }
+
   return {
     sortBy,
     sortOrder,
     setSortBy,
     setSortOrder,
+    toggleSort,
   }
 }
 

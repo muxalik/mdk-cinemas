@@ -63,6 +63,36 @@ export const moviesBreadcrumbs: breadcrumbLink[] = [
   },
 ]
 
+export const movieEditBreadcrumbs: breadcrumbLink[] = [
+  {
+    title: 'Home',
+    to: '/',
+  },
+  {
+    title: 'Movies',
+    to: '/movies',
+  },
+  {
+    title: 'Edit Movie',
+    to: '#',
+  },
+]
+
+export const movieCreateBreadcrumbs: breadcrumbLink[] = [
+  {
+    title: 'Home',
+    to: '/',
+  },
+  {
+    title: 'Movies',
+    to: '/movies',
+  },
+  {
+    title: 'Add Movie',
+    to: '#',
+  },
+]
+
 export const sessionsBreadcrumbs: breadcrumbLink[] = [
   {
     title: 'Home',

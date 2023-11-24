@@ -6,3 +6,9 @@ export enum Variants {
   info = 'info',
   danger = 'danger',
 }
+
+export enum CinemaStatuses {
+  opened = 'Opened',
+  closed = 'Closed',
+  any = 'Any',
+}

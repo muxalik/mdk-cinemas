@@ -15,7 +15,7 @@ const useCinemas = (appliedFilters: any) => {
     to: 0,
     perPage: 10,
   })
-  const { sortBy, sortOrder, setSortBy, setSortOrder } = useSort()
+  const { sortBy, sortOrder, toggleSort } = useSort()
 
   const fetchCinemas = () => {
     api
@@ -71,25 +71,27 @@ const useCinemas = (appliedFilters: any) => {
     })
   }
 
-  const onColumnClick = (colName: string) => {
-    setSortBy(colName)
-    setSortOrder(colName)
+  const onSearch = (value: string) => {
+    setPagination((prev) => {
+      return {
+        ...prev,
+        current: 1,
+      }
+    })
+    setQuery(value)
   }
 
   return {
     sortBy,
-    setSortBy,
     sortOrder,
-    setSortOrder,
     query,
-    setQuery,
-    cinemas,
     pagination,
-    setPagination,
+    cinemas,
     onPageChange,
-    deleteCinema,
     editCinema,
-    onColumnClick,
+    deleteCinema,
+    toggleSort,
+    onSearch,
   }
 }
 

@@ -66,13 +66,9 @@ class MovieController extends Controller
         return response()->noContent();
     }
 
-    public function destroy(Movie $movie): JsonResponse
+    public function destroy(Movie $movie): Response
     {
-        if (!$movie->delete()) {
-            return response()->json([
-                'status' => 'Movie was not deleted due to unexpected error',
-            ], 500);
-        }
+        $movie->delete();
 
         return response()->noContent();
     }

@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react'
 import api, { baseURL } from '../utils/api'
 import useGenres from './useGenres'
 import { movie, pagination } from '../types'
+import { useNavigate } from 'react-router-dom'
+import useSort from './useSort'
 
 const useMovies = (appliedFilters: any) => {
-  const genres = useGenres()
-  const [sortBy, setSortBy] = useState<string | null>(null)
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
+  const navigate = useNavigate()
   const [query, setQuery] = useState('')
-  const [movies, setMovies] = useState<movie[] | null>(null)
+  const [movies, setMovies] = useState<movie[]>([])
   const [pagination, setPagination] = useState<pagination>({
     current: 1,
     total: 0,
@@ -16,8 +16,10 @@ const useMovies = (appliedFilters: any) => {
     to: 0,
     perPage: 10,
   })
+  const { sortBy, sortOrder, setSortBy, setSortOrder } = useSort()
+  const genres = useGenres()
 
-  useEffect(() => {
+  const fetchMovies = () => {
     api
       .get(baseURL + '/movies', {
         params: {
@@ -43,6 +45,10 @@ const useMovies = (appliedFilters: any) => {
         })
       })
       .catch(console.log)
+  }
+
+  useEffect(() => {
+    fetchMovies()
   }, [pagination.current, query, sortBy, sortOrder, appliedFilters])
 
   const onPageChange = (page: number) =>
@@ -52,6 +58,26 @@ const useMovies = (appliedFilters: any) => {
         current: page,
       }
     })
+
+  const deleteMovie = (id: number) => {
+    api
+      .delete(baseURL + `/movies/${id}`)
+      .then(() => {
+        fetchMovies()
+      })
+      .catch(console.log)
+  }
+
+  const editMovie = (id: number) => {
+    navigate(`/movies/${id}/edit`, {
+      state: { movie: movies.find((movie) => movie.id === id) },
+    })
+  }
+
+  const onColumnClick = (colName: string) => {
+    setSortBy(colName)
+    setSortOrder(colName)
+  }
 
   return {
     genres,
@@ -65,6 +91,9 @@ const useMovies = (appliedFilters: any) => {
     setPagination,
     onPageChange,
     movies,
+    editMovie,
+    deleteMovie,
+    onColumnClick,
   }
 }
 

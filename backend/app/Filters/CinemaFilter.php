@@ -34,8 +34,9 @@ class CinemaFilter extends Filter
 
         if ($request->has('sort')) {
             $order = $request->order ? $request->order : 'ASC';
+            $sort = strtolower($request->sort);
 
-            switch (str($request->sort)->lower()) {
+            switch ($sort) {
                 case 'cinema':
                     $this->query->orderBy('name', $order);
                     break;
@@ -86,22 +87,10 @@ class CinemaFilter extends Filter
         }
 
         if ($request->has('status')) {
-            switch ($request->status) {
-                case 'opened': {
-                        $this->query->where(
-                            'status',
-                            CinemaStatuses::Opened->value
-                        );
-                        break;
-                    }
+            $status = CinemaStatuses::tryFrom($request->status);
 
-                case 'closed': {
-                        $this->query->where(
-                            'status',
-                            CinemaStatuses::Closed->value
-                        );
-                        break;
-                    }
+            if ($status) {
+                $this->query->where('status', $status->value);
             }
         }
 

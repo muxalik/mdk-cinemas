@@ -21,7 +21,7 @@ class CinemaResource extends JsonResource
             'address' => $this->address,
             'category' => $this->category,
             'capacity' => $this->capacity,
-            'status' => $this->status->value,
+            'status' => $this->status->localize()->toArray(),
         ];
     }
 }

@@ -36,15 +36,16 @@ const Movies = () => {
   const {
     genres,
     sortBy,
-    setSortBy,
     sortOrder,
-    setSortOrder,
     query,
     setQuery,
     pagination,
     setPagination,
     onPageChange,
     movies,
+    editMovie,
+    deleteMovie,
+    onColumnClick,
   } = useMovies(appliedFilters)
 
   return (
@@ -183,21 +184,21 @@ const Movies = () => {
                   <FilterGroup title='Status' opened>
                     <div className='filters-radio'>
                       <Radio
-                        checked={currentFilters.status === 'available'}
+                        checked={currentFilters.status === 'Available'}
                         onChange={() =>
                           setCurrentFilters({
                             ...currentFilters,
-                            status: 'available',
+                            status: 'Available',
                           })
                         }
                         label='Available'
                       />
                       <Radio
-                        checked={currentFilters.status === 'not_available'}
+                        checked={currentFilters.status === 'Not available'}
                         onChange={() =>
                           setCurrentFilters({
                             ...currentFilters,
-                            status: 'not_available',
+                            status: 'Not available',
                           })
                         }
                         label='Not available'
@@ -240,18 +241,11 @@ const Movies = () => {
           rows={movies}
           pagination={pagination}
           onPageChange={onPageChange}
-          onColumnClick={(columnKey) => {
-            setSortBy(columnKey)
-            setSortOrder(
-              columnKey === sortBy
-                ? sortOrder === 'asc'
-                  ? 'desc'
-                  : 'asc'
-                : 'asc'
-            )
-          }}
+          onColumnClick={onColumnClick}
           sortedCol={sortBy}
           sortOrder={sortOrder}
+          onRowDelete={deleteMovie}
+          onRowEdit={editMovie}
         />
       </div>
     </Layout>
