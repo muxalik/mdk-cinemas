@@ -1,28 +1,27 @@
-import { CinemaStatuses } from '../enums'
 import { cinemaFilters } from '../types'
 
 type cinemaStatus = {
-  key: CinemaStatuses
+  key: string
   name: string
 }
 
 export const cinemaDefaultFilters: cinemaFilters = {
   minCapacity: null,
   maxCapacity: null,
-  status: CinemaStatuses.any,
+  status: 'any',
 }
 
 export const cinemaStatuses: cinemaStatus[] = [
   {
-    key: CinemaStatuses.opened,
+    key: 'opened',
     name: 'Only opened',
   },
   {
-    key: CinemaStatuses.closed,
+    key: 'closed',
     name: 'Only Closed',
   },
   {
-    key: CinemaStatuses.any,
+    key: 'any',
     name: 'Any',
   },
 ]

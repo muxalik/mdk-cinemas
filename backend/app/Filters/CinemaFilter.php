@@ -4,6 +4,7 @@ namespace App\Filters;
 
 use App\Enums\CinemaStatuses;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 class CinemaFilter extends Filter
 {
@@ -37,7 +38,7 @@ class CinemaFilter extends Filter
             $sort = strtolower($request->sort);
 
             switch ($sort) {
-                case 'cinema':
+                case 'name':
                     $this->query->orderBy('name', $order);
                     break;
 
@@ -89,6 +90,7 @@ class CinemaFilter extends Filter
         if ($request->has('status')) {
             $status = CinemaStatuses::tryFrom($request->status);
 
+            Log::alert('123', [$request->status]);
             if ($status) {
                 $this->query->where('status', $status->value);
             }

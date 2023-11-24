@@ -72,7 +72,7 @@ export type genre = {
 export type cinemaFilters = {
   minCapacity: number | null
   maxCapacity: number | null
-  status: CinemaStatuses
+  status: string
 }
 
 export type sessionFilters = {
