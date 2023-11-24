@@ -27,8 +27,6 @@ class ActorController extends Controller
         );
     }
 
-    
-
     public function destroy(Actor $actor): Response | JsonResponse
     {
         if (!$actor->delete()) {
