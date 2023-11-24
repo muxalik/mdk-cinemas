@@ -7,6 +7,7 @@ import Movies from './pages/Movies'
 import Actors from './pages/Actors'
 import Sessions from './pages/Sessions'
 import EditSession from './pages/Sessions/EditSession'
+import CreateSession from './pages/Sessions/CreateSession'
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path='/actors' element={<Actors />} />
         <Route path='/sessions'>
           <Route index element={<Sessions />} />
+          <Route path='create' element={<CreateSession />} />
           <Route path=':id/edit' element={<EditSession />} />
         </Route>
         <Route path='*' element={<Navigate to='/cinemas' />} />

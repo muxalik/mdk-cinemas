@@ -39,7 +39,7 @@ Route::get('actors/pdf', [PdfController::class, 'exportActors']);
 Route::get('actors/excel', [ExcelController::class, 'exportActors']);
 
 Route::apiResource('sessions', SessionController::class)
-    ->only('index', 'update', 'destroy');
+    ->only('index', 'update', 'store', 'destroy');
 
 Route::get('sessions/pdf', [PdfController::class, 'exportSessions']);
 Route::get('sessions/excel', [ExcelController::class, 'exportSessions']);

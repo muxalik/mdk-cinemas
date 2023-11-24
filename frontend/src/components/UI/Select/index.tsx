@@ -17,7 +17,7 @@ interface props {
   error?: string
   label?: string
   options: option[]
-  selected?: string | number
+  selected?: string | number | null
   onChange: (option: option) => void
 }
 

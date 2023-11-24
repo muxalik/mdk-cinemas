@@ -16,8 +16,11 @@ import useFilters from '../../hooks/useFilters'
 import useSessions from '../../hooks/useSessions'
 import { sessionsBreadcrumbs } from '../../constants/breadcrumbs'
 import { sessionsExports } from '../../constants/exports'
+import { useNavigate } from 'react-router-dom'
 
 const Sessions = () => {
+  const navigate = useNavigate()
+
   const {
     appliedFilters,
     currentFilters,
@@ -60,6 +63,7 @@ const Sessions = () => {
               variant={Variants.primary}
               text='Add session'
               icon={plus}
+              onClick={() => navigate('create')}
             />
           </div>
         </div>

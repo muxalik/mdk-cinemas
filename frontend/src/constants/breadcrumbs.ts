@@ -58,3 +58,20 @@ export const sessionEditBreadcrumbs: breadcrumbLink[] = [
     to: '#',
   },
 ]
+
+
+export const sessionCreateBreadcrumbs: breadcrumbLink[] = [
+  {
+    title: 'Home',
+    to: '/',
+  },
+  {
+    title: 'Sessions',
+    to: '/sessions',
+  },
+  {
+    title: 'Add Session',
+    to: '#',
+  },
+]
+

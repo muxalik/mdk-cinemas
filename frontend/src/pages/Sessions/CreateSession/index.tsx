@@ -5,13 +5,12 @@ import { ChangeEvent, FC, useState } from 'react'
 import Button from '../../../components/UI/Button'
 import { Variants } from '../../../enums'
 import { check, cross, dollar } from '../../../assets'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Breadcrumbs from '../../../components/UI/Breadcrumbs'
-import { sessionEditBreadcrumbs } from '../../../constants/breadcrumbs'
+import { sessionCreateBreadcrumbs, sessionEditBreadcrumbs } from '../../../constants/breadcrumbs'
 import FormCard from '../../../components/UI/FormCard'
 import Select, { option } from '../../../components/UI/Select'
 import api, { baseURL } from '../../../utils/api'
-import { session } from '../../../types'
 import TextField from '../../../components/UI/TextField'
 import DatePicker from '../../../components/UI/DatePicker'
 import dateToDateTime from '../../../utils/dateToDateTime'
@@ -19,70 +18,76 @@ import { isEqual } from 'lodash'
 import useCinemaList from '../../../hooks/cinemas/useCinemaList'
 import useMoviesList from '../../../hooks/movies/useMoviesList'
 
-const EditSession = () => {
+type data = {
+  cinemaId: number | null
+  movieId: number | null
+  ticketPrice: number | null
+  freePlaces: number | null
+  startsAt: string | null
+}
+
+const defaultData: data = {
+  cinemaId: null,
+  movieId: null,
+  ticketPrice: null,
+  freePlaces: null,
+  startsAt: null,
+}
+
+const CreateSession = () => {
   const navigate = useNavigate()
-  const { session } = useLocation().state
   const [cinemas] = useCinemaList()
   const [movies] = useMoviesList()
-  const [tempSession, setTempSession] = useState<session>(session)
+  const [data, setData] = useState<data>(defaultData)
 
-  const hasEdits = !isEqual(tempSession, session)
+  const hasEdits = !isEqual(data, defaultData)
 
-  const redirectBack = () => navigate('/sessions', { state: {} })
+  const redirectBack = () => navigate('/sessions')
 
   const onCancel = () => redirectBack()
 
   const onSave = () => {
     api
-      .patch(baseURL + `/sessions/${session.id}`, {
-        cinema: tempSession.cinema.id,
-        movie: tempSession.movie.id,
-        ticket_price: tempSession.ticket_price.digital,
-        free_places: tempSession.free_places,
-        starts_at: tempSession.starts_at,
+      .post(baseURL + '/sessions/', {
+        cinema: data?.cinemaId,
+        movie: data?.movieId,
+        ticket_price: data?.ticketPrice,
+        free_places: data?.freePlaces,
+        starts_at: data?.startsAt,
       })
       .then(redirectBack)
       .catch(console.log)
   }
 
   const onCinemaChange = (option: option) =>
-    setTempSession({
-      ...tempSession,
-      cinema: {
-        id: +option.value,
-        name: option.name,
-      },
+    setData({
+      ...data,
+      cinemaId: +option.value,
     })
 
   const onMovieChange = (option: option) =>
-    setTempSession({
-      ...tempSession,
-      movie: {
-        id: +option.value,
-        name: option.name,
-      },
+    setData({
+      ...data,
+      movieId: +option.value,
     })
 
   const onFreePlacesChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTempSession({
-      ...tempSession,
-      free_places: +e.target.value,
+    setData({
+      ...data,
+      freePlaces: +e.target.value,
     })
   }
 
   const onDateChange = (date: Date) =>
-    setTempSession({
-      ...tempSession,
-      starts_at: dateToDateTime(date),
+    setData({
+      ...data,
+      startsAt: dateToDateTime(date),
     })
 
   const onTicketPriceChange = (e: ChangeEvent<HTMLInputElement>) =>
-    setTempSession({
-      ...tempSession,
-      ticket_price: {
-        digital: +e.target.value,
-        formatted: '',
-      },
+    setData({
+      ...data,
+      ticketPrice: +e.target.value,
     })
 
   return (
@@ -91,7 +96,7 @@ const EditSession = () => {
         <div className='intro'>
           <div className='location'>
             <h1 className='title'>Edit Session</h1>
-            <Breadcrumbs links={sessionEditBreadcrumbs} />
+            <Breadcrumbs links={sessionCreateBreadcrumbs} />
           </div>
           <div className='actions'>
             <Controls
@@ -111,7 +116,7 @@ const EditSession = () => {
                   placeholder='Select cinema'
                   options={cinemas}
                   label='Cinema'
-                  selected={tempSession.cinema.id}
+                  selected={data.cinemaId}
                   onChange={onCinemaChange}
                 />
               </div>
@@ -122,7 +127,7 @@ const EditSession = () => {
                   placeholder='Select movie'
                   options={movies}
                   label='Movie'
-                  selected={tempSession.movie.id}
+                  selected={data.movieId}
                   onChange={onMovieChange}
                 />
               </div>
@@ -135,7 +140,7 @@ const EditSession = () => {
                   label='Ticket price'
                   placeholder='Enter ticket price'
                   icon={dollar}
-                  value={tempSession.ticket_price.digital}
+                  value={data.ticketPrice || ''}
                   onChange={onTicketPriceChange}
                 />
               </div>
@@ -145,7 +150,7 @@ const EditSession = () => {
                   id='free_places'
                   label='Free places'
                   placeholder='Enter free places'
-                  value={tempSession.free_places}
+                  value={data.freePlaces || ''}
                   onChange={onFreePlacesChange}
                 />
               </div>
@@ -153,7 +158,9 @@ const EditSession = () => {
                 <DatePicker
                   label='Starts at'
                   onChange={onDateChange}
-                  startDate={new Date(Date.parse(tempSession.starts_at))}
+                  {...(data.startsAt?.length && {
+                    startDate: new Date(Date.parse(data.startsAt || '')),
+                  })}
                 />
               </div>
             </div>
@@ -203,10 +210,10 @@ const Controls: FC<controlsProps> = ({ onCancel, onSave, saveDisabled }) => (
       variant={Variants.primary}
       icon={check}
       disabled={saveDisabled}
-      text='Save session'
+      text='Add session'
       onClick={onSave}
     />
   </>
 )
 
-export default EditSession
+export default CreateSession
