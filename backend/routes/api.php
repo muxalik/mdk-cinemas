@@ -25,12 +25,10 @@ Route::get('cinemas/excel', [ExcelController::class, 'exportCinemas']);
 Route::get('cinemas/list', [CinemaController::class, 'list']);
 Route::apiResource('cinemas', CinemaController::class);
 
-Route::prefix('movies')->group(function () {
-    Route::get('pdf', [PdfController::class, 'exportMovies']);
-    Route::get('excel', [ExcelController::class, 'exportMovies']);
-    Route::get('list', [MovieController::class, 'list']);
-    Route::apiResource('/', MovieController::class)->only('index');
-});
+Route::get('movies/pdf', [PdfController::class, 'exportMovies']);
+Route::get('movies/excel', [ExcelController::class, 'exportMovies']);
+Route::get('movies/list', [MovieController::class, 'list']);
+Route::apiResource('movies', MovieController::class);
 
 Route::get('pdf', [PdfController::class, 'exportActors']);
 Route::get('excel', [ExcelController::class, 'exportActors']);

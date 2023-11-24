@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Genres;
+use App\Enums\MovieStatuses;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -20,13 +21,12 @@ class Movie extends Model
         'awards',
         'duration',
         'advert_screenshot',
-        'is_available',
         'price',
     ];
 
     protected $casts = [
         'genre' => Genres::class,
-        'is_available' => 'bool',
+        'status' => MovieStatuses::class,
     ];
 
     public function actors(): BelongsToMany

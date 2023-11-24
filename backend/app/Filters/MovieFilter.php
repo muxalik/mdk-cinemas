@@ -3,6 +3,7 @@
 namespace App\Filters;
 
 use App\Enums\Genres;
+use App\Enums\MovieStatuses;
 use Illuminate\Database\Eloquent\Builder;
 
 class MovieFilter extends Filter
@@ -24,11 +25,7 @@ class MovieFilter extends Filter
                         ->orWhere('production', 'LIKE', '%' . $search . '%')
                         ->orWhere('awards', 'LIKE', '%' . $search . '%')
                         ->orWhere('duration', 'LIKE', '%' . $search . '%')
-                        ->orWhere(function (Builder $query) use ($search) {
-                            if (str_contains('not available', $search)) {
-                                $query->where('is_available', false);
-                            }
-                        });
+                        ->orWhere('status', 'LIKE', '%' . $search . '%');
                 });
         }
 
@@ -72,7 +69,7 @@ class MovieFilter extends Filter
                     break;
 
                 case 'status':
-                    $this->query->orderBy('is_available', $order);
+                    $this->query->orderBy('status', $order);
                     break;
 
                 case 'price':
@@ -125,16 +122,10 @@ class MovieFilter extends Filter
         }
 
         if ($request->has('status')) {
-            switch ($request->status) {
-                case 'available': {
-                        $this->query->where('is_available', true);
-                        break;
-                    }
+            $status = MovieStatuses::tryFrom($request->status);
 
-                case 'not_available': {
-                        $this->query->where('is_available', false);
-                        break;
-                    }
+            if ($status) {
+                $this->query->where('status', $status->value);
             }
         }
 

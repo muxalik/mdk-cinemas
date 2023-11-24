@@ -28,8 +28,8 @@ class MovieExport implements FromCollection, ShouldAutoSize, WithHeadings
             'production' => $movie->production,
             'awards' => $movie->awards,
             'duration' => $movie->duration,
-            'status' => $movie->is_available ? 'Available' : 'Not available',
-            'price' => $movie->price . '$',
+            'status' => $movie->status->value,
+            'price' => $movie->formatted_price,
         ]);
     }
 

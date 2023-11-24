@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\Genres;
+use App\Enums\MovieStatuses;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -29,7 +30,7 @@ class MovieFactory extends Factory
             'awards' => $this->awards(),
             'duration' => fake()->numberBetween(...$HOURS) + fake()->numberBetween(...$MINUTES),
             'advert_screenshot' => '/path/to/sreenshot/' . fake()->md5 . '.jpg',
-            'is_available' => fake()->boolean(),
+            'status' => MovieStatuses::randomValue(),
             'price' => fake()->numberBetween(1_000_000, 20_000_000),
         ];
     }

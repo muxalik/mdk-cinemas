@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\MovieStatuses;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,7 +22,7 @@ return new class extends Migration
             $table->string('awards')->nullable();
             $table->integer('duration');
             $table->string('advert_screenshot');
-            $table->boolean('is_available');
+            $table->enum('status', MovieStatuses::values());
             $table->unsignedInteger('price');
             $table->timestamps();
         });
