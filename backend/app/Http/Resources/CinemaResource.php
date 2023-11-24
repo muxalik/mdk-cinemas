@@ -21,7 +21,7 @@ class CinemaResource extends JsonResource
             'address' => $this->address,
             'category' => $this->category,
             'capacity' => $this->capacity,
-            'status' => $this->is_opened ? 'Opened' : 'Closed',
+            'status' => $this->status->value,
         ];
     }
 }

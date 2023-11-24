@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('category');
             $table->unsignedInteger('capacity');
-            $table->boolean('is_opened');
+            $table->string('status');
             $table->timestamps();
         });
     }

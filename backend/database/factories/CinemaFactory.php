@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\CinemaStatuses;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,7 +23,7 @@ class CinemaFactory extends Factory
             'address' => fake()->address(),
             'category' => fake()->words(mt_rand(3, 4), true),
             'capacity' => fake()->numberBetween(1_000, 10_000),
-            'is_opened' => fake()->boolean(),
+            'status' => CinemaStatuses::randomValue(),
         ];
     }
 }

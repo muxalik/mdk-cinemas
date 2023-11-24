@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Enums\CinemaStatuses;
 use Illuminate\Database\Eloquent\Builder;
 
 class CinemaFilter extends Filter
@@ -20,15 +21,7 @@ class CinemaFilter extends Filter
                         ->orWhere('district', 'LIKE', '%' . $search . '%')
                         ->orWhere('address', 'LIKE', '%' . $search . '%')
                         ->orWhere('capacity', 'LIKE', '%' . $search . '%')
-                        ->orWhere(function (Builder $query) use ($search) {
-                            if (str_contains('opened', $search)) {
-                                $query->where('is_opened', 1);
-                            }
-
-                            if (str_contains('closed', $search)) {
-                                $query->where('is_opened', 0);
-                            }
-                        });
+                        ->orWhere('status', 'LIKE', '%' . $search . '%');
                 });
         }
 
@@ -60,7 +53,7 @@ class CinemaFilter extends Filter
                     break;
 
                 case 'status':
-                    $this->query->orderBy('is_opened', $order);
+                    $this->query->orderBy('status', $order);
                     break;
 
                 default:
@@ -95,12 +88,18 @@ class CinemaFilter extends Filter
         if ($request->has('status')) {
             switch ($request->status) {
                 case 'opened': {
-                        $this->query->where('is_opened', true);
+                        $this->query->where(
+                            'status',
+                            CinemaStatuses::Opened->value
+                        );
                         break;
                     }
 
                 case 'closed': {
-                        $this->query->where('is_opened', false);
+                        $this->query->where(
+                            'status',
+                            CinemaStatuses::Closed->value
+                        );
                         break;
                     }
             }

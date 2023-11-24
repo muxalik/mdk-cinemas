@@ -26,9 +26,7 @@ class CinemaExport implements FromCollection, WithHeadings, ShouldAutoSize
                 'district' => $cinema->district,
                 'address' => $cinema->address,
                 'capacity' => $cinema->capacity,
-                'status' => $cinema->is_opened
-                    ? 'Opened'
-                    : 'Closed',
+                'status' => $cinema->status->value,
             ];
         });
     }

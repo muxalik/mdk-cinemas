@@ -20,12 +20,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('cinemas')->group(function () {
-    Route::get('pdf', [PdfController::class, 'exportCinemas']);
-    Route::get('excel', [ExcelController::class, 'exportCinemas']);
-    Route::get('list', [CinemaController::class, 'list']);
-    Route::apiResource('/', CinemaController::class)->only('index');
-});
+Route::get('cinemas/pdf', [PdfController::class, 'exportCinemas']);
+Route::get('cinemas/excel', [ExcelController::class, 'exportCinemas']);
+Route::get('cinemas/list', [CinemaController::class, 'list']);
+Route::apiResource('cinemas', CinemaController::class);
 
 Route::prefix('movies')->group(function () {
     Route::get('pdf', [PdfController::class, 'exportMovies']);

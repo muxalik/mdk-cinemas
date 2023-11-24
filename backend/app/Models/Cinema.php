@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CinemaStatuses;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -16,11 +17,11 @@ class Cinema extends Model
         'address',
         'category',
         'capacity',
-        'is_opened',
+        'status',
     ];
 
     protected $casts = [
-        'is_opened' => 'bool',
+        'status' => CinemaStatuses::class,
     ];
 
     public function sessions(): HasMany
