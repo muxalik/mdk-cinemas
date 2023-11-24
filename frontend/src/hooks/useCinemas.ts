@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { cinema, pagination } from '../types'
 import api, { baseURL } from '../utils/api'
+import { useNavigate } from 'react-router-dom'
+import useSort from './useSort'
 
 const useCinemas = (appliedFilters: any) => {
-  const [sortBy, setSortBy] = useState<string | null>(null)
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
+  const navigate = useNavigate()
   const [query, setQuery] = useState('')
-  const [cinemas, setCinemas] = useState<cinema[] | null>(null)
+  const [cinemas, setCinemas] = useState<cinema[]>([])
   const [pagination, setPagination] = useState<pagination>({
     current: 1,
     total: 0,
@@ -14,8 +15,9 @@ const useCinemas = (appliedFilters: any) => {
     to: 0,
     perPage: 10,
   })
+  const { sortBy, sortOrder, setSortBy, setSortOrder } = useSort()
 
-  useEffect(() => {
+  const fetchCinemas = () => {
     api
       .get(baseURL + '/cinemas', {
         params: {
@@ -40,6 +42,10 @@ const useCinemas = (appliedFilters: any) => {
         })
       })
       .catch(console.log)
+  }
+
+  useEffect(() => {
+    fetchCinemas()
   }, [pagination.current, query, sortBy, sortOrder, appliedFilters])
 
   const onPageChange = (page: number) =>
@@ -49,6 +55,26 @@ const useCinemas = (appliedFilters: any) => {
         current: page,
       }
     })
+
+  const deleteCinema = (id: number) => {
+    api
+      .delete(baseURL + `/cinemas/${id}`)
+      .then(() => {
+        fetchCinemas()
+      })
+      .catch(console.log)
+  }
+
+  const editCinema = (id: number) => {
+    navigate(`/cinemas/${id}/edit`, {
+      state: { cinema: cinemas.find((cinema) => cinema.id === id) },
+    })
+  }
+
+  const onColumnClick = (colName: string) => {
+    setSortBy(colName)
+    setSortOrder(colName)
+  }
 
   return {
     sortBy,
@@ -61,6 +87,9 @@ const useCinemas = (appliedFilters: any) => {
     pagination,
     setPagination,
     onPageChange,
+    deleteCinema,
+    editCinema,
+    onColumnClick,
   }
 }
 

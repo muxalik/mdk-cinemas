@@ -34,15 +34,16 @@ const Cinemas = () => {
 
   const {
     sortBy,
-    setSortBy,
     sortOrder,
-    setSortOrder,
     query,
     setQuery,
     pagination,
     setPagination,
     onPageChange,
     cinemas,
+    editCinema,
+    deleteCinema,
+    onColumnClick,
   } = useCinemas(appliedFilters)
 
   return (
@@ -223,18 +224,11 @@ const Cinemas = () => {
           rows={cinemas}
           pagination={pagination}
           onPageChange={onPageChange}
-          onColumnClick={(columnKey) => {
-            setSortBy(columnKey)
-            setSortOrder(
-              columnKey === sortBy
-                ? sortOrder === 'asc'
-                  ? 'desc'
-                  : 'asc'
-                : 'asc'
-            )
-          }}
+          onColumnClick={onColumnClick}
           sortedCol={sortBy}
           sortOrder={sortOrder}
+          onRowDelete={deleteCinema}
+          onRowEdit={editCinema}
         />
       </div>
     </Layout>
