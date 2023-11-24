@@ -33,15 +33,16 @@ const Actors = () => {
 
   const {
     sortBy,
-    setSortBy,
     sortOrder,
-    setSortOrder,
     query,
     setQuery,
     pagination,
     setPagination,
     onPageChange,
     actors,
+    onColumnClick,
+    editActor,
+    deleteActor,
   } = useActors(appliedFilters)
 
   return (
@@ -240,18 +241,11 @@ const Actors = () => {
           rows={actors}
           pagination={pagination}
           onPageChange={onPageChange}
-          onColumnClick={(columnKey) => {
-            setSortBy(columnKey)
-            setSortOrder(
-              columnKey === sortBy
-                ? sortOrder === 'asc'
-                  ? 'desc'
-                  : 'asc'
-                : 'asc'
-            )
-          }}
+          onColumnClick={onColumnClick}
           sortedCol={sortBy}
           sortOrder={sortOrder}
+          onRowDelete={deleteActor}
+          onRowEdit={editActor}
         />
       </div>
     </Layout>

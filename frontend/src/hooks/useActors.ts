@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { actor, pagination } from '../types'
 import api, { baseURL } from '../utils/api'
+import { useNavigate } from 'react-router-dom'
+import useSort from './useSort'
 
 const useActors = (appliedFilters: any) => {
-  const [sortBy, setSortBy] = useState<string | null>(null)
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
+  const navigate = useNavigate()
   const [query, setQuery] = useState('')
-  const [actors, setActors] = useState<actor[] | null>(null)
+  const [actors, setActors] = useState<actor[]>([])
   const [pagination, setPagination] = useState<pagination>({
     current: 1,
     total: 0,
@@ -14,8 +15,9 @@ const useActors = (appliedFilters: any) => {
     to: 0,
     perPage: 10,
   })
+  const { sortBy, sortOrder, setSortBy, setSortOrder } = useSort()
 
-  useEffect(() => {
+  const fetchActors = () => {
     api
       .get(baseURL + '/actors', {
         params: {
@@ -41,6 +43,10 @@ const useActors = (appliedFilters: any) => {
         })
       })
       .catch(console.log)
+  }
+
+  useEffect(() => {
+    fetchActors()
   }, [pagination.current, query, sortBy, sortOrder, appliedFilters])
 
   const onPageChange = (page: number) =>
@@ -50,6 +56,26 @@ const useActors = (appliedFilters: any) => {
         current: page,
       }
     })
+
+  const deleteActor = (id: number) => {
+    api
+      .delete(baseURL + `/actors/${id}`)
+      .then(() => {
+        fetchActors()
+      })
+      .catch(console.log)
+  }
+
+  const editActor = (id: number) => {
+    navigate(`/actors/${id}/edit`, {
+      state: { actor: actors.find((actor) => actor.id === id) },
+    })
+  }
+
+  const onColumnClick = (colName: string) => {
+    setSortBy(colName)
+    setSortOrder(colName)
+  }
 
   return {
     sortBy,
@@ -62,6 +88,9 @@ const useActors = (appliedFilters: any) => {
     pagination,
     setPagination,
     onPageChange,
+    editActor,
+    deleteActor,
+    onColumnClick,
   }
 }
 
