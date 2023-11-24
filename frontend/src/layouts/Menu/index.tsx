@@ -6,14 +6,14 @@ import User from './User'
 import MenuIcon from '../../components/UI/MenuIcon'
 import Notifications from './Notifications'
 import Mail from './Mail'
-import { state } from '../../storage'
+import useCollapse from '../../hooks/useCollapse'
 
 const Menu = () => {
   const [activeTab, setActiveTab] = useState<null | string>(null)
+  const [collapsed, setCollapsed] = useCollapse(false)
 
   const onBurgerClick = () => {
-    state.sidebarCollapsed = !state.sidebarCollapsed
-    document.body.classList.toggle('sidebar-collapsed')
+    setCollapsed(!collapsed)
   }
 
   return (

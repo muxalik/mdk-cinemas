@@ -57,28 +57,14 @@ const useCinema = () => {
 
   const onSave = () => {
     api
-      .patch(baseURL + `/cinemas/${cinema.id}`, {
-        name: data.name,
-        district: data.district,
-        address: data.address,
-        category: data.category,
-        capacity: data.capacity,
-        status: data.status,
-      })
+      .patch(baseURL + `/cinemas/${cinema.id}`, data)
       .then(redirectBack)
       .catch(console.log)
   }
 
   const onCreate = () => {
     api
-      .post(baseURL + '/cinemas', {
-        name: data.name,
-        district: data.district,
-        address: data.address,
-        category: data.category,
-        capacity: data.capacity,
-        status: data.status,
-      })
+      .post(baseURL + '/cinemas', data)
       .then(redirectBack)
       .catch(console.log)
   }
