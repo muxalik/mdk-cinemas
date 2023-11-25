@@ -47,6 +47,12 @@ class ActorFilter extends Filter
                         ->orderBy('movies_count', $order);
                     break;
 
+                case 'main_role_movies':
+                    $this->query
+                        ->withCount('moviesWithMainRole')
+                        ->orderBy('movies_with_main_role_count', $order);
+                    break;
+
                 default:
                     $this->query->latest('id');
                     break;
