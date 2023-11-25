@@ -4,7 +4,7 @@
     <div class="table-scrollable">
         <table id="cinemas" class="table table-bordered table-hover">
             <thead>
-                <tr>
+                <tr class="header-row-with-bg">
                     <th>Cinema</th>
                     <th>District</th>
                     <th>Address</th>
@@ -14,8 +14,8 @@
             </thead>
             <tbody id="body">
                 @foreach ($cinemas as $cinema)
-                    <tr>
-                        <td>{{ $cinema->name }}</td>
+                <tr @if ($loop->iteration % 2 === 0) class="row-with-bg" @endif>
+                    <td>{{ $cinema->name }}</td>
                         <td>{{ $cinema->district }}</td>
                         <td>{{ $cinema->address }}</td>
                         <td>{{ $cinema->capacity }}</td>

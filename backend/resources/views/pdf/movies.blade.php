@@ -4,7 +4,7 @@
     <div class="table-scrollable">
         <table id="movies" class="table table-bordered table-hover">
             <thead>
-                <tr>
+                <tr class="header-row-with-bg">
                     <th>Name</th>
                     <th>Producer</th>
                     <th>Operator</th>
@@ -18,7 +18,7 @@
             </thead>
             <tbody id="body">
                 @foreach ($movies as $movie)
-                    <tr>
+                    <tr @if ($loop->iteration % 2 === 0) class="row-with-bg" @endif>
                         <td>{{ $movie->name }}</td>
                         <td>{{ $movie->producer }}</td>
                         <td>{{ $movie->operator }}</td>
