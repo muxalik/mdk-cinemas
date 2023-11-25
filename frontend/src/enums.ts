@@ -12,3 +12,9 @@ export enum CinemaStatuses {
   closed = 'Closed',
   any = 'Any',
 }
+
+export enum MovieStatuses {
+  available = 'Available',
+  not_available = 'Not available',
+  any = 'Any',
+}

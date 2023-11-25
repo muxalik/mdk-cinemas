@@ -106,7 +106,7 @@ const Cinemas = () => {
                             minCapacity: !value.length ? null : +value,
                           })
                         }
-                        onlyNumbers={true}
+                        onlyNumbers
                         value={currentFilters.minCapacity}
                         label='Minimum capacity'
                         placeholder='Minimum...'
@@ -132,11 +132,11 @@ const Cinemas = () => {
                     <div className='filters-radio'>
                       {cinemaStatuses.map((status) => (
                         <Radio
-                          checked={currentFilters.status === status.key}
+                          checked={currentFilters.status === status.value}
                           onChange={() =>
                             setCurrentFilters({
                               ...currentFilters,
-                              status: status.key,
+                              status: status.value.toString(),
                             })
                           }
                           label={status.name}

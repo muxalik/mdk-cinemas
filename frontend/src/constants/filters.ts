@@ -1,9 +1,5 @@
-import { cinemaFilters } from '../types'
-
-type cinemaStatus = {
-  key: string
-  name: string
-}
+import { option } from '../components/UI/Select'
+import { cinemaFilters, movieFilters } from '../types'
 
 export const cinemaDefaultFilters: cinemaFilters = {
   minCapacity: null,
@@ -11,17 +7,41 @@ export const cinemaDefaultFilters: cinemaFilters = {
   status: 'any',
 }
 
-export const cinemaStatuses: cinemaStatus[] = [
+export const cinemaStatuses: option[] = [
   {
-    key: 'opened',
+    value: 'opened',
     name: 'Only opened',
   },
   {
-    key: 'closed',
+    value: 'closed',
     name: 'Only Closed',
   },
   {
-    key: 'any',
+    value: 'any',
+    name: 'Any',
+  },
+]
+
+export const movieDefaultFilters: movieFilters = {
+  genres: [],
+  minPrice: null,
+  maxPrice: null,
+  status: 'any',
+  minDuration: null,
+  maxDuration: null,
+}
+
+export const movieStatuses: option[] = [
+  {
+    value: 'available',
+    name: 'Available',
+  },
+  {
+    value: 'closed',
+    name: 'Closed',
+  },
+  {
+    value: 'any',
     name: 'Any',
   },
 ]

@@ -3,12 +3,16 @@
 namespace App\Enums;
 
 use App\Interfaces\EnumerableInterface;
+use App\Interfaces\LocalizableInterface;
 use App\Traits\Enumerable;
+use App\Traits\Localizable;
 
-enum MovieStatuses: string implements EnumerableInterface
+enum MovieStatuses: string implements
+    EnumerableInterface,
+    LocalizableInterface
 {
-    use Enumerable;
+    use Enumerable, Localizable;
 
-    case Available = 'Available';
-    case NotAvailable = 'Not available';
+    case Available = 'available';
+    case NotAvailable = 'not_available';
 }

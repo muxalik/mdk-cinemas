@@ -16,7 +16,7 @@ interface props {
   hasError?: boolean
   error?: string
   label?: string
-  options: option[]
+  options?: option[]
   selected?: string | number | null
   onChange: (option: option) => void
 }
@@ -34,7 +34,7 @@ const Select: FC<props> = ({
   hasError,
   error,
   label,
-  options,
+  options = [],
   selected,
   onChange,
 }) => {

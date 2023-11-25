@@ -11,6 +11,7 @@ import CreateSession from './pages/Sessions/CreateSession'
 import EditCinema from './pages/Cinemas/EditCinema'
 import CreateCinema from './pages/Cinemas/CreateCinema'
 import EditMovie from './pages/Movies/EditMovie'
+import CreateMovie from './pages/Movies/CreateMovie'
 
 const App = () => {
   return (
@@ -21,18 +22,18 @@ const App = () => {
           <Route path='create' element={<CreateCinema />} />
           <Route path=':id/edit' element={<EditCinema />} />
         </Route>
-        {/* <Route path='/movies'>
+        <Route path='/movies'>
           <Route index element={<Movies />} />
-          <Route path='create' element={<CreateCinema />} />
+          <Route path='create' element={<CreateMovie />} />
           <Route path=':id/edit' element={<EditMovie />} />
         </Route>
-        <Route path='/actors' element={<Actors />} />
+        {/* <Route path='/actors' element={<Actors />} />
         <Route path='/sessions'>
           <Route index element={<Sessions />} />
           <Route path='create' element={<CreateSession />} />
           <Route path=':id/edit' element={<EditSession />} />
-        </Route> */}
-        <Route path='*' element={<Navigate to='/cinemas' />} />
+        </Route>
+        <Route path='*' element={<Navigate to='/cinemas' />} /> */}
       </Routes>
     </div>
   )

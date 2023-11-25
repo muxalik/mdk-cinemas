@@ -27,8 +27,8 @@ class MovieExport implements FromCollection, ShouldAutoSize, WithHeadings
             'genre' => $movie->genre->value,
             'production' => $movie->production,
             'awards' => $movie->awards,
-            'duration' => $movie->duration,
-            'status' => $movie->status->value,
+            'duration' => $movie->formatted_duration,
+            'status' => $movie->status->localize()->locale,
             'price' => $movie->formatted_price,
         ]);
     }

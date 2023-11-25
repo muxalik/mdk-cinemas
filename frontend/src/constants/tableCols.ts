@@ -55,7 +55,7 @@ export const movieCols: tableCol[] = [
   {
     key: 'name',
     sort: 'name',
-    value: 'Name',
+    value: 'Movie',
   },
   {
     key: 'producer',
@@ -89,7 +89,7 @@ export const movieCols: tableCol[] = [
     oneLine: true,
   },
   {
-    key: 'status',
+    key: 'status.locale',
     sort: 'status',
     value: 'Status',
     oneLine: true,

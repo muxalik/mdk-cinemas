@@ -23,7 +23,7 @@ class MovieResource extends JsonResource
             'production' => $this->production,
             'awards' => $this->awards,
             'duration' => $this->formatted_duration,
-            'status' => $this->status->value,
+            'status' => $this->status->localize()->toArray(),
             'price' => [
                 'formatted' => $this->formatted_price,
                 'digital' => $this->price,

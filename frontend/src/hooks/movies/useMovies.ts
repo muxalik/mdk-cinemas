@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
-import api, { baseURL } from '../utils/api'
-import useGenres from './useGenres'
-import { movie, pagination } from '../types'
+import api, { baseURL } from '../../utils/api'
+import useGenres from '../useGenres'
+import { movie, pagination } from '../../types'
 import { useNavigate } from 'react-router-dom'
-import useSort from './useSort'
+import useSort from '../useSort'
+import { MovieStatuses } from '../../enums'
+import { option } from '../../components/UI/Select'
 
 const useMovies = (appliedFilters: any) => {
   const navigate = useNavigate()
@@ -16,8 +18,17 @@ const useMovies = (appliedFilters: any) => {
     to: 0,
     perPage: 10,
   })
-  const { sortBy, sortOrder, setSortBy, setSortOrder } = useSort()
+  const { sortBy, sortOrder, toggleSort } = useSort()
   const genres = useGenres()
+
+  const statuses = Object.keys(MovieStatuses)
+    .filter((key) => key !== 'any')
+    .map((key): option => {
+      return {
+        name: MovieStatuses[key as keyof typeof MovieStatuses],
+        value: key,
+      }
+    })
 
   const fetchMovies = () => {
     api
@@ -74,26 +85,29 @@ const useMovies = (appliedFilters: any) => {
     })
   }
 
-  const onColumnClick = (colName: string) => {
-    setSortBy(colName)
-    setSortOrder(colName)
+  const onSearch = (value: string) => {
+    setPagination((prev) => {
+      return {
+        ...prev,
+        current: 1,
+      }
+    })
+    setQuery(value)
   }
 
   return {
     genres,
     sortBy,
-    setSortBy,
     sortOrder,
-    setSortOrder,
     query,
-    setQuery,
     pagination,
-    setPagination,
-    onPageChange,
     movies,
+    onPageChange,
     editMovie,
     deleteMovie,
-    onColumnClick,
+    toggleSort,
+    onSearch,
+    statuses,
   }
 }
 

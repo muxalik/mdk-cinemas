@@ -1,4 +1,4 @@
-import { CinemaStatuses } from './enums'
+export type localizedObj = {}
 
 export type cinema = {
   id: number
@@ -7,10 +7,7 @@ export type cinema = {
   address: string
   category: string
   capacity: number
-  status: {
-    value: string
-    locale: string
-  }
+  status: localizedObj
 }
 
 export type movie = {
@@ -22,7 +19,7 @@ export type movie = {
   production: string
   awards: string
   duration: string
-  status: string
+  status: localizedObj
   price: {
     formatted: string
     digital: number
@@ -93,18 +90,9 @@ export type movieFilters = {
   genres: string[]
   minPrice: number | null
   maxPrice: number | null
-  status: 'Available' | 'Not available' | null
+  status: string | null
   minDuration: string | null
   maxDuration: string | null
-}
-
-export const movieDefaultFilters: movieFilters = {
-  genres: [],
-  minPrice: null,
-  maxPrice: null,
-  status: null,
-  minDuration: null,
-  maxDuration: null,
 }
 
 export type actorFilters = {

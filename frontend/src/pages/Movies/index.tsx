@@ -5,7 +5,6 @@ import Button from '../../components/UI/Button'
 import { Variants } from '../../enums'
 import { cross, plus, search, slider } from '../../assets'
 import TextField from '../../components/UI/TextField'
-import { movieDefaultFilters } from '../../types'
 import Exports from '../../components/Exports'
 import Table from '../../components/UI/Table'
 import { movieCols } from '../../constants/tableCols'
@@ -15,11 +14,15 @@ import Checkbox from '../../components/UI/Checkbox'
 import Radio from '../../components/UI/Radio'
 import Filters from '../../components/Filters'
 import useFilters from '../../hooks/useFilters'
-import useMovies from '../../hooks/useMovies'
+import useMovies from '../../hooks/movies/useMovies'
 import { movieBreadcrumbs } from '../../constants/breadcrumbs'
 import { moviesExports } from '../../constants/exports'
+import { useNavigate } from 'react-router-dom'
+import { movieDefaultFilters, movieStatuses } from '../../constants/filters'
 
 const Movies = () => {
+  const navigate = useNavigate()
+
   const {
     appliedFilters,
     currentFilters,
@@ -38,15 +41,22 @@ const Movies = () => {
     sortBy,
     sortOrder,
     query,
-    setQuery,
     pagination,
-    setPagination,
     onPageChange,
     movies,
     editMovie,
     deleteMovie,
-    onColumnClick,
+    toggleSort,
+    onSearch,
   } = useMovies(appliedFilters)
+
+  const onGenreChange = (genreKey: string) =>
+    setCurrentFilters({
+      ...currentFilters,
+      genres: currentFilters.genres?.includes(genreKey)
+        ? currentFilters.genres.filter((item) => genreKey !== item)
+        : [...currentFilters.genres, genreKey],
+    })
 
   return (
     <Layout>
@@ -63,6 +73,7 @@ const Movies = () => {
               variant={Variants.primary}
               text='Add movie'
               icon={plus}
+              onClick={() => navigate('create')}
             />
           </div>
         </div>
@@ -71,15 +82,7 @@ const Movies = () => {
             placeholder='Search movie'
             icon={search}
             value={query}
-            onChange={(e) => {
-              setPagination((prev) => {
-                return {
-                  ...prev,
-                  current: 1,
-                }
-              })
-              setQuery(e.target.value)
-            }}
+            onChange={onSearch}
           />
           <div ref={filtersRef} className='filters'>
             <Button
@@ -108,16 +111,7 @@ const Movies = () => {
                         <Checkbox
                           id={genre.key}
                           checked={currentFilters.genres?.includes(genre.key)}
-                          onChange={() =>
-                            setCurrentFilters({
-                              ...currentFilters,
-                              genres: currentFilters.genres?.includes(genre.key)
-                                ? currentFilters.genres.filter(
-                                    (item) => genre.key !== item
-                                  )
-                                : [...currentFilters.genres, genre.key],
-                            })
-                          }
+                          onChange={() => onGenreChange(genre.key)}
                           label={genre.value}
                         />
                       ))}
@@ -128,26 +122,13 @@ const Movies = () => {
                       <TextField
                         id='min-price'
                         type='number'
-                        onChange={(e) =>
-                          setCurrentFilters((prev) => {
-                            const value = e.target.value
-
-                            return {
-                              ...prev,
-                              minPrice:
-                                value === ''
-                                  ? null
-                                  : !isNaN(+value) && +value >= 0
-                                  ? +value
-                                  : prev.minPrice,
-                            }
+                        onChange={(value) =>
+                          setCurrentFilters({
+                            ...currentFilters,
+                            minPrice: !value.length ? null : +value,
                           })
                         }
-                        value={
-                          currentFilters.minPrice === null
-                            ? ''
-                            : currentFilters.minPrice?.toString()
-                        }
+                        value={currentFilters.minPrice}
                         label='Minimum price'
                         placeholder='Minimum...'
                       />
@@ -156,26 +137,13 @@ const Movies = () => {
                       <TextField
                         id='max-price'
                         type='number'
-                        onChange={(e) =>
-                          setCurrentFilters((prev) => {
-                            const value = e.target.value
-
-                            return {
-                              ...prev,
-                              maxPrice:
-                                value === ''
-                                  ? null
-                                  : !isNaN(+value) && +value >= 0
-                                  ? +value
-                                  : prev.maxPrice,
-                            }
+                        onChange={(value) =>
+                          setCurrentFilters({
+                            ...currentFilters,
+                            maxPrice: !value.length ? null : +value,
                           })
                         }
-                        value={
-                          currentFilters.maxPrice === null
-                            ? ''
-                            : currentFilters.maxPrice?.toString()
-                        }
+                        value={currentFilters.maxPrice}
                         label='Maximun price'
                         placeholder='Maximum...'
                       />
@@ -183,36 +151,18 @@ const Movies = () => {
                   </FilterGroup>
                   <FilterGroup title='Status' opened>
                     <div className='filters-radio'>
-                      <Radio
-                        checked={currentFilters.status === 'Available'}
-                        onChange={() =>
-                          setCurrentFilters({
-                            ...currentFilters,
-                            status: 'Available',
-                          })
-                        }
-                        label='Available'
-                      />
-                      <Radio
-                        checked={currentFilters.status === 'Not available'}
-                        onChange={() =>
-                          setCurrentFilters({
-                            ...currentFilters,
-                            status: 'Not available',
-                          })
-                        }
-                        label='Not available'
-                      />
-                      <Radio
-                        checked={currentFilters.status === null}
-                        onChange={() =>
-                          setCurrentFilters({
-                            ...currentFilters,
-                            status: null,
-                          })
-                        }
-                        label='Any'
-                      />
+                      {movieStatuses.map((status) => (
+                        <Radio
+                          checked={currentFilters.status === status.value}
+                          onChange={() =>
+                            setCurrentFilters({
+                              ...currentFilters,
+                              status: status.value.toString(),
+                            })
+                          }
+                          label={status.name}
+                        />
+                      ))}
                     </div>
                   </FilterGroup>
                 </div>
@@ -241,7 +191,7 @@ const Movies = () => {
           rows={movies}
           pagination={pagination}
           onPageChange={onPageChange}
-          onColumnClick={onColumnClick}
+          onColumnClick={toggleSort}
           sortedCol={sortBy}
           sortOrder={sortOrder}
           onRowDelete={deleteMovie}

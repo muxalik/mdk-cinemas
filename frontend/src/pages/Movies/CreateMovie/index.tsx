@@ -4,29 +4,38 @@ import Footer from '../../../layouts/Footer'
 import { FC } from 'react'
 import Button from '../../../components/UI/Button'
 import { Variants } from '../../../enums'
-import { check, cross } from '../../../assets'
+import { check, cross, dollar } from '../../../assets'
 import Breadcrumbs from '../../../components/UI/Breadcrumbs'
-import { cinemaEditBreadcrumbs } from '../../../constants/breadcrumbs'
+import { movieCreateBreadcrumbs } from '../../../constants/breadcrumbs'
 import FormCard from '../../../components/UI/FormCard'
 import TextField from '../../../components/UI/TextField'
 import Select from '../../../components/UI/Select'
-import useCinema from '../../../hooks/cinemas/useCinema'
+import useMovie from '../../../hooks/movies/useMovie'
 
-const EditCinema = () => {
-  const { data, setField, statuses, onCancel, onSave, canBeSaved } = useCinema()
+const CreateMovie = () => {
+  const {
+    data,
+    setField,
+    durationRef,
+    onCancel,
+    onCreate,
+    canBeSaved,
+    statuses,
+    genres,
+  } = useMovie()
 
   return (
     <Layout>
-      <div className='cinemas'>
+      <div className='movies'>
         <div className='intro'>
           <div className='location'>
-            <h1 className='title'>Edit Cinema</h1>
-            <Breadcrumbs links={cinemaEditBreadcrumbs} />
+            <h1 className='title'>Add Movie</h1>
+            <Breadcrumbs links={movieCreateBreadcrumbs} />
           </div>
           <div className='actions'>
             <Controls
               onCancel={onCancel}
-              onSave={onSave}
+              onSave={onCreate}
               saveDisabled={!canBeSaved}
             />
           </div>
@@ -47,11 +56,21 @@ const EditCinema = () => {
               <div className='input-group'>
                 <TextField
                   type='text'
-                  id='district'
-                  label='District'
-                  placeholder='Enter district'
-                  value={data.district}
-                  onChange={(value) => setField('district', value)}
+                  id='producer'
+                  label='Producer'
+                  placeholder='Enter producer'
+                  value={data.producer}
+                  onChange={(value) => setField('producer', value)}
+                />
+              </div>
+              <div className='input-group'>
+                <TextField
+                  type='text'
+                  id='operator'
+                  label='Operator'
+                  placeholder='Enter operator'
+                  value={data.operator}
+                  onChange={(value) => setField('operator', value)}
                 />
               </div>
             </div>
@@ -59,33 +78,22 @@ const EditCinema = () => {
               <div className='input-group'>
                 <TextField
                   type='text'
-                  id='address'
-                  label='Address'
-                  placeholder='Enter address'
-                  value={data.address}
-                  onChange={(value) => setField('address', value)}
+                  id='production'
+                  label='Production'
+                  placeholder='Enter production'
+                  value={data.production}
+                  onChange={(value) => setField('production', value)}
                 />
               </div>
-            </div>
-            <div className='input-row'>
               <div className='input-group'>
                 <TextField
+                  ref={durationRef}
                   type='text'
-                  id='category'
-                  label='Category'
-                  placeholder='Enter category'
-                  value={data.category}
-                  onChange={(value) => setField('category', value)}
-                />
-              </div>
-              <div className='input-group'>
-                <TextField
-                  type='number'
-                  id='capacity'
-                  label='Capacity'
-                  placeholder='Enter capacity'
-                  value={data.capacity}
-                  onChange={(value) => setField('capacity', +value)}
+                  id='duration'
+                  label='Duration'
+                  placeholder='Enter duration'
+                  value={data.duration}
+                  onChange={(value) => setField('duration', value)}
                 />
               </div>
               <div className='input-group'>
@@ -96,9 +104,43 @@ const EditCinema = () => {
                   options={statuses}
                   label='Status'
                   selected={data.status}
-                  onChange={(option) => {
-                    setField('status', option.value)
-                  }}
+                  onChange={(option) => setField('status', option.value)}
+                />
+              </div>
+            </div>
+            <div className='input-row'>
+              <div className='input-group'>
+                <Select
+                  id='genres'
+                  variant='outline'
+                  placeholder='Select genre'
+                  options={genres}
+                  label='Genre'
+                  selected={data.genre}
+                  onChange={(option) => setField('genre', option.value)}
+                />
+              </div>
+              <div className='input-group'>
+                <TextField
+                  type='number'
+                  id='price'
+                  label='Price'
+                  placeholder='Enter price'
+                  icon={dollar}
+                  value={data.price}
+                  onChange={(value) => setField('price', +value)}
+                />
+              </div>
+            </div>
+            <div className='input-row'>
+              <div className='input-group'>
+                <TextField
+                  type='text'
+                  id='awards'
+                  label='Awards'
+                  placeholder='Enter awards'
+                  value={data.awards}
+                  onChange={(value) => setField('awards', value)}
                 />
               </div>
             </div>
@@ -109,7 +151,7 @@ const EditCinema = () => {
             <div className='actions'>
               <Controls
                 onCancel={onCancel}
-                onSave={onSave}
+                onSave={onCreate}
                 saveDisabled={!canBeSaved}
               />
             </div>
@@ -140,10 +182,10 @@ const Controls: FC<controlsProps> = ({ onCancel, onSave, saveDisabled }) => (
       variant={Variants.primary}
       icon={check}
       disabled={saveDisabled}
-      text='Save cinema'
+      text='Add movie'
       onClick={onSave}
     />
   </>
 )
 
-export default EditCinema
+export default CreateMovie
