@@ -1,30 +1,131 @@
 import './styles.scss'
 import Layout from '../../../layouts/Layout'
 import Footer from '../../../layouts/Footer'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import Button from '../../../components/UI/Button'
 import { Variants } from '../../../enums'
-import { check, cross, trash } from '../../../assets'
+import { check, cross } from '../../../assets'
 import Breadcrumbs from '../../../components/UI/Breadcrumbs'
 import { actorEditBreadcrumbs } from '../../../constants/breadcrumbs'
 import FormCard from '../../../components/UI/FormCard'
 import TextField from '../../../components/UI/TextField'
-import Select from '../../../components/UI/Select'
-import useActor from '../../../hooks/actors/useActor'
-import Checkbox from '../../../components/UI/Checkbox'
 import Table from '../../../components/UI/Table'
-import useActorMovies from '../../../hooks/movies/useActorMovies'
 import { actorMovieCols } from '../../../constants/tableCols'
+import { useLocation, useNavigate } from 'react-router-dom'
+import api, { baseURL } from '../../../utils/api'
+import useSort from '../../../hooks/useSort'
+import { actorMovie } from '../../../types'
+import { isEqual } from 'lodash'
+
+type data = {
+  name: string | null
+  movies: {
+    id: number
+    is_main_role: boolean
+  }[]
+  total_movies: number | null
+  main_role_movies: number | null
+}
 
 const EditActor = () => {
-  const { actor, data, setField, onCancel, onSave, canBeSaved } = useActor()
+  const navigate = useNavigate()
+  const state = useLocation().state
+  const actor = state?.actor
+  const [actorMovies, setActorMovies] = useState<actorMovie[]>([])
 
-  const { sortBy, sortOrder, actorMovies, deleteActorMovie, toggleSort } =
-    useActorMovies()
+  const defaultData: data = {
+    name: actor?.name,
+    movies: actorMovies.map((movie) => ({
+      id: movie.id,
+      is_main_role: movie.main_role.value,
+    })),
+    total_movies: actor?.total_movies || 0,
+    main_role_movies: actor?.main_role_movies || 0,
+  }
+
+  const [data, setData] = useState<data>(defaultData)
+  const [fakeDeleted, setFakeDeleted] = useState<number[]>([])
+  const { sortBy, sortOrder, toggleSort } = useSort()
+
+  const setField = (field: string, value: string | number) => {
+    setData({
+      ...data,
+      [field]: value,
+    })
+  }
+
+  const canBeSaved =
+    !isEqual(defaultData, data) &&
+    Object.values(data).every((value) => value !== null && value !== undefined)
+
+  const fetchActorMovies = () => {
+    api
+      .get(baseURL + `/actors/${actor.id}/edit`, {
+        params: {
+          sort: sortBy,
+          order: sortOrder,
+        },
+      })
+      .then((response) => {
+        const movies = response.data.data
+
+        setActorMovies(movies)
+
+        setData({
+          ...data,
+          movies: movies
+            .filter((movie: actorMovie) => !fakeDeleted.includes(movie.id))
+            .map((movie: actorMovie) => ({
+              id: movie.id,
+              is_main_role: movie.main_role.value,
+            })),
+        })
+      })
+      .catch(console.log)
+  }
+
+  useEffect(() => {
+    fetchActorMovies()
+  }, [sortBy, sortOrder])
+
+  const redirectBack = () => navigate('/actors', { state: {} })
+
+  const onCancel = () => redirectBack()
+
+  const onSave = () => {
+    api
+      .patch(baseURL + `/actors/${actor.id}`, {
+        name: data.name,
+        movies: data.movies,
+        deleted_movies: fakeDeleted,
+      })
+      .then(() => {
+        redirectBack()
+      })
+      .catch(console.log)
+  }
+
+  const fakeDelete = (movieId: number) => {
+    setFakeDeleted([...fakeDeleted, movieId])
+
+    setActorMovies((prev) =>
+      prev.filter((actorMovie) => actorMovie.id !== movieId)
+    )
+
+    const movie = actorMovies.find((movie) => movie.id === movieId)
+
+    setData((prev) => ({
+      ...prev,
+      total_movies: (prev.total_movies || 0) - 1,
+      main_role_movies: movie?.main_role.value
+        ? (prev.main_role_movies || 0) - 1
+        : prev.main_role_movies,
+    }))
+  }
 
   return (
     <Layout>
-      <div className='actors'>
+      <div className='actors has-footer'>
         <div className='intro'>
           <div className='location'>
             <h1 className='title'>Edit Actor</h1>
@@ -83,7 +184,7 @@ const EditActor = () => {
                 onColumnClick={toggleSort}
                 sortedCol={sortBy}
                 sortOrder={sortOrder}
-                onRowDelete={(movieId) => deleteActorMovie(actor.id, movieId)}
+                onRowDelete={fakeDelete}
               />
             </div>
           </div>

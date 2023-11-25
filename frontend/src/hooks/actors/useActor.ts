@@ -4,45 +4,31 @@ import { useState } from 'react'
 import { isEqual } from 'lodash'
 import api, { baseURL } from '../../utils/api'
 import useMoviesList from '../movies/useMoviesList'
+import useActorMovies from '../movies/useActorMovies'
 
-type data = {
-  name: string | null
-  movies: option[]
-  total_movies: number | null
-  main_role_movies: number | null
-}
 
 const useActor = () => {
   const navigate = useNavigate()
 
-  const moviesList = useMoviesList()
+  // const moviesList = useMoviesList()
 
-  const state = useLocation().state
-  const actor = state?.actor
+  
+  const {
+    sortBy,
+    sortOrder,
+    actorMovies,
+    fakeDelete,
+    saveActorMovies,
+    toggleSort,
+  } = useActorMovies()
 
-  const defaultData: data = {
-    name: actor?.name,
-    movies: [],
-    total_movies: actor?.total_movies,
-    main_role_movies: actor?.main_role_movies,
-  }
+  
 
-  const [data, setData] = useState<data>(defaultData)
-
-  const setField = (field: string, value: string | number) => {
-    setData({
-      ...data,
-      [field]: value,
-    })
-  }
+  
 
   const canBeSaved =
     !isEqual(defaultData, data) &&
     Object.values(data).every((value) => value !== null && value !== undefined)
-
-  const redirectBack = () => navigate('/actors', { state: {} })
-
-  const onCancel = () => redirectBack()
 
   const onSave = () => {
     api
@@ -60,7 +46,7 @@ const useActor = () => {
 
   return {
     actor,
-    moviesList,
+    // moviesList,
     data,
     setField,
     onCancel,
