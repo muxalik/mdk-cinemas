@@ -30,8 +30,8 @@ Route::get('movies/excel', [ExcelController::class, 'exportMovies']);
 Route::get('movies/list', [MovieController::class, 'list']);
 Route::apiResource('movies', MovieController::class);
 
-Route::get('pdf', [PdfController::class, 'exportActors']);
-Route::get('excel', [ExcelController::class, 'exportActors']);
+Route::get('actors/pdf', [PdfController::class, 'exportActors']);
+Route::get('actors/excel', [ExcelController::class, 'exportActors']);
 Route::apiResource('actors', ActorController::class);
 
 Route::get('sessions/pdf', [PdfController::class, 'exportSessions']);

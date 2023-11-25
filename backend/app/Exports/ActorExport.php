@@ -18,7 +18,7 @@ class ActorExport implements FromCollection, ShouldAutoSize, WithHeadings
     public function collection()
     {
         $actors = Actor::query()
-            ->withCount('movies')
+            ->withCount('movies', 'moviesWithMainRole')
             ->latest('id')
             ->get();
 
@@ -26,6 +26,7 @@ class ActorExport implements FromCollection, ShouldAutoSize, WithHeadings
             'id' => $actor->id,
             'name' => $actor->name,
             'total_movies' => $actor->movies_count,
+            'main_role_movies' => $actor->movies_with_main_role_count,
         ]);
     }
 
@@ -35,6 +36,7 @@ class ActorExport implements FromCollection, ShouldAutoSize, WithHeadings
             'Id',
             'Name',
             'Total movies',
+            'Main role movies'
         ];
     }
 }

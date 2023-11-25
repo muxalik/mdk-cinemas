@@ -27,8 +27,12 @@ const App = () => {
           <Route path='create' element={<CreateMovie />} />
           <Route path=':id/edit' element={<EditMovie />} />
         </Route>
-        {/* <Route path='/actors' element={<Actors />} />
-        <Route path='/sessions'>
+        <Route path='/actors'>
+          <Route index element={<Actors />} />
+          <Route path='create' element={<CreateMovie />} />
+          <Route path=':id/edit' element={<EditMovie />} />
+        </Route>
+        {/* <Route path='/sessions'>
           <Route index element={<Sessions />} />
           <Route path='create' element={<CreateSession />} />
           <Route path=':id/edit' element={<EditSession />} />

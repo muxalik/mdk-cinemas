@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { actor, pagination } from '../types'
-import api, { baseURL } from '../utils/api'
+import { actor, pagination } from '../../types'
+import api, { baseURL } from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
-import useSort from './useSort'
+import useSort from '../useSort'
 
 const useActors = (appliedFilters: any) => {
   const navigate = useNavigate()
@@ -15,7 +15,7 @@ const useActors = (appliedFilters: any) => {
     to: 0,
     perPage: 10,
   })
-  const { sortBy, sortOrder, setSortBy, setSortOrder } = useSort()
+  const { sortBy, sortOrder, toggleSort } = useSort()
 
   const fetchActors = () => {
     api
@@ -72,16 +72,19 @@ const useActors = (appliedFilters: any) => {
     })
   }
 
-  const onColumnClick = (colName: string) => {
-    setSortBy(colName)
-    setSortOrder(colName)
+  const onSearch = (value: string) => {
+    setPagination((prev) => {
+      return {
+        ...prev,
+        current: 1,
+      }
+    })
+    setQuery(value)
   }
 
   return {
     sortBy,
-    setSortBy,
     sortOrder,
-    setSortOrder,
     query,
     setQuery,
     actors,
@@ -90,7 +93,8 @@ const useActors = (appliedFilters: any) => {
     onPageChange,
     editActor,
     deleteActor,
-    onColumnClick,
+    toggleSort,
+    onSearch,
   }
 }
 

@@ -13,11 +13,14 @@ import FilterGroup from '../../components/UI/FilterGroup'
 import Link from '../../components/UI/Link'
 import Filters from '../../components/Filters'
 import useFilters from '../../hooks/useFilters'
-import useActors from '../../hooks/useActors'
+import useActors from '../../hooks/actors/useActors'
 import { actorBreadcrumbs } from '../../constants/breadcrumbs'
 import { actorsExports } from '../../constants/exports'
+import { useNavigate } from 'react-router-dom'
 
 const Actors = () => {
+  const navigate = useNavigate()
+
   const {
     appliedFilters,
     currentFilters,
@@ -35,14 +38,13 @@ const Actors = () => {
     sortBy,
     sortOrder,
     query,
-    setQuery,
     pagination,
-    setPagination,
     onPageChange,
     actors,
-    onColumnClick,
     editActor,
     deleteActor,
+    toggleSort,
+    onSearch,
   } = useActors(appliedFilters)
 
   return (
@@ -50,7 +52,7 @@ const Actors = () => {
       <div className='actors'>
         <div className='intro'>
           <div className='location'>
-            <h1 className='title'>Movies</h1>
+            <h1 className='title'>Actors</h1>
             <Breadcrumbs links={actorBreadcrumbs} />
           </div>
           <div className='actions'>
@@ -60,6 +62,7 @@ const Actors = () => {
               variant={Variants.primary}
               text='Add actor'
               icon={plus}
+              onClick={() => navigate('create')}
             />
           </div>
         </div>
@@ -68,15 +71,7 @@ const Actors = () => {
             placeholder='Search actor'
             icon={search}
             value={query}
-            onChange={(e) => {
-              setPagination((prev) => {
-                return {
-                  ...prev,
-                  current: 1,
-                }
-              })
-              setQuery(e.target.value)
-            }}
+            onChange={onSearch}
           />
           <div ref={filtersRef} className='filters'>
             <Button
@@ -104,26 +99,13 @@ const Actors = () => {
                       <TextField
                         id='min-movies'
                         type='number'
-                        onChange={(e) =>
-                          setCurrentFilters((prev) => {
-                            const value = e.target.value
-
-                            return {
-                              ...prev,
-                              minMovies:
-                                value === ''
-                                  ? null
-                                  : !isNaN(+value) && +value >= 0
-                                  ? +value
-                                  : prev.minMovies,
-                            }
+                        onChange={(value) =>
+                          setCurrentFilters({
+                            ...currentFilters,
+                            minMovies: +value,
                           })
                         }
-                        value={
-                          currentFilters.minMovies === null
-                            ? ''
-                            : currentFilters.minMovies?.toString()
-                        }
+                        value={currentFilters.minMovies}
                         label='Minimum movies'
                         placeholder='Minimum...'
                       />
@@ -132,26 +114,13 @@ const Actors = () => {
                       <TextField
                         id='max-movies'
                         type='number'
-                        onChange={(e) =>
-                          setCurrentFilters((prev) => {
-                            const value = e.target.value
-
-                            return {
-                              ...prev,
-                              maxMovies:
-                                value === ''
-                                  ? null
-                                  : !isNaN(+value) && +value >= 0
-                                  ? +value
-                                  : prev.maxMovies,
-                            }
+                        onChange={(value) =>
+                          setCurrentFilters({
+                            ...currentFilters,
+                            maxMovies: +value,
                           })
                         }
-                        value={
-                          currentFilters.maxMovies === null
-                            ? ''
-                            : currentFilters.maxMovies?.toString()
-                        }
+                        value={currentFilters.maxMovies}
                         label='Maximun movies'
                         placeholder='Maximum...'
                       />
@@ -162,26 +131,13 @@ const Actors = () => {
                       <TextField
                         id='min-main-roles'
                         type='number'
-                        onChange={(e) =>
-                          setCurrentFilters((prev) => {
-                            const value = e.target.value
-
-                            return {
-                              ...prev,
-                              minMainRoles:
-                                value === ''
-                                  ? null
-                                  : !isNaN(+value) && +value >= 0
-                                  ? +value
-                                  : prev.minMainRoles,
-                            }
+                        onChange={(value) =>
+                          setCurrentFilters({
+                            ...currentFilters,
+                            minMainRoles: +value,
                           })
                         }
-                        value={
-                          currentFilters.minMainRoles === null
-                            ? ''
-                            : currentFilters.minMainRoles?.toString()
-                        }
+                        value={currentFilters.minMainRoles}
                         label='Minimum main roles'
                         placeholder='Minimum...'
                       />
@@ -190,26 +146,13 @@ const Actors = () => {
                       <TextField
                         id='max-main-roles'
                         type='number'
-                        onChange={(e) =>
-                          setCurrentFilters((prev) => {
-                            const value = e.target.value
-
-                            return {
-                              ...prev,
-                              maxMainRoles:
-                                value === ''
-                                  ? null
-                                  : !isNaN(+value) && +value >= 0
-                                  ? +value
-                                  : prev.maxMainRoles,
-                            }
+                        onChange={(value) =>
+                          setCurrentFilters({
+                            ...currentFilters,
+                            maxMainRoles: +value,
                           })
                         }
-                        value={
-                          currentFilters.maxMainRoles === null
-                            ? ''
-                            : currentFilters.maxMainRoles?.toString()
-                        }
+                        value={currentFilters.maxMainRoles}
                         label='Maximun main roles'
                         placeholder='Maximum...'
                       />
@@ -241,7 +184,7 @@ const Actors = () => {
           rows={actors}
           pagination={pagination}
           onPageChange={onPageChange}
-          onColumnClick={onColumnClick}
+          onColumnClick={toggleSort}
           sortedCol={sortBy}
           sortOrder={sortOrder}
           onRowDelete={deleteActor}

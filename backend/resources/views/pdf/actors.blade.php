@@ -7,6 +7,7 @@
                 <tr class="header-row-with-bg">
                     <th>Name</th>
                     <th>Total Movies</th>
+                    <th>Main role movies</th>
                 </tr>
             </thead>
             <tbody id="body">
@@ -14,6 +15,7 @@
                     <tr @if ($loop->iteration % 2 === 0) class="row-with-bg" @endif>
                         <td>{{ $actor->name }}</td>
                         <td>{{ $actor->movies_count }}</td>
+                        <td>{{ $actor->movies_with_main_role_count }}</td>
                     </tr>
                 @endforeach
             </tbody>

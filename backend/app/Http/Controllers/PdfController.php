@@ -32,7 +32,10 @@ class PdfController extends Controller
 
     public function exportActors()
     {
-        $actors = Actor::latest('id')->withCount('movies')->get();
+        $actors = Actor::query()
+            ->withCount('movies', 'moviesWithMainRole')
+            ->latest('id')
+            ->get();
 
         return Pdf::loadView('pdf.actors', compact('actors'))
             ->setPaper('a4', 'landscape')
