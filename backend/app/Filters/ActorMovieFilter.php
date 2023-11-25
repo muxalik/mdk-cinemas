@@ -4,7 +4,6 @@ namespace App\Filters;
 
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class ActorMovieFilter
 {
@@ -15,7 +14,6 @@ class ActorMovieFilter
         $order = $request->order ? $request->order : 'ASC';
         $sort = strtolower($request->sort);
 
-        Log::alert($sort);
         switch ($sort) {
             case 'name':
                 $query->orderBy('name', $order);

@@ -33,10 +33,7 @@ Route::apiResource('movies', MovieController::class);
 
 Route::get('actors/pdf', [PdfController::class, 'exportActors']);
 Route::get('actors/excel', [ExcelController::class, 'exportActors']);
-
-Route::apiResource('actors', ActorController::class);
-Route::apiResource('actors.movies', ActorMovieController::class)
-    ->only('index', 'destroy');
+Route::resource('actors', ActorController::class);
 
 Route::get('sessions/pdf', [PdfController::class, 'exportSessions']);
 Route::get('sessions/excel', [ExcelController::class, 'exportSessions']);
