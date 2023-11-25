@@ -1,0 +1,48 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
+.actors {
+  padding-bottom: 72px;
+
+  .content {
+    &-row {
+      display: flex;
+      gap: 14px;
+      width: 100%;
+
+      .general-info {
+        flex: 1 1 0;
+        max-width: 40%;
+      }
+
+      .table {
+        flex: 1 1 0;
+      }
+    }
+  }
+
+  .footer-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+
+    .completion {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      &-text {
+        @include text-l;
+        font-weight: $medium;
+      }
+    }
+
+    .actions {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+  }
+}

@@ -23,6 +23,19 @@ export const actorCols: tableCol[] = [
   },
 ]
 
+export const actorMovieCols: tableCol[] = [
+  {
+    key: 'name',
+    sort: 'name',
+    value: 'Movie',
+  },
+  {
+    key: 'main_role.formatted',
+    sort: 'main_role',
+    value: 'Main role',
+  },
+]
+
 export const cinemaCols: tableCol[] = [
   {
     key: 'name',

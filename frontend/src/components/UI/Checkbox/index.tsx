@@ -16,6 +16,7 @@ interface props {
   icon?: string
   iconFloat?: float
   isColor?: boolean
+  labelOneLine?: boolean
 }
 
 const Checkbox: FC<props> = ({
@@ -28,6 +29,7 @@ const Checkbox: FC<props> = ({
   icon,
   iconFloat,
   isColor,
+  labelOneLine,
 }) => {
   type = type || 'default'
   labelFloat = labelFloat || 'right'
@@ -47,7 +49,14 @@ const Checkbox: FC<props> = ({
       {icon && isColor && iconFloat === 'left' && (
         <div className='circle' style={{ backgroundColor: icon }} />
       )}
-      {label && labelFloat === 'left' && <span className='label'>{label}</span>}
+      {label && labelFloat === 'left' && (
+        <span
+          className='label'
+          style={labelOneLine ? { whiteSpace: 'nowrap' } : {}}
+        >
+          {label}
+        </span>
+      )}
       <div className='box'>
         <ReactSVG
           src={type === 'default' ? check : minus}
@@ -61,7 +70,12 @@ const Checkbox: FC<props> = ({
         <div className='circle' style={{ backgroundColor: icon }} />
       )}
       {label && labelFloat === 'right' && (
-        <span className='label'>{label}</span>
+        <span
+          className='label'
+          style={labelOneLine ? { whiteSpace: 'nowrap' } : {}}
+        >
+          {label}
+        </span>
       )}
     </label>
   )

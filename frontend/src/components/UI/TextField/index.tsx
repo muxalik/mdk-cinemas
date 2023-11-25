@@ -20,6 +20,8 @@ interface props {
   disabled?: boolean
   hasError?: boolean
   error?: string
+  readOnly?: boolean
+  onIcon?: () => void
 }
 
 const TextField = forwardRef<HTMLInputElement, props>(
@@ -38,6 +40,8 @@ const TextField = forwardRef<HTMLInputElement, props>(
       disabled,
       hasError,
       error,
+      readOnly,
+      onIcon,
     },
     forwaredRef: any
   ) => {
@@ -63,7 +67,13 @@ const TextField = forwardRef<HTMLInputElement, props>(
           }`}
         >
           {icon && iconFloat === 'left' && (
-            <ReactSVG src={icon} className='icon' style={{ left: 12 }} />
+            <button
+              onClick={onIcon}
+              className={`icon-button ${onIcon ? 'interactive' : ''}`}
+              style={{ left: 12 }}
+            >
+              <ReactSVG src={icon} className='icon' />
+            </button>
           )}
           <input
             ref={forwaredRef}
@@ -85,6 +95,7 @@ const TextField = forwardRef<HTMLInputElement, props>(
                   : { paddingLeft: 40 }
                 : {}
             }
+            readOnly={readOnly}
           />
           <AnimatePresence>
             {error && (
@@ -99,7 +110,13 @@ const TextField = forwardRef<HTMLInputElement, props>(
             </label>
           )}
           {icon && iconFloat === 'right' && (
-            <ReactSVG src={icon} className='icon' style={{ right: 12 }} />
+            <button
+              onClick={onIcon}
+              className={`icon-button ${onIcon ? 'interactive' : ''}`}
+              style={{ right: 12 }}
+            >
+              <ReactSVG src={icon} className='icon' />
+            </button>
           )}
         </div>
       </div>

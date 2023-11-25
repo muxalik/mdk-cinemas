@@ -13,10 +13,6 @@ abstract class Filter
     ) {
     }
 
-    abstract public function filter(): self;
-    abstract public function search(): self;
-    abstract public function sort(): self;
-
     public function apply(): Builder
     {
         return $this->query;

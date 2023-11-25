@@ -80,11 +80,11 @@
       width: 100%;
 
       .table-row {
-        height: 80px;
+        height: 55px;
         border-top: 1px solid $gray-50;
 
         .table-cell {
-          padding: 18px 22px;
+          padding: 10px 22px;
           @include text-m;
           font-weight: $medium;
         }

@@ -14,10 +14,11 @@ interface props {
   sortedCol?: string | null
   sortOrder: 'asc' | 'desc'
   rows: any[] | null
-  pagination: pagination
-  onPageChange: (page: number) => void
-  onRowDelete: (id: number) => void
-  onRowEdit: (id: number) => void
+  pagination?: pagination
+  onPageChange?: (page: number) => void
+  onRowDelete?: (id: number) => void
+  onRowEdit?: (id: number) => void
+  hasActions?: boolean
 }
 
 const Table: FC<props> = ({
@@ -30,6 +31,7 @@ const Table: FC<props> = ({
   onPageChange,
   onRowEdit,
   onRowDelete,
+  hasActions = true,
 }) => {
   return (
     <div className='table-wrapper'>
@@ -57,11 +59,13 @@ const Table: FC<props> = ({
                 </button>
               </th>
             ))}
-            <th key='actions' className='table-header-cell'>
-              <button className='table-header-button no-hover'>
-                <span className='table-title'>Actions</span>
-              </button>
-            </th>
+            {hasActions && (
+              <th key='actions' className='table-header-cell'>
+                <button className='table-header-button no-hover'>
+                  <span className='table-title'>Actions</span>
+                </button>
+              </th>
+            )}
           </tr>
         </thead>
         <tbody className='table-body'>
@@ -82,45 +86,55 @@ const Table: FC<props> = ({
                   </td>
                 )
               })}
-              <td
-                className='table-cell actions-cell'
-                style={{ whiteSpace: 'nowrap' }}
-                key='actions'
-              >
-                <ul className='actions'>
-                  <li className='actions-item'>
-                    <button
-                      className='actions-button'
-                      onClick={() => onRowEdit(+row.id)}
-                    >
-                      <ReactSVG src={pen} className='actions-icon' />
-                    </button>
-                  </li>
-                  <li className='actions-item'>
-                    <button
-                      className='actions-button button-danger'
-                      onClick={() => onRowDelete(+row.id)}
-                    >
-                      <ReactSVG src={trash} className='actions-icon' />
-                    </button>
-                  </li>
-                </ul>
-              </td>
+              {hasActions && (
+                <td
+                  className='table-cell actions-cell'
+                  style={{ whiteSpace: 'nowrap' }}
+                  key='actions'
+                >
+                  <ul className='actions'>
+                    {onRowEdit && (
+                      <li className='actions-item'>
+                        <button
+                          className='actions-button'
+                          onClick={() => onRowEdit(+row.id)}
+                        >
+                          <ReactSVG src={pen} className='actions-icon' />
+                        </button>
+                      </li>
+                    )}
+                    {onRowDelete && (
+                      <li className='actions-item'>
+                        <button
+                          className='actions-button button-danger'
+                          onClick={() => onRowDelete(+row.id)}
+                        >
+                          <ReactSVG src={trash} className='actions-icon' />
+                        </button>
+                      </li>
+                    )}
+                  </ul>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
       </table>
-      <div className='table-footer'>
-        <p className='progress'>
-          Showing {pagination.from || 0}-{pagination.to || 0} from{' '}
-          {pagination.total}
-        </p>
-        <Pagination
-          total={Math.ceil((pagination.total || 0) / (pagination.perPage || 0))}
-          current={pagination.current || 0}
-          onChange={onPageChange}
-        />
-      </div>
+      {pagination && (
+        <div className='table-footer'>
+          <p className='progress'>
+            Showing {pagination.from || 0}-{pagination.to || 0} from{' '}
+            {pagination.total}
+          </p>
+          <Pagination
+            total={Math.ceil(
+              (pagination.total || 0) / (pagination.perPage || 0)
+            )}
+            current={pagination.current || 0}
+            onChange={(page) => onPageChange && onPageChange(page)}
+          />
+        </div>
+      )}
     </div>
   )
 }

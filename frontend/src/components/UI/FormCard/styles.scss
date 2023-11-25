@@ -20,6 +20,14 @@
 
     .input-row {
       display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+    }
+
+    .input-col {
+      display: flex;
+      flex-direction: column;
       gap: 14px;
       width: 100%;
     }

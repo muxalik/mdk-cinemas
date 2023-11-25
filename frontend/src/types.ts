@@ -51,6 +51,15 @@ export type session = {
   starts_at: string
 }
 
+export type actorMovie = {
+  id: number
+  name: string
+  main_role: {
+    value: boolean
+    formatted: string
+  }
+}
+
 export type pagination = {
   current: number | null
   total: number | null
