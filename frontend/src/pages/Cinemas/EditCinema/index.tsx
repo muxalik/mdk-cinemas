@@ -6,7 +6,7 @@ import Button from '../../../components/UI/Button'
 import { Variants } from '../../../enums'
 import { check, cross } from '../../../assets'
 import Breadcrumbs from '../../../components/UI/Breadcrumbs'
-import { cinemasEditBreadcrumbs } from '../../../constants/breadcrumbs'
+import { cinemaEditBreadcrumbs } from '../../../constants/breadcrumbs'
 import FormCard from '../../../components/UI/FormCard'
 import TextField from '../../../components/UI/TextField'
 import Select from '../../../components/UI/Select'
@@ -21,7 +21,7 @@ const EditCinema = () => {
         <div className='intro'>
           <div className='location'>
             <h1 className='title'>Edit Cinema</h1>
-            <Breadcrumbs links={cinemasEditBreadcrumbs} />
+            <Breadcrumbs links={cinemaEditBreadcrumbs} />
           </div>
           <div className='actions'>
             <Controls

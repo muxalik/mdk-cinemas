@@ -1,6 +1,5 @@
 import { pdf, xlsx } from '../assets'
 import { exportMethod } from '../types'
-import downloadFromUrl from '../utils/downloadFromUrl'
 
 export const actorsExports: exportMethod[] = [
   {

@@ -14,7 +14,7 @@ import Link from '../../components/UI/Link'
 import Filters from '../../components/Filters'
 import useFilters from '../../hooks/useFilters'
 import useActors from '../../hooks/useActors'
-import { actorsBreadcrumbs } from '../../constants/breadcrumbs'
+import { actorBreadcrumbs } from '../../constants/breadcrumbs'
 import { actorsExports } from '../../constants/exports'
 
 const Actors = () => {
@@ -51,7 +51,7 @@ const Actors = () => {
         <div className='intro'>
           <div className='location'>
             <h1 className='title'>Movies</h1>
-            <Breadcrumbs links={actorsBreadcrumbs} />
+            <Breadcrumbs links={actorBreadcrumbs} />
           </div>
           <div className='actions'>
             <Exports items={actorsExports} />

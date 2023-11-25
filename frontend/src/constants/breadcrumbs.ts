@@ -1,6 +1,6 @@
 import { breadcrumbLink } from '../types'
 
-export const cinemasBreadcrumbs: breadcrumbLink[] = [
+export const cinemaBreadcrumbs: breadcrumbLink[] = [
   {
     title: 'Home',
     to: '/',
@@ -11,7 +11,7 @@ export const cinemasBreadcrumbs: breadcrumbLink[] = [
   },
 ]
 
-export const cinemasEditBreadcrumbs: breadcrumbLink[] = [
+export const cinemaEditBreadcrumbs: breadcrumbLink[] = [
   {
     title: 'Home',
     to: '/',
@@ -26,7 +26,7 @@ export const cinemasEditBreadcrumbs: breadcrumbLink[] = [
   },
 ]
 
-export const cinemasCreateBreadcrumbs: breadcrumbLink[] = [
+export const cinemaCreateBreadcrumbs: breadcrumbLink[] = [
   {
     title: 'Home',
     to: '/',
@@ -41,7 +41,7 @@ export const cinemasCreateBreadcrumbs: breadcrumbLink[] = [
   },
 ]
 
-export const actorsBreadcrumbs: breadcrumbLink[] = [
+export const actorBreadcrumbs: breadcrumbLink[] = [
   {
     title: 'Home',
     to: '/',
@@ -52,7 +52,37 @@ export const actorsBreadcrumbs: breadcrumbLink[] = [
   },
 ]
 
-export const moviesBreadcrumbs: breadcrumbLink[] = [
+export const actorEditBreadcrumbs: breadcrumbLink[] = [
+  {
+    title: 'Home',
+    to: '/',
+  },
+  {
+    title: 'Actors',
+    to: '/actors',
+  },
+  {
+    title: 'Edit Actor',
+    to: '#',
+  },
+]
+
+export const actorCreateBreadcrumbs: breadcrumbLink[] = [
+  {
+    title: 'Home',
+    to: '/',
+  },
+  {
+    title: 'Actors',
+    to: '/actors',
+  },
+  {
+    title: 'Add Actor',
+    to: '#',
+  },
+]
+
+export const movieBreadcrumbs: breadcrumbLink[] = [
   {
     title: 'Home',
     to: '/',

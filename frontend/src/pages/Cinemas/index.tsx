@@ -14,7 +14,7 @@ import Radio from '../../components/UI/Radio'
 import Filters from '../../components/Filters'
 import useFilters from '../../hooks/useFilters'
 import useCinemas from '../../hooks/cinemas/useCinemas'
-import { cinemasBreadcrumbs } from '../../constants/breadcrumbs'
+import { cinemaBreadcrumbs } from '../../constants/breadcrumbs'
 import { cinemasExports } from '../../constants/exports'
 import { useNavigate } from 'react-router-dom'
 import { cinemaDefaultFilters, cinemaStatuses } from '../../constants/filters'
@@ -54,7 +54,7 @@ const Cinemas = () => {
         <div className='intro'>
           <div className='location'>
             <h1 className='title'>Cinemas</h1>
-            <Breadcrumbs links={cinemasBreadcrumbs} />
+            <Breadcrumbs links={cinemaBreadcrumbs} />
           </div>
           <div className='actions'>
             <Exports items={cinemasExports} />
