@@ -34,11 +34,11 @@ const App = () => {
           <Route path='create' element={<CreateActor />} />
           <Route path=':id/edit' element={<EditActor />} />
         </Route>
-        {/* <Route path='/sessions'>
+        <Route path='/sessions'>
           <Route index element={<Sessions />} />
           <Route path='create' element={<CreateSession />} />
           <Route path=':id/edit' element={<EditSession />} />
-        </Route> */}
+        </Route>
         <Route path='*' element={<Navigate to='/cinemas' />} />
       </Routes>
     </div>

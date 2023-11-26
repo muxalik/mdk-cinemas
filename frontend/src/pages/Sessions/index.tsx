@@ -38,14 +38,13 @@ const Sessions = () => {
     sortBy,
     sortOrder,
     query,
-    setQuery,
     pagination,
-    setPagination,
     onPageChange,
     sessions,
     editSession,
     deleteSession,
-    onColumnClick,
+    toggleSort,
+    onSearch,
   } = useSessions(appliedFilters)
 
   return (
@@ -72,15 +71,7 @@ const Sessions = () => {
             placeholder='Search session'
             icon={search}
             value={query}
-            onChange={(e) => {
-              setPagination((prev) => {
-                return {
-                  ...prev,
-                  current: 1,
-                }
-              })
-              setQuery(e.target.value)
-            }}
+            onChange={onSearch}
           />
           <div ref={filtersRef} className='filters'>
             <Button
@@ -108,26 +99,13 @@ const Sessions = () => {
                       <TextField
                         id='min-price'
                         type='number'
-                        onChange={(e) =>
-                          setCurrentFilters((prev) => {
-                            const value = e.target.value
-
-                            return {
-                              ...prev,
-                              minTicketPrice:
-                                value === ''
-                                  ? null
-                                  : !isNaN(+value) && +value >= 0
-                                  ? +value
-                                  : prev.minTicketPrice,
-                            }
+                        onChange={(value) =>
+                          setCurrentFilters({
+                            ...currentFilters,
+                            minTicketPrice: !value.length ? null : +value,
                           })
                         }
-                        value={
-                          currentFilters.minTicketPrice === null
-                            ? ''
-                            : currentFilters.minTicketPrice?.toString()
-                        }
+                        value={currentFilters.minTicketPrice}
                         label='Minimum ticket price'
                         placeholder='Minimum...'
                       />
@@ -136,26 +114,13 @@ const Sessions = () => {
                       <TextField
                         id='max-ticket-price'
                         type='number'
-                        onChange={(e) =>
-                          setCurrentFilters((prev) => {
-                            const value = e.target.value
-
-                            return {
-                              ...prev,
-                              maxTicketPrice:
-                                value === ''
-                                  ? null
-                                  : !isNaN(+value) && +value >= 0
-                                  ? +value
-                                  : prev.maxTicketPrice,
-                            }
+                        onChange={(value) =>
+                          setCurrentFilters({
+                            ...currentFilters,
+                            maxTicketPrice: !value.length ? null : +value,
                           })
                         }
-                        value={
-                          currentFilters.maxTicketPrice === null
-                            ? ''
-                            : currentFilters.maxTicketPrice?.toString()
-                        }
+                        value={currentFilters.maxTicketPrice}
                         label='Maximun ticket price'
                         placeholder='Maximum...'
                       />
@@ -166,26 +131,13 @@ const Sessions = () => {
                       <TextField
                         id='min-free-places'
                         type='number'
-                        onChange={(e) =>
-                          setCurrentFilters((prev) => {
-                            const value = e.target.value
-
-                            return {
-                              ...prev,
-                              minFreePlaces:
-                                value === ''
-                                  ? null
-                                  : !isNaN(+value) && +value >= 0
-                                  ? +value
-                                  : prev.minFreePlaces,
-                            }
+                        onChange={(value) =>
+                          setCurrentFilters({
+                            ...currentFilters,
+                            minFreePlaces: !value.length ? null : +value,
                           })
                         }
-                        value={
-                          currentFilters.minFreePlaces === null
-                            ? ''
-                            : currentFilters.minFreePlaces?.toString()
-                        }
+                        value={currentFilters.minFreePlaces}
                         label='Minimum free places'
                         placeholder='Minimum...'
                       />
@@ -194,26 +146,13 @@ const Sessions = () => {
                       <TextField
                         id='max-free-places'
                         type='number'
-                        onChange={(e) =>
-                          setCurrentFilters((prev) => {
-                            const value = e.target.value
-
-                            return {
-                              ...prev,
-                              maxFreePlaces:
-                                value === ''
-                                  ? null
-                                  : !isNaN(+value) && +value >= 0
-                                  ? +value
-                                  : prev.maxFreePlaces,
-                            }
+                        onChange={(value) =>
+                          setCurrentFilters({
+                            ...currentFilters,
+                            maxFreePlaces: !value.length ? null : +value,
                           })
                         }
-                        value={
-                          currentFilters.maxFreePlaces === null
-                            ? ''
-                            : currentFilters.maxFreePlaces?.toString()
-                        }
+                        value={currentFilters.maxFreePlaces}
                         label='Maximun free places'
                         placeholder='Maximum...'
                       />
@@ -245,7 +184,7 @@ const Sessions = () => {
           rows={sessions}
           pagination={pagination}
           onPageChange={onPageChange}
-          onColumnClick={onColumnClick}
+          onColumnClick={toggleSort}
           sortedCol={sortBy}
           sortOrder={sortOrder}
           onRowDelete={deleteSession}
