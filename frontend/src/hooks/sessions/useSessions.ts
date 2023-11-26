@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { pagination, session } from '../types'
-import api, { baseURL } from '../utils/api'
+import { pagination, session } from '../../types'
+import api, { baseURL } from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
-import useSort from './useSort'
+import useSort from '../useSort'
 
 const useSessions = (appliedFilters: any) => {
   const navigate = useNavigate()

@@ -1,89 +1,25 @@
 import './styles.scss'
 import Layout from '../../../layouts/Layout'
 import Footer from '../../../layouts/Footer'
-import { ChangeEvent, FC, useState } from 'react'
+import { FC } from 'react'
 import Button from '../../../components/UI/Button'
 import { Variants } from '../../../enums'
 import { check, cross, dollar } from '../../../assets'
-import { useLocation, useNavigate } from 'react-router-dom'
 import Breadcrumbs from '../../../components/UI/Breadcrumbs'
 import { sessionEditBreadcrumbs } from '../../../constants/breadcrumbs'
 import FormCard from '../../../components/UI/FormCard'
-import Select, { option } from '../../../components/UI/Select'
-import api, { baseURL } from '../../../utils/api'
-import { session } from '../../../types'
+import Select from '../../../components/UI/Select'
 import TextField from '../../../components/UI/TextField'
 import DatePicker from '../../../components/UI/DatePicker'
 import dateToDateTime from '../../../utils/dateToDateTime'
-import { isEqual } from 'lodash'
 import useCinemaList from '../../../hooks/cinemas/useCinemaList'
 import useMoviesList from '../../../hooks/movies/useMoviesList'
+import useSession from '../../../hooks/sessions/useSession'
 
 const EditSession = () => {
-  const navigate = useNavigate()
-  const { session } = useLocation().state
-  const [cinemas] = useCinemaList()
-  const [movies] = useMoviesList()
-  const [tempSession, setTempSession] = useState<session>(session)
-
-  const hasEdits = !isEqual(tempSession, session)
-
-  const redirectBack = () => navigate('/sessions', { state: {} })
-
-  const onCancel = () => redirectBack()
-
-  const onSave = () => {
-    api
-      .patch(baseURL + `/sessions/${session.id}`, {
-        cinema: tempSession.cinema.id,
-        movie: tempSession.movie.id,
-        ticket_price: tempSession.ticket_price.digital,
-        free_places: tempSession.free_places,
-        starts_at: tempSession.starts_at,
-      })
-      .then(redirectBack)
-      .catch(console.log)
-  }
-
-  const onCinemaChange = (option: option) =>
-    setTempSession({
-      ...tempSession,
-      cinema: {
-        id: +option.value,
-        name: option.name,
-      },
-    })
-
-  const onMovieChange = (option: option) =>
-    setTempSession({
-      ...tempSession,
-      movie: {
-        id: +option.value,
-        name: option.name,
-      },
-    })
-
-  const onFreePlacesChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTempSession({
-      ...tempSession,
-      free_places: +e.target.value,
-    })
-  }
-
-  const onDateChange = (date: Date) =>
-    setTempSession({
-      ...tempSession,
-      starts_at: dateToDateTime(date),
-    })
-
-  const onTicketPriceChange = (e: ChangeEvent<HTMLInputElement>) =>
-    setTempSession({
-      ...tempSession,
-      ticket_price: {
-        digital: +e.target.value,
-        formatted: '',
-      },
-    })
+  const [cinemasList] = useCinemaList()
+  const [moviesList] = useMoviesList()
+  const { data, setField, onCancel, onSave, canBeSaved } = useSession()
 
   return (
     <Layout>
@@ -97,7 +33,7 @@ const EditSession = () => {
             <Controls
               onCancel={onCancel}
               onSave={onSave}
-              saveDisabled={!hasEdits}
+              saveDisabled={!canBeSaved}
             />
           </div>
         </div>
@@ -109,10 +45,10 @@ const EditSession = () => {
                   id='cinema'
                   variant='filled'
                   placeholder='Select cinema'
-                  options={cinemas}
+                  options={cinemasList}
                   label='Cinema'
-                  selected={tempSession.cinema.id}
-                  onChange={onCinemaChange}
+                  selected={data.cinemaId}
+                  onChange={(option) => setField('cinemaId', option.value)}
                 />
               </div>
               <div className='input-group'>
@@ -120,10 +56,10 @@ const EditSession = () => {
                   id='movie'
                   variant='filled'
                   placeholder='Select movie'
-                  options={movies}
+                  options={moviesList}
                   label='Movie'
-                  selected={tempSession.movie.id}
-                  onChange={onMovieChange}
+                  selected={data.movieId}
+                  onChange={(option) => setField('movieId', option.value)}
                 />
               </div>
             </div>
@@ -135,8 +71,8 @@ const EditSession = () => {
                   label='Ticket price'
                   placeholder='Enter ticket price'
                   icon={dollar}
-                  value={tempSession.ticket_price.digital}
-                  onChange={onTicketPriceChange}
+                  value={data.ticketPrice}
+                  onChange={(value) => setField('ticketPrice', +value)}
                 />
               </div>
               <div className='input-group'>
@@ -145,15 +81,17 @@ const EditSession = () => {
                   id='free_places'
                   label='Free places'
                   placeholder='Enter free places'
-                  value={tempSession.free_places}
-                  onChange={onFreePlacesChange}
+                  value={data.freePlaces}
+                  onChange={(value) => setField('freePlaces', +value)}
                 />
               </div>
               <div className='input-group'>
                 <DatePicker
                   label='Starts at'
-                  onChange={onDateChange}
-                  startDate={new Date(Date.parse(tempSession.starts_at))}
+                  onChange={(date) =>
+                    setField('startsAt', dateToDateTime(date))
+                  }
+                  startDate={new Date(Date.parse(data.startsAt || ''))}
                 />
               </div>
             </div>
@@ -161,19 +99,11 @@ const EditSession = () => {
         </div>
         <Footer>
           <div className='footer-wrapper'>
-            {/* <div className='completion'>
-              <p className='completion-text'>Completion</p>
-              <Label
-                size='md'
-                variant={getVariantByPercentage(completion)}
-                text={`${completion}%`}
-              />
-            </div> */}
             <div className='actions'>
               <Controls
                 onCancel={onCancel}
                 onSave={onSave}
-                saveDisabled={!hasEdits}
+                saveDisabled={!canBeSaved}
               />
             </div>
           </div>
