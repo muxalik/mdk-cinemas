@@ -1,108 +1,39 @@
 import './styles.scss'
 import Layout from '../../../layouts/Layout'
 import Footer from '../../../layouts/Footer'
-import { ChangeEvent, FC, useState } from 'react'
+import { FC } from 'react'
 import Button from '../../../components/UI/Button'
 import { Variants } from '../../../enums'
 import { check, cross, dollar } from '../../../assets'
-import { useNavigate } from 'react-router-dom'
 import Breadcrumbs from '../../../components/UI/Breadcrumbs'
-import { sessionCreateBreadcrumbs, sessionEditBreadcrumbs } from '../../../constants/breadcrumbs'
+import { sessionCreateBreadcrumbs } from '../../../constants/breadcrumbs'
 import FormCard from '../../../components/UI/FormCard'
-import Select, { option } from '../../../components/UI/Select'
-import api, { baseURL } from '../../../utils/api'
+import Select from '../../../components/UI/Select'
 import TextField from '../../../components/UI/TextField'
 import DatePicker from '../../../components/UI/DatePicker'
 import dateToDateTime from '../../../utils/dateToDateTime'
-import { isEqual } from 'lodash'
 import useCinemaList from '../../../hooks/cinemas/useCinemaList'
 import useMoviesList from '../../../hooks/movies/useMoviesList'
-
-type data = {
-  cinemaId: number | null
-  movieId: number | null
-  ticketPrice: number | null
-  freePlaces: number | null
-  startsAt: string | null
-}
-
-const defaultData: data = {
-  cinemaId: null,
-  movieId: null,
-  ticketPrice: null,
-  freePlaces: null,
-  startsAt: null,
-}
+import useSession from '../../../hooks/sessions/useSession'
 
 const CreateSession = () => {
-  const navigate = useNavigate()
   const [cinemas] = useCinemaList()
   const [movies] = useMoviesList()
-  const [data, setData] = useState<data>(defaultData)
-
-  const hasEdits = !isEqual(data, defaultData)
-
-  const redirectBack = () => navigate('/sessions')
-
-  const onCancel = () => redirectBack()
-
-  const onSave = () => {
-    api
-      .post(baseURL + '/sessions/', {
-        cinema: data?.cinemaId,
-        movie: data?.movieId,
-        ticket_price: data?.ticketPrice,
-        free_places: data?.freePlaces,
-        starts_at: data?.startsAt,
-      })
-      .then(redirectBack)
-      .catch(console.log)
-  }
-
-  const onCinemaChange = (option: option) =>
-    setData({
-      ...data,
-      cinemaId: +option.value,
-    })
-
-  const onMovieChange = (option: option) =>
-    setData({
-      ...data,
-      movieId: +option.value,
-    })
-
-  const onFreePlacesChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setData({
-      ...data,
-      freePlaces: +e.target.value,
-    })
-  }
-
-  const onDateChange = (date: Date) =>
-    setData({
-      ...data,
-      startsAt: dateToDateTime(date),
-    })
-
-  const onTicketPriceChange = (e: ChangeEvent<HTMLInputElement>) =>
-    setData({
-      ...data,
-      ticketPrice: +e.target.value,
-    })
+  const { data, setField, onCancel, onCreate, canBeSaved } = useSession()
 
   return (
     <Layout>
       <div className='sessions'>
         <div className='intro'>
           <div className='location'>
-            <h1 className='title'>Edit Session</h1>
+            <h1 className='title'>Add Session</h1>
             <Breadcrumbs links={sessionCreateBreadcrumbs} />
           </div>
           <div className='actions'>
             <Controls
               onCancel={onCancel}
-              onSave={onSave}
-              saveDisabled={!hasEdits}
+              onSave={onCreate}
+              saveDisabled={!canBeSaved}
             />
           </div>
         </div>
@@ -117,7 +48,7 @@ const CreateSession = () => {
                   options={cinemas}
                   label='Cinema'
                   selected={data.cinemaId}
-                  onChange={onCinemaChange}
+                  onChange={(option) => setField('cinemaId', option.value)}
                 />
               </div>
               <div className='input-group'>
@@ -128,7 +59,7 @@ const CreateSession = () => {
                   options={movies}
                   label='Movie'
                   selected={data.movieId}
-                  onChange={onMovieChange}
+                  onChange={(option) => setField('movieId', option.value)}
                 />
               </div>
             </div>
@@ -141,7 +72,7 @@ const CreateSession = () => {
                   placeholder='Enter ticket price'
                   icon={dollar}
                   value={data.ticketPrice || ''}
-                  onChange={onTicketPriceChange}
+                  onChange={(value) => setField('ticketPrice', value)}
                 />
               </div>
               <div className='input-group'>
@@ -151,14 +82,16 @@ const CreateSession = () => {
                   label='Free places'
                   placeholder='Enter free places'
                   value={data.freePlaces || ''}
-                  onChange={onFreePlacesChange}
+                  onChange={(value) => setField('freePlaces', value)}
                 />
               </div>
               <div className='input-group'>
                 <DatePicker
                   label='Starts at'
-                  onChange={onDateChange}
-                  {...(data.startsAt?.length && {
+                  onChange={(date) =>
+                    setField('startsAt', dateToDateTime(date))
+                  }
+                  {...(data.startsAt && {
                     startDate: new Date(Date.parse(data.startsAt || '')),
                   })}
                 />
@@ -168,19 +101,11 @@ const CreateSession = () => {
         </div>
         <Footer>
           <div className='footer-wrapper'>
-            {/* <div className='completion'>
-              <p className='completion-text'>Completion</p>
-              <Label
-                size='md'
-                variant={getVariantByPercentage(completion)}
-                text={`${completion}%`}
-              />
-            </div> */}
             <div className='actions'>
               <Controls
                 onCancel={onCancel}
-                onSave={onSave}
-                saveDisabled={!hasEdits}
+                onSave={onCreate}
+                saveDisabled={!canBeSaved}
               />
             </div>
           </div>

@@ -13,7 +13,7 @@ type data = {
 
 const useSession = () => {
   const navigate = useNavigate()
-  const { session } = useLocation().state
+  const session = useLocation().state?.session
 
   const defaultData: data = {
     cinemaId: session?.cinema?.id,
@@ -25,7 +25,9 @@ const useSession = () => {
 
   const [data, setData] = useState(defaultData)
 
-  const canBeSaved = !isEqual(defaultData, data)
+  const canBeSaved =
+    !isEqual(defaultData, data) &&
+    Object.values(data).every((value) => value !== null && value !== undefined)
 
   const redirectBack = () => navigate('/sessions', { state: {} })
 
@@ -34,6 +36,19 @@ const useSession = () => {
   const onSave = () => {
     api
       .patch(baseURL + `/sessions/${session.id}`, {
+        cinema: data.cinemaId,
+        movie: data.movieId,
+        ticket_price: data.ticketPrice,
+        free_places: data.freePlaces,
+        starts_at: data.startsAt,
+      })
+      .then(redirectBack)
+      .catch(console.log)
+  }
+
+  const onCreate = () => {
+    api
+      .post(baseURL + '/sessions/', {
         cinema: data.cinemaId,
         movie: data.movieId,
         ticket_price: data.ticketPrice,
@@ -56,6 +71,7 @@ const useSession = () => {
     setField,
     onCancel,
     onSave,
+    onCreate,
     canBeSaved,
   }
 }
