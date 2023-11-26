@@ -162,6 +162,7 @@ const EditActor = () => {
                         label='Total movies'
                         value={data.total_movies}
                         readOnly
+                        forceDigitalValue
                       />
                     </div>
                     <div className='input-group'>
@@ -171,6 +172,7 @@ const EditActor = () => {
                         label='Main role movies'
                         value={data.main_role_movies}
                         readOnly
+                        forceDigitalValue
                       />
                     </div>
                   </div>

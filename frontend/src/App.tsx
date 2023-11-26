@@ -37,8 +37,8 @@ const App = () => {
           <Route index element={<Sessions />} />
           <Route path='create' element={<CreateSession />} />
           <Route path=':id/edit' element={<EditSession />} />
-        </Route>
-        <Route path='*' element={<Navigate to='/cinemas' />} /> */}
+        </Route> */}
+        <Route path='*' element={<Navigate to='/cinemas' />} />
       </Routes>
     </div>
   )

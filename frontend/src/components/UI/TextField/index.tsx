@@ -22,6 +22,7 @@ interface props {
   error?: string
   readOnly?: boolean
   onIcon?: () => void
+  forceDigitalValue?: boolean
 }
 
 const TextField = forwardRef<HTMLInputElement, props>(
@@ -42,6 +43,7 @@ const TextField = forwardRef<HTMLInputElement, props>(
       error,
       readOnly,
       onIcon,
+      forceDigitalValue,
     },
     forwaredRef: any
   ) => {
@@ -84,7 +86,7 @@ const TextField = forwardRef<HTMLInputElement, props>(
                 ? validateOnlyNumbers(e.target.value)
                 : onChange && onChange(e.target.value)
             }}
-            value={value || ''}
+            value={value || (forceDigitalValue ? 0 : '')}
             placeholder={placeholder}
             className='input'
             disabled={disabled}
