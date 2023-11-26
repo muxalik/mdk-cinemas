@@ -6,13 +6,13 @@ import Button from '../../../components/UI/Button'
 import { Variants } from '../../../enums'
 import { check, cross } from '../../../assets'
 import Breadcrumbs from '../../../components/UI/Breadcrumbs'
-import { cinemaCreateBreadcrumbs } from '../../../constants/breadcrumbs'
+import { actorCreateBreadcrumbs, cinemaCreateBreadcrumbs } from '../../../constants/breadcrumbs'
 import FormCard from '../../../components/UI/FormCard'
 import TextField from '../../../components/UI/TextField'
 import Select from '../../../components/UI/Select'
 import useCinema from '../../../hooks/cinemas/useCinema'
 
-const CreateCinema = () => {
+const CreateActor = () => {
   const { data, setField, statuses, onCancel, onCreate, canBeSaved } =
     useCinema()
 
@@ -21,8 +21,8 @@ const CreateCinema = () => {
       <div className='cinemas'>
         <div className='intro'>
           <div className='location'>
-            <h1 className='title'>Add Cinema</h1>
-            <Breadcrumbs links={cinemaCreateBreadcrumbs} />
+            <h1 className='title'>Add Actor</h1>
+            <Breadcrumbs links={actorCreateBreadcrumbs} />
           </div>
           <div className='actions'>
             <Controls
@@ -139,10 +139,10 @@ const Controls: FC<controlsProps> = ({ onCancel, onCreate, saveDisabled }) => (
       variant={Variants.primary}
       icon={check}
       disabled={saveDisabled}
-      text='Add cinema'
+      text='Add actor'
       onClick={onCreate}
     />
   </>
 )
 
-export default CreateCinema
+export default CreateActor
