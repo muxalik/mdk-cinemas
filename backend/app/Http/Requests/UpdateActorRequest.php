@@ -28,8 +28,8 @@ class UpdateActorRequest extends FormRequest
             'movies.*.id' => ['required', 'numeric', 'gt:0', 'exists:movies,id'],
             'movies.*.is_main_role' => ['required', 'boolean'],
 
-            'deleted_movies' => ['required', 'array'],
-            'deleted_movies.*' => ['required', 'numeric', 'gt:0', 'exists:movies,id'],
+            'deleted_movies' => ['nullable', 'array'],
+            'deleted_movies.*' => ['nullable', 'numeric', 'gt:0', 'exists:movies,id'],
         ];
     }
 }

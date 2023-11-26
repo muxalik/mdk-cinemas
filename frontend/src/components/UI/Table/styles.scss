@@ -87,6 +87,11 @@
           padding: 10px 22px;
           @include text-m;
           font-weight: $medium;
+
+          &-checkbox {
+            display: flex;
+            gap: 8px;
+          }
         }
 
         .actions-cell {

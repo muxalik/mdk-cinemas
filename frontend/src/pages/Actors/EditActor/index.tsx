@@ -37,14 +37,14 @@ const EditActor = () => {
     name: actor?.name,
     movies: actorMovies.map((movie) => ({
       id: movie.id,
-      is_main_role: movie.main_role.value,
+      is_main_role: !!movie.main_role.value,
     })),
     total_movies: actor?.total_movies || 0,
     main_role_movies: actor?.main_role_movies || 0,
   }
 
   const [data, setData] = useState<data>(defaultData)
-  const [fakeDeleted, setFakeDeleted] = useState<number[]>([])
+  const [deletedMovies, setDeletedMovies] = useState<number[]>([])
   const { sortBy, sortOrder, toggleSort } = useSort()
 
   const setField = (field: string, value: string | number) => {
@@ -74,10 +74,10 @@ const EditActor = () => {
         setData({
           ...data,
           movies: movies
-            .filter((movie: actorMovie) => !fakeDeleted.includes(movie.id))
+            .filter((movie: actorMovie) => !deletedMovies.includes(movie.id))
             .map((movie: actorMovie) => ({
               id: movie.id,
-              is_main_role: movie.main_role.value,
+              is_main_role: !!movie.main_role.value,
             })),
         })
       })
@@ -97,7 +97,7 @@ const EditActor = () => {
       .patch(baseURL + `/actors/${actor.id}`, {
         name: data.name,
         movies: data.movies,
-        deleted_movies: fakeDeleted,
+        deleted_movies: deletedMovies,
       })
       .then(() => {
         redirectBack()
@@ -105,8 +105,8 @@ const EditActor = () => {
       .catch(console.log)
   }
 
-  const fakeDelete = (movieId: number) => {
-    setFakeDeleted([...fakeDeleted, movieId])
+  const onDelete = (movieId: number) => {
+    setDeletedMovies([...deletedMovies, movieId])
 
     setActorMovies((prev) =>
       prev.filter((actorMovie) => actorMovie.id !== movieId)
@@ -122,6 +122,35 @@ const EditActor = () => {
         : prev.main_role_movies,
     }))
   }
+
+  const onMainRoleCheck = (rowId: number) => {
+    setData({
+      ...data,
+      movies: data.movies.map((movie) => {
+        if (movie.id === rowId) {
+          return {
+            ...movie,
+            is_main_role: !movie.is_main_role,
+          }
+        }
+
+        return movie
+      }),
+    })
+  }
+
+  const rows = actorMovies.map((movie) => {
+    const dataMovie = data.movies.find((dataMovie) => dataMovie.id === movie.id)
+
+    return {
+      ...movie,
+      main_role: {
+        ...movie.main_role,
+        formatted: dataMovie?.is_main_role ? 'Yes' : 'No',
+        value: dataMovie?.is_main_role,
+      },
+    }
+  })
 
   return (
     <Layout>
@@ -182,11 +211,12 @@ const EditActor = () => {
             <div className='table'>
               <Table
                 columns={actorMovieCols}
-                rows={actorMovies}
+                rows={rows}
                 onColumnClick={toggleSort}
                 sortedCol={sortBy}
                 sortOrder={sortOrder}
-                onRowDelete={fakeDelete}
+                onRowDelete={onDelete}
+                onCheck={onMainRoleCheck}
               />
             </div>
           </div>

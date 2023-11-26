@@ -3,6 +3,8 @@ export type tableCol = {
   sort: string
   value: string
   oneLine?: true
+  checkable?: true
+  checkedKey?: string
 }
 
 export const actorCols: tableCol[] = [
@@ -33,6 +35,8 @@ export const actorMovieCols: tableCol[] = [
     key: 'main_role.formatted',
     sort: 'main_role',
     value: 'Main role',
+    checkable: true,
+    checkedKey: 'main_role.value',
   },
 ]
 

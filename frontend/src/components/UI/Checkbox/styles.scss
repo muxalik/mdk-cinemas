@@ -45,6 +45,7 @@
     @include text-m;
     font-weight: $medium;
     transition: color 0.1s ease-in-out;
+    user-select: none;
   }
 
   &:hover {

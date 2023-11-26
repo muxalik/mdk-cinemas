@@ -7,6 +7,8 @@ import Pagination from '../Pagination'
 import { ReactSVG } from 'react-svg'
 import { chevronDown, pen, trash } from '../../../assets'
 import { tableCol } from '../../../constants/tableCols'
+import Checkbox from '../Checkbox'
+import dotPath from '../../../utils/dotPath'
 
 interface props {
   columns: tableCol[]
@@ -19,6 +21,7 @@ interface props {
   onRowDelete?: (id: number) => void
   onRowEdit?: (id: number) => void
   hasActions?: boolean
+  onCheck?: (rowId: number) => void
 }
 
 const Table: FC<props> = ({
@@ -32,6 +35,7 @@ const Table: FC<props> = ({
   onRowEdit,
   onRowDelete,
   hasActions = true,
+  onCheck,
 }) => {
   return (
     <div className='table-wrapper'>
@@ -72,9 +76,7 @@ const Table: FC<props> = ({
           {rows?.map((row, i) => (
             <tr className='table-row' key={i}>
               {columns.map((col, j) => {
-                const path = col.key.split('.').reduce((acc, cur) => {
-                  return acc[cur]
-                }, row)
+                const path = dotPath(col.key, row)
 
                 return (
                   <td
@@ -82,7 +84,21 @@ const Table: FC<props> = ({
                     style={columns[j].oneLine ? { whiteSpace: 'nowrap' } : {}}
                     key={j}
                   >
-                    <span>{path}</span>
+                    <div className='table-cell-inner'>
+                      {columns[j].checkable ? (
+                        <Checkbox
+                          label={path}
+                          checked={
+                            col.checkedKey
+                              ? dotPath(col.checkedKey, row)
+                              : false
+                          }
+                          onChange={() => onCheck && onCheck(row.id)}
+                        />
+                      ) : (
+                        <span>{path}</span>
+                      )}
+                    </div>
                   </td>
                 )
               })}
